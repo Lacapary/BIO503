@@ -1,0 +1,228 @@
+---
+title: "Introduction to R and Rstudio"
+format: revealjs
+editor: visual
+---
+
+## What is R ?
+
+-   Originally developed for statistical computing and graphics
+-   R has evolved into a versatile programming language
+
+## What is RStudio?
+
+-   RStudio is a user-friendly interface for R
+
+```{r}
+knitr::include_graphics("sources/RStudio_IDE_screenshot.png")
+```
+
+## R is prone to errors
+
+such as typos, using the wrong letter case, forgetting a quote, bracket or comma. Such mistakes will break your code and throw an error. These type of errors are the most common, so always double-check your code whenever R is unhappy
+
+## R studio Projects
+
+-   it is a convenient way to organize your work in RStudio -it creates a dedicated directory (folder) on your computer where you can store all the files related to your project, including R scripts, data files, documentation, and more
+
+To create a new project, go to `File` \> `New Project…` \> `New Directory` (or `Existing Directory` if you want to create your project from an existing folder) \> `New Project` and choose a `Directory name` for your project.
+
+## Code versus comment
+
+-there are two types of lines: those that start with the symbol `#`, and those that do not.
+
+```{r}
+# This is a comment in R
+# Comments are used to provide explanations or annotate the code
+
+x <- 5  # Assigning the value 5 to the variable x
+```
+
+## You can also use the commends to index your scrips
+
+```{r}
+#Library----
+
+#Some code---- 
+
+#Example----
+```
+
+```{r, echo=FALSE, out.width="80%", fig.cap="Script outline in Rstudio"}
+knitr::include_graphics("https://i.stack.imgur.com/4yjqd.png")
+
+```
+
+## R package
+
+-   Package is a collection of R functions, data sets, and other resources bundled together for specific purposes.
+-   To install a package, type `install.packages("package-name")`
+
+**You only need to install packages once**
+
+-   Load the packages, type `library(package-name)`
+
+**Example**
+
+```         
+install.packages("dplyr")
+library(dplyr)
+```
+
+## Tidyverse
+
+-   The tidyverse is a collection of R packages designed to make data science tasks easier and more efficient.
+
+```{r, echo=FALSE, out.width="100%", fig.cap="Tidyversecomponents"}
+knitr::include_graphics("https://hbctraining.github.io/Intro-to-R/img/tidyverse_website.png")
+
+```
+
+-   We are going to use the different tidyverse libraries to manage and plot our data.
+
+## About tidy data
+
+Tidy data is a standard, consistent way to organize tabular data. Briefly, tidy data follows a short series of rules:
+
+- each variable in the data set is presented in a specific column,
+- each observation in the data set is presented in a specific row,
+- each cell at the intersection of a row and a column contains a single value.
+The following figure illustrates these rules.
+
+
+```{r, echo=FALSE, out.width="80%", fig.cap="n a tidy dataset, variables are in columns, observations are in rows, and values are in cells"}
+knitr::include_graphics("https://biostats-r.github.io/biostats/workingInR/figures/tidy1.png")
+
+```
+
+## Pipe operator
+- One of the key features of tidyverse is the possibility to chain
+functions in an effective way using the pipe operator `|> `. 
+- Pipes pass the results from one function directly into the next function connected to each other via a `|> `, making the code easy to
+read and write. 
+
+**The pipe basically means “and then”.**
+
+**Note:** the keyboard shorcut for `|> ` is `Ctrl+Shift+M` (Windows &
+Linux) or `Cmd+Shift+M` (Mac).
+
+## Iris dataset 
+
+The iris [flower dataset](https://en.wikipedia.org/wiki/Iris_flower_data_set) was collected by Edgar Anderson, an American botanist, in the 1920s. This data was used by statistician Ronald Fisher to demonstrate statistical methods of classification.
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("https://cbdm-01.zdv.uni-mainz.de/~galanisl/danalysis/images/iris_flower.png
+")
+
+```
+
+## Importing data in R
+R can import data from files in many different formats. For example:
+
+- csv files with the `readr` package
+- excel files with the `readxl` package
+- xlm files with the `xml2` package
+- netcdf files with the `ncdf4` package
+- shapefiles with the `sf` package
+
+| Function      | Value Separator  | Decimal Separator |
+|---------------|------------------|-------------------|
+| read_csv()    | ,                | .                 |
+| read_csv2()   | ;                | ,                 |
+| read_tsv()    | tab              | .                 |
+| read_delim()  | custom character| .                 |
+| read_table2() | space            | .                 |
+## Reading data
+
+```
+library(tidyverse)
+iris <- read_csv(Data/iris.csv)
+# R basic function
+iris <-read.csv(Data/iris.csv)
+```
+## Exploring the data
+-  Check that your data was imported without any mistakes
+
+```
+head(iris)    # Displays the first rows of a df
+tail(iris)  # Displays the last rows of a df
+str(iris) 
+glimpse(iris) # Tells you variables types 
+summary(iris) # Gives you a summary of the data
+```
+## Manipulating data
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("https://www.enzymeinnovation.com/wp-content/uploads/2018/08/person-making-fresh-pizza-dough-by-hand.jpg")
+```
+
+## From wide to long 
+- The iris data are organized is "wide" format
+- Let's transform in "long” format
+
+```
+iris_long <- iris |> pivot_longer( 
+                    cols = -Species,
+                    names_to = "trait",
+                    values_to = "measurement")
+```
+
+##  Group_by and summarize
+
+```
+iris_means <- iris |> 
+  group_by(Species) |> 
+  summarize(SL_mean = mean(Sepal.Length),
+            SL_se = sd(Sepal.Length)/sqrt(n()))
+```
+## Filter - subset rows
+
+```
+iris_versicolor <- iris |>  filter( Species == "versicolor")
+
+iris_no_versicolor <- iris |>  filter( Species != "versicolor")
+
+iris_pl<-iris |>  filter(Petal.Length > 2)
+```
+## Select - subset columns
+
+```
+iris_subset<-iris |> select(Species, Petal.Width, Petal.Length)
+
+```
+## Mutate 
+
+```
+iris_log <-iris |> mutate(log.Sepal.length = log(Sepal.Length))
+
+```
+
+## Plotting data 
+-You can plot graphs using the ggplot2 package (part of the tidyverse).
+
+**Note:** `ggplot` functions are chained using a `+` sign. This is
+because `ggplot` does not pass an object to a function but add different
+layers on top of each other.
+
+You can think of it as different layers that are put on top of each other see:
+```{r, echo=FALSE, out.width="80%", fig.cap="Visualization of how ggplots are built"}
+knitr::include_graphics("https://biostats-r.github.io/biostats/workingInR/figures/ggplot_setup.png")
+```
+
+## Plotting Iris
+
+## Modelling
+
+## Saving plots
+
+You can save a plot by clicking on the `Export` button in the `Plots`
+window (bottom right window by default).
+
+Save your plots as `.svg` if your text editor supports it and if you are
+not limited by file sizes. Otherwise, save your plots as `.png`.
+
+## To go further
+
+Visit:
+[Coding Club](https://ourcodingclub.github.io/)
+
