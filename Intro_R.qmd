@@ -5,6 +5,7 @@ author:
   - Katrín Björnsdóttir
 format: 
   revealjs:
+     theme: blood
      incremental: true  
      css: styles.css
      aspectratio: 169
