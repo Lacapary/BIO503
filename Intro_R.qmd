@@ -1,46 +1,71 @@
 ---
 title: "Introduction to R and Rstudio"
-format: revealjs
-editor: visual
+author:   
+  - Camila Pacheco    
+  - Katrín Björnsdóttir
+format: 
+  revealjs:
+     incremental: true  
+     css: styles.css
+     aspectratio: 169
 ---
 
 ## What is R ?
 
+::: columns
+::: {.column width="40%"}
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/1086px-R_logo.svg.png?20240131042527){.absolute top="200" left="0" width="350" height="300"}
+:::
+
+::: {.column width="60%"}
 -   Originally developed for statistical computing and graphics
 -   R has evolved into a versatile programming language
+:::
+:::
 
 ## What is RStudio?
 
--   RStudio is a user-friendly interface for R
+RStudio is a user-friendly interface for R
 
-```{r}
+```{r, out.width="80%"}
 knitr::include_graphics("sources/RStudio_IDE_screenshot.png")
 ```
 
 ## R is prone to errors
 
-such as typos, using the wrong letter case, forgetting a quote, bracket or comma. Such mistakes will break your code and throw an error. These type of errors are the most common, so always double-check your code whenever R is unhappy
+-   {{< fa bomb >}} Such as typos, using the wrong letter case, forgetting a quote, bracket or comma. Such mistakes will break your code and throw an error.
+
+-   {{< fa circle-exclamation >}} These type of errors are the most common, so always double-check your code whenever R is unhappy {{< fa face-sad-tear >}}.
 
 ## R studio Projects
 
--   it is a convenient way to organize your work in RStudio -it creates a dedicated directory (folder) on your computer where you can store all the files related to your project, including R scripts, data files, documentation, and more
+-   It is a convenient way to organize your work in RStudio -it creates a dedicated directory (folder) on your computer where you can store all the files related to your project, including R scripts, data files, documentation, and more.
 
-To create a new project, go to `File` \> `New Project…` \> `New Directory` (or `Existing Directory` if you want to create your project from an existing folder) \> `New Project` and choose a `Directory name` for your project.
+-   To create a new project, go to:
+
+    -   `File` \> `New Project…` \> `New Directory` (or `Existing Directory`)
+
+-   If you want to create your project from an existing folder:
+
+    -   \> `New Project` and choose a `Directory name` for your project.
 
 ## Code versus comment
 
--there are two types of lines: those that start with the symbol `#`, and those that do not.
+There are two types of lines: those that start with the symbol `#`, and those that do not.
 
 ```{r}
+#| echo: true
+#| code-line-numbers: "|1|4"
 # This is a comment in R
 # Comments are used to provide explanations or annotate the code
 
 x <- 5  # Assigning the value 5 to the variable x
 ```
 
-## You can also use the commends to index your scrips
+## Commends to index your scrips
 
 ```{r}
+#| echo: true
 #Library----
 
 #Some code---- 
@@ -48,7 +73,9 @@ x <- 5  # Assigning the value 5 to the variable x
 #Example----
 ```
 
-```{r, echo=FALSE, out.width="80%", fig.cap="Script outline in Rstudio"}
+Script outline in Rstudio
+
+```{r, echo=FALSE, out.width="80%"}
 knitr::include_graphics("https://i.stack.imgur.com/4yjqd.png")
 
 ```
@@ -56,156 +83,201 @@ knitr::include_graphics("https://i.stack.imgur.com/4yjqd.png")
 ## R package
 
 -   Package is a collection of R functions, data sets, and other resources bundled together for specific purposes.
--   To install a package, type `install.packages("package-name")`
 
-**You only need to install packages once**
+-   To install a package, type:
 
--   Load the packages, type `library(package-name)`
+    -   `install.packages("package-name")`
 
-**Example**
+-   **You only need to install packages once**
 
-```         
+-   Load the packages, type:
+
+    -   `library(package-name)`
+
+## Example
+
+```{r eval=F, echo=T}
 install.packages("dplyr")
 library(dplyr)
 ```
 
 ## Tidyverse
 
--   The tidyverse is a collection of R packages designed to make data science tasks easier and more efficient.
+::: columns
+::: {.column width="40%"}
+- It is a collection of R packages designed to make data science tasks easier and more efficient.
 
-```{r, echo=FALSE, out.width="100%", fig.cap="Tidyversecomponents"}
-knitr::include_graphics("https://hbctraining.github.io/Intro-to-R/img/tidyverse_website.png")
-
+```{r echo=FALSE,out.width="50%", fig.align="center"}
+knitr::include_graphics("https://mine-cetinkaya-rundel.github.io/tidy-up-ds/2019-12-lausanne/img/tidyverse.png")
 ```
 
--   We are going to use the different tidyverse libraries to manage and plot our data.
+:::
+
+::: {.column width="60%"}
+```{r echo=FALSE, out.width="100%"}
+knitr::include_graphics("https://mine-cetinkaya-rundel.github.io/tidy-up-ds/2019-12-lausanne/img/tidyverse-packages.png")
+```
+:::
+:::
 
 ## About tidy data
 
 Tidy data is a standard, consistent way to organize tabular data. Briefly, tidy data follows a short series of rules:
 
-- each variable in the data set is presented in a specific column,
-- each observation in the data set is presented in a specific row,
-- each cell at the intersection of a row and a column contains a single value.
-The following figure illustrates these rules.
-
-
-```{r, echo=FALSE, out.width="80%", fig.cap="n a tidy dataset, variables are in columns, observations are in rows, and values are in cells"}
+```{r, echo=FALSE, out.width="100%"}
 knitr::include_graphics("https://biostats-r.github.io/biostats/workingInR/figures/tidy1.png")
 
 ```
+::: aside
+Source: R for Data Science. Grolemund and Wickham.
+:::
 
 ## Pipe operator
-- One of the key features of tidyverse is the possibility to chain
-functions in an effective way using the pipe operator `|> `. 
-- Pipes pass the results from one function directly into the next function connected to each other via a `|> `, making the code easy to
-read and write. 
 
-**The pipe basically means “and then”.**
+-   One of the key features of tidyverse is the possibility to chain functions in an effective way using the pipe operator `|>`.
+-   Pipes pass the results from one function directly into the next function connected to each other via a `|>`, making the code easy to read and write.
 
-**Note:** the keyboard shorcut for `|> ` is `Ctrl+Shift+M` (Windows &
-Linux) or `Cmd+Shift+M` (Mac).
+- **The pipe basically means “and then”.**
 
-## Iris dataset 
+- **Note:** the keyboard shorcut for `|>` is `Ctrl+Shift+M` (Windows & Linux) or `Cmd+Shift+M` (Mac).
+
+## Pipe operator
+
+*First, I'll grab the coffee grounds, then I'll fill up the coffee maker with water, hit the start button, wait for it to brew, and finally pour myself a cup*
+```{r eval=F, echo=T}
+get("coffee_groundS","23")  |> 
+  fill_up("coffee_maker","water")   |> 
+  on(start_button)  |> 
+  put(cup)
+```
+
+## Iris dataset
+
+::: columns
+::: {.column width="40%"}
 
 The iris [flower dataset](https://en.wikipedia.org/wiki/Iris_flower_data_set) was collected by Edgar Anderson, an American botanist, in the 1920s. This data was used by statistician Ronald Fisher to demonstrate statistical methods of classification.
 
-```{r, echo=FALSE, out.width="80%"}
+:::
+::: {.column width="60%"}
+
+```{r, echo=FALSE, out.width="100%"}
 knitr::include_graphics("https://cbdm-01.zdv.uni-mainz.de/~galanisl/danalysis/images/iris_flower.png
 ")
-
 ```
+:::
+:::
 
 ## Importing data in R
+
 R can import data from files in many different formats. For example:
 
-- csv files with the `readr` package
-- excel files with the `readxl` package
-- xlm files with the `xml2` package
-- netcdf files with the `ncdf4` package
-- shapefiles with the `sf` package
+-   csv files with the `readr` package
+-   excel files with the `readxl` package
+-   xlm files with the `xml2` package
+-   netcdf files with the `ncdf4` package
+-   shapefiles with the `sf` package
 
+## Formats
 | Function      | Value Separator  | Decimal Separator |
 |---------------|------------------|-------------------|
 | read_csv()    | ,                | .                 |
 | read_csv2()   | ;                | ,                 |
 | read_tsv()    | tab              | .                 |
-| read_delim()  | custom character| .                 |
+| read_delim()  | custom character | .                 |
 | read_table2() | space            | .                 |
+
 ## Reading data
-
-```
+```{r}
+#| echo: true
+#| code-line-numbers: "|1|2"
 library(tidyverse)
-iris <- read_csv(Data/iris.csv)
-# R basic function
-iris <-read.csv(Data/iris.csv)
+iris <- read_csv("Data/iris.csv")
 ```
-## Exploring the data
--  Check that your data was imported without any mistakes
 
+
+```{r eval=F, echo=T}
+# R basic function
+iris <-read.csv("Data/iris.csv")
 ```
+
+## Exploring the data
+
+Check that your data was imported without any mistakes
+
+``` {r echo=T}  
 head(iris)    # Displays the first rows of a df
 tail(iris)  # Displays the last rows of a df
-str(iris) 
+```
+
+## Exploring the data
+``` {r echo=T}        
 glimpse(iris) # Tells you variables types 
 summary(iris) # Gives you a summary of the data
 ```
+
 ## Manipulating data
 
 ```{r, echo=FALSE, out.width="80%"}
 knitr::include_graphics("https://www.enzymeinnovation.com/wp-content/uploads/2018/08/person-making-fresh-pizza-dough-by-hand.jpg")
 ```
 
-## From wide to long 
-- The iris data are organized is "wide" format
-- Let's transform in "long” format
+## From wide to long
 
-```
+The iris data are organized is "wide" format. Let's transform in "long” format
+
+```{r echo=T}        
 iris_long <- iris |> pivot_longer( 
                     cols = -Species,
                     names_to = "trait",
                     values_to = "measurement")
+head(iris_long)
 ```
 
-##  Group_by and summarize
+## Group_by and summarize
 
-```
+``` {r echo=T}      
 iris_means <- iris |> 
   group_by(Species) |> 
   summarize(SL_mean = mean(Sepal.Length),
             SL_se = sd(Sepal.Length)/sqrt(n()))
+
+head(iris_means)
 ```
+
 ## Filter - subset rows
 
-```
+``` {r echo=T}          
 iris_versicolor <- iris |>  filter( Species == "versicolor")
 
 iris_no_versicolor <- iris |>  filter( Species != "versicolor")
 
 iris_pl<-iris |>  filter(Petal.Length > 2)
 ```
+
 ## Select - subset columns
 
-```
+``` {r echo=T}         
 iris_subset<-iris |> select(Species, Petal.Width, Petal.Length)
-
 ```
-## Mutate 
 
-```
+## Mutate
+
+``` {r echo=T}         
 iris_log <-iris |> mutate(log.Sepal.length = log(Sepal.Length))
 
+head(iris_log)
 ```
 
-## Plotting data 
--You can plot graphs using the ggplot2 package (part of the tidyverse).
+## Plotting data
 
-**Note:** `ggplot` functions are chained using a `+` sign. This is
-because `ggplot` does not pass an object to a function but add different
-layers on top of each other.
+You can plot graphs using the ggplot2 package (part of the tidyverse).
 
-You can think of it as different layers that are put on top of each other see:
-```{r, echo=FALSE, out.width="80%", fig.cap="Visualization of how ggplots are built"}
+**Note:** `ggplot` functions are chained using a `+` sign. This is because `ggplot` does not pass an object to a function but add different layers on top of each other.
+
+## ggplot layers
+
+```{r, echo=FALSE, out.width="60%", fig.align="center", fig.cap="Source: https://biostats-r.github.io/"}
 knitr::include_graphics("https://biostats-r.github.io/biostats/workingInR/figures/ggplot_setup.png")
 ```
 
@@ -215,14 +287,12 @@ knitr::include_graphics("https://biostats-r.github.io/biostats/workingInR/figure
 
 ## Saving plots
 
-You can save a plot by clicking on the `Export` button in the `Plots`
-window (bottom right window by default).
+You can save a plot by clicking on the `Export` button in the `Plots` window (bottom right window by default).
 
-Save your plots as `.svg` if your text editor supports it and if you are
-not limited by file sizes. Otherwise, save your plots as `.png`.
-
+Save your plots as `.svg` if your text editor supports it and if you are not limited by file sizes. Otherwise, save your plots as `.png`.
+```{r eval=F, echo=T}
+plot |> ggsave("plot.png")
+```
 ## To go further
 
-Visit:
-[Coding Club](https://ourcodingclub.github.io/)
-
+Visit: [Coding Club](https://ourcodingclub.github.io/)
