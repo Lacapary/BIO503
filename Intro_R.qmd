@@ -6,6 +6,7 @@ author:
 format: 
   revealjs:
      theme: blood
+     fontsize: 2.1em
      incremental: true  
      css: styles.css
      aspectratio: 169
@@ -106,12 +107,11 @@ library(dplyr)
 
 ::: columns
 ::: {.column width="40%"}
-- It is a collection of R packages designed to make data science tasks easier and more efficient.
+-   It is a collection of R packages designed to make data science tasks easier and more efficient.
 
 ```{r echo=FALSE,out.width="50%", fig.align="center"}
 knitr::include_graphics("https://mine-cetinkaya-rundel.github.io/tidy-up-ds/2019-12-lausanne/img/tidyverse.png")
 ```
-
 :::
 
 ::: {.column width="60%"}
@@ -129,6 +129,7 @@ Tidy data is a standard, consistent way to organize tabular data. Briefly, tidy 
 knitr::include_graphics("https://biostats-r.github.io/biostats/workingInR/figures/tidy1.png")
 
 ```
+
 ::: aside
 Source: R for Data Science. Grolemund and Wickham.
 :::
@@ -136,15 +137,17 @@ Source: R for Data Science. Grolemund and Wickham.
 ## Pipe operator
 
 -   One of the key features of tidyverse is the possibility to chain functions in an effective way using the pipe operator `|>`.
+
 -   Pipes pass the results from one function directly into the next function connected to each other via a `|>`, making the code easy to read and write.
 
-- **The pipe basically means “and then”.**
+-   **The pipe basically means “and then”.**
 
-- **Note:** the keyboard shorcut for `|>` is `Ctrl+Shift+M` (Windows & Linux) or `Cmd+Shift+M` (Mac).
+-   **Note:** the keyboard shorcut for `|>` is `Ctrl+Shift+M` (Windows & Linux) or `Cmd+Shift+M` (Mac).
 
 ## Pipe operator
 
 *First, I'll grab the coffee grounds, then I'll fill up the coffee maker with water, hit the start button, wait for it to brew, and finally pour myself a cup*
+
 ```{r eval=F, echo=T}
 get("coffee_groundS","23")  |> 
   fill_up("coffee_maker","water")   |> 
@@ -156,12 +159,10 @@ get("coffee_groundS","23")  |>
 
 ::: columns
 ::: {.column width="40%"}
-
 The iris [flower dataset](https://en.wikipedia.org/wiki/Iris_flower_data_set) was collected by Edgar Anderson, an American botanist, in the 1920s. This data was used by statistician Ronald Fisher to demonstrate statistical methods of classification.
-
 :::
-::: {.column width="60%"}
 
+::: {.column width="60%"}
 ```{r, echo=FALSE, out.width="100%"}
 knitr::include_graphics("https://cbdm-01.zdv.uni-mainz.de/~galanisl/danalysis/images/iris_flower.png
 ")
@@ -180,6 +181,7 @@ R can import data from files in many different formats. For example:
 -   shapefiles with the `sf` package
 
 ## Formats
+
 | Function      | Value Separator  | Decimal Separator |
 |---------------|------------------|-------------------|
 | read_csv()    | ,                | .                 |
@@ -189,13 +191,13 @@ R can import data from files in many different formats. For example:
 | read_table2() | space            | .                 |
 
 ## Reading data
+
 ```{r}
 #| echo: true
 #| code-line-numbers: "|1|2"
 library(tidyverse)
 iris <- read_csv("Data/iris.csv")
 ```
-
 
 ```{r eval=F, echo=T}
 # R basic function
@@ -206,13 +208,14 @@ iris <-read.csv("Data/iris.csv")
 
 Check that your data was imported without any mistakes
 
-``` {r echo=T}  
+```{r echo=T}
 head(iris)    # Displays the first rows of a df
 tail(iris)  # Displays the last rows of a df
 ```
 
 ## Exploring the data
-``` {r echo=T}        
+
+```{r echo=T}
 glimpse(iris) # Tells you variables types 
 summary(iris) # Gives you a summary of the data
 ```
@@ -227,7 +230,7 @@ knitr::include_graphics("https://www.enzymeinnovation.com/wp-content/uploads/201
 
 The iris data are organized is "wide" format. Let's transform in "long” format
 
-```{r echo=T}        
+```{r echo=T}
 iris_long <- iris |> pivot_longer( 
                     cols = -Species,
                     names_to = "trait",
@@ -237,7 +240,7 @@ head(iris_long)
 
 ## Group_by and summarize
 
-``` {r echo=T}      
+```{r echo=T}
 iris_means <- iris |> 
   group_by(Species) |> 
   summarize(SL_mean = mean(Sepal.Length),
@@ -248,7 +251,7 @@ head(iris_means)
 
 ## Filter - subset rows
 
-``` {r echo=T}          
+```{r echo=T}
 iris_versicolor <- iris |>  filter( Species == "versicolor")
 
 iris_no_versicolor <- iris |>  filter( Species != "versicolor")
@@ -258,13 +261,13 @@ iris_pl<-iris |>  filter(Petal.Length > 2)
 
 ## Select - subset columns
 
-``` {r echo=T}         
+```{r echo=T}
 iris_subset<-iris |> select(Species, Petal.Width, Petal.Length)
 ```
 
 ## Mutate
 
-``` {r echo=T}         
+```{r echo=T}
 iris_log <-iris |> mutate(log.Sepal.length = log(Sepal.Length))
 
 head(iris_log)
@@ -291,9 +294,11 @@ knitr::include_graphics("https://biostats-r.github.io/biostats/workingInR/figure
 You can save a plot by clicking on the `Export` button in the `Plots` window (bottom right window by default).
 
 Save your plots as `.svg` if your text editor supports it and if you are not limited by file sizes. Otherwise, save your plots as `.png`.
+
 ```{r eval=F, echo=T}
 plot |> ggsave("plot.png")
 ```
+
 ## To go further
 
 Visit: [Coding Club](https://ourcodingclub.github.io/)
