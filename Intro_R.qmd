@@ -18,9 +18,9 @@ format:
 
 - Teach you how to import and work with datasets
 
-- Get you familiar with tidy data and *Tidyverse*
+- Get you familiar with tidy data and `Tidyverse`
 
-- Show you how to make simple plots in *ggplot*
+- Show you how to make simple plots in `ggplot`
 
 ## What is R ?
 
@@ -333,7 +333,159 @@ iris %>%
 
 ```
 
+## Plotting Iris
+
+Now lets say you would like to make a boxplot to compare the sepal length between the three species.
+
+```{r echo=T}
+iris %>% 
+  ggplot(aes(
+    x = Species,
+    y = Sepal.Length,
+    fill = Species
+  )) +
+  geom_boxplot() + # to plot a boxplot
+  labs(
+    x = NULL, # to remove the label of the x axis
+    y = "Sepal length (cm)"
+  )
+
+```
+
+## Plotting Iris
+
+```{r echo=F}
+iris %>% 
+  ggplot(aes(
+    x = Species,
+    y = Sepal.Length,
+    fill = Species
+  )) +
+  geom_boxplot() + # to plot a boxplot
+  labs(
+    x = NULL, # to remove the label of the x axis
+    y = "Sepal length (cm)"
+  )
+
+```
+
+`ggplot` offers many plotting possibilities which we will go further into later. If you are eager, you can learn more [here](https://ggplot2-book.org/) or [here](https://ourcodingclub.github.io/tutorials/datavis/).
+
 ## Modelling
+
+Now we want to test if there is a relationship between petal length and petal width. For that we run a simple linear model.
+
+```{r echo=T}
+iris.m1 <- lm(Petal.Length ~ Petal.Width, data = iris)
+summary(iris.m1)
+```
+
+The summary function gives you the output from the model. We can see that petal width significantly effects petal length (as you might have expected). Our model did *very* good, explaining about 93% of the variation in petal length.
+
+## Modelling
+
+But do we expect there to be a difference between species Lets add species as an interaction to make it a bit more complicated.^
+
+```{r echo=T}
+iris.m2 <- lm(Petal.Length ~ Petal.Width * Species, data = iris)
+summary(iris.m2)
+```
+
+## Modelling
+
+Now lets visualize the relationship using ggplot (notice how we only included stat`smooth to our original scatter plot).
+
+```{r echo=F}
+iris %>% 
+  ggplot(aes(
+    x = Petal.Length,
+    y = Petal.Width,
+    color = Species)) + # to assign a color to each group
+  geom_point() + 
+  stat_smooth(method = "lm", aes(fill = Species, colour = Species)) +    
+  labs(
+    x = "Petal length (cm)",
+    y = "Petal width (cm)")
+```
+
+```{r echo=T}
+iris %>% 
+  ggplot(aes(
+    x = Petal.Length,
+    y = Petal.Width,
+    color = Species)) + # to assign a color to each group
+  geom_point() + 
+  stat_smooth(method = "lm", aes(fill = Species, colour = Species)) +    
+  labs(
+    x = "Petal length (cm)",
+    y = "Petal width (cm)")
+```
+
+## Modelling
+
+In the previous plot we just made we used the default ggplot settings. Although this is a great looking plot, we can make it even better since ggplot has a lot of power in customization, here is one example but feel free to play around with this, it can actually be quite satisfying when you get the hang of it.
+
+```{r echo=F}
+iris %>% 
+  ggplot(aes(
+    x = Petal.Length,
+    y = Petal.Width,
+    color = Species # to assign a color to each group
+  )) +
+  geom_point(size = 3) + # to plot a scatter plot
+  stat_smooth(method = "lm", aes(fill = Species, colour = Species), size = 1.5) + #add a linear fit for each species
+  scale_color_manual(name = "Species", values = c("#023d79", "#faa307", "#3f5426")) + #add manually selected colors to the points of different species
+  scale_fill_manual(name = "Species", values = c("#023d79", "#faa307", "#3f5426")) + #add manually selected colors to the linear fit for each species
+  labs(
+    x = "Petal length (cm)", #x axis label
+    y = "Petal width (cm)" #y axis label 
+  ) +
+  theme_bw()+ #theme within the ggplot2 package (different themes available, f.ex. theme_classic, theme_minimal)
+  theme(axis.text.x = element_text(size = 10), #use the theme function to customize axis text, label test, legends etc.
+        axis.text.y = element_text(size = 10),
+        axis.title.x = element_text(size = 14, face = "plain"),             
+        axis.title.y = element_text(size = 14, face = "plain"),             
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.major.y = element_blank(),
+        plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), units = , "cm"),
+        plot.title = element_text(size = 20, vjust = 1, hjust = 0.5),
+        legend.text = element_text(size = 12, face = "italic"),          
+        legend.position = "right")
+```
+
+## Modelling
+
+```{r echo=T}
+iris %>% 
+  ggplot(aes(
+    x = Petal.Length,
+    y = Petal.Width,
+    color = Species # to assign a color to each group
+  )) +
+  geom_point(size = 3) + # to plot a scatter plot
+  stat_smooth(method = "lm", aes(fill = Species, colour = Species), size = 1.5) + #add a linear fit for each species
+  scale_color_manual(name = "Species", values = c("#023d79", "#faa307", "#3f5426")) + #add manually selected colors to the points of different species
+  scale_fill_manual(name = "Species", values = c("#023d79", "#faa307", "#3f5426")) + #add manually selected colors to the linear fit for each species
+  labs(
+    x = "Petal length (cm)", #x axis label
+    y = "Petal width (cm)" #y axis label 
+  ) +
+  theme_bw()+ #theme within the ggplot2 package (different themes available, f.ex. theme_classic, theme_minimal)
+  theme(axis.text.x = element_text(size = 10), #use the theme function to customize axis text, label test, legends etc.
+        axis.text.y = element_text(size = 10),
+        axis.title.x = element_text(size = 14, face = "plain"),             
+        axis.title.y = element_text(size = 14, face = "plain"),             
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.major.y = element_blank(),
+        plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), units = , "cm"),
+        plot.title = element_text(size = 20, vjust = 1, hjust = 0.5),
+        legend.text = element_text(size = 12, face = "italic"),          
+        legend.position = "right")
+```
 
 ## Saving plots
 
