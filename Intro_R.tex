@@ -1,49 +1,13 @@
 % Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 %
 \documentclass[
-  ignorenonframetext,
-  aspectratio=169,
-]{beamer}
-\usepackage{pgfpages}
-\setbeamertemplate{caption}[numbered]
-\setbeamertemplate{caption label separator}{: }
-\setbeamercolor{caption name}{fg=normal text.fg}
-\beamertemplatenavigationsymbolsempty
-% Prevent slide breaks in the middle of a paragraph
-\widowpenalties 1 10000
-\raggedbottom
-\setbeamertemplate{part page}{
-  \centering
-  \begin{beamercolorbox}[sep=16pt,center]{part title}
-    \usebeamerfont{part title}\insertpart\par
-  \end{beamercolorbox}
-}
-\setbeamertemplate{section page}{
-  \centering
-  \begin{beamercolorbox}[sep=12pt,center]{part title}
-    \usebeamerfont{section title}\insertsection\par
-  \end{beamercolorbox}
-}
-\setbeamertemplate{subsection page}{
-  \centering
-  \begin{beamercolorbox}[sep=8pt,center]{part title}
-    \usebeamerfont{subsection title}\insertsubsection\par
-  \end{beamercolorbox}
-}
-\AtBeginPart{
-  \frame{\partpage}
-}
-\AtBeginSection{
-  \ifbibliography
-  \else
-    \frame{\sectionpage}
-  \fi
-}
-\AtBeginSubsection{
-  \frame{\subsectionpage}
-}
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod,
+  oneside]{scrartcl}
 
 \usepackage{amsmath,amssymb}
 \usepackage{iftex}
@@ -77,9 +41,18 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\newif\ifbibliography
+\usepackage[left=1in,marginparwidth=2.0666666666667in,textwidth=4.1333333333333in,marginparsep=0.3in]{geometry}
 \setlength{\emergencystretch}{3em} % prevent overfull lines
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\setcounter{secnumdepth}{5}
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
 
 \usepackage{color}
 \usepackage{fancyvrb}
@@ -125,11 +98,14 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
-\usepackage{caption}
-% Make caption package work with longtable
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
 \makeatletter
-\def\fnum@table{\tablename~\thetable}
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
 \makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -144,6 +120,7 @@
 \def\fps@figure{htbp}
 \makeatother
 
+\KOMAoption{captions}{tableheading}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
@@ -202,7 +179,11 @@
 \hypersetup{
   pdftitle={Introduction to R and Rstudio},
   pdfauthor={Camila Pacheco; Katrín Björnsdóttir},
-  hidelinks,
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
   pdfcreator={LaTeX via pandoc}}
 
 \title{Introduction to R and Rstudio}
@@ -210,16 +191,31 @@
 \date{}
 
 \begin{document}
-\frame{\titlepage}
+\maketitle
 
-\begin{frame}{What is R ?}
-\phantomsection\label{what-is-r}
-\begin{columns}[T]
-\begin{column}{0.4\textwidth}
+\renewcommand*\contentsname{Table of contents}
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\subsection{Our mission}\label{our-mission}
+
+\begin{itemize}
+\item
+  Get you familiar with the R environment
+\item
+  Teach you how to import and work with datasets
+\item
+  Get you familiar with tidy data and \emph{Tidyverse}
+\item
+  Show you how to make simple plots in \emph{ggplot}
+\end{itemize}
+
+\subsection{What is R ?}\label{what-is-r}
+
 \includegraphics[width=3.64583in,height=3.125in]{Intro_R_files/mediabag/1086px-R_logo.svg.png}
-\end{column}
 
-\begin{column}{0.6\textwidth}
 \begin{itemize}
 \tightlist
 \item
@@ -227,19 +223,21 @@
 \item
   R has evolved into a versatile programming language
 \end{itemize}
-\end{column}
-\end{columns}
-\end{frame}
 
-\begin{frame}{What is RStudio?}
-\phantomsection\label{what-is-rstudio}
+\subsection{What is RStudio?}\label{what-is-rstudio}
+
 RStudio is a user-friendly interface for R
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{sources/RStudio_IDE_screenshot.png}
-\end{frame}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{include\_graphics}\NormalTok{(}\StringTok{"sources/RStudio\_IDE\_screenshot.png"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
-\begin{frame}{R is prone to errors}
-\phantomsection\label{r-is-prone-to-errors}
+\includegraphics[width=0.8\textwidth,height=\textheight]{sources/RStudio_IDE_screenshot.png}
+
+\subsection{R is prone to errors}\label{r-is-prone-to-errors}
+
 \begin{itemize}
 \item
   \faIcon{bomb} Such as typos, using the wrong letter case, forgetting a
@@ -250,10 +248,9 @@ RStudio is a user-friendly interface for R
   so always double-check your code whenever R is unhappy
   \faIcon{face-sad-tear}.
 \end{itemize}
-\end{frame}
 
-\begin{frame}[fragile]{R studio Projects}
-\phantomsection\label{r-studio-projects}
+\subsection{R studio Projects}\label{r-studio-projects}
+
 \begin{itemize}
 \item
   It is a convenient way to organize your work in RStudio -it creates a
@@ -279,10 +276,9 @@ RStudio is a user-friendly interface for R
     \texttt{Directory\ name} for your project.
   \end{itemize}
 \end{itemize}
-\end{frame}
 
-\begin{frame}[fragile]{Code versus comment}
-\phantomsection\label{code-versus-comment}
+\subsection{Code versus comment}\label{code-versus-comment}
+
 There are two types of lines: those that start with the symbol
 \texttt{\#}, and those that do not.
 
@@ -294,10 +290,10 @@ There are two types of lines: those that start with the symbol
 \NormalTok{x }\OtherTok{\textless{}{-}} \DecValTok{5}  \CommentTok{\# Assigning the value 5 to the variable x}
 \end{Highlighting}
 \end{Shaded}
-\end{frame}
 
-\begin{frame}[fragile]{Commends to index your scrips}
-\phantomsection\label{commends-to-index-your-scrips}
+\subsection{Comments to index your
+scrips}\label{comments-to-index-your-scrips}
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\#Library{-}{-}{-}{-}}
@@ -311,10 +307,9 @@ There are two types of lines: those that start with the symbol
 Script outline in Rstudio
 
 \includegraphics[width=0.8\textwidth,height=\textheight]{Intro_R_files/mediabag/4yjqd.png}
-\end{frame}
 
-\begin{frame}[fragile]{R package}
-\phantomsection\label{r-package}
+\subsection{R package}\label{r-package}
+
 \begin{itemize}
 \item
   Package is a collection of R functions, data sets, and other resources
@@ -338,22 +333,18 @@ Script outline in Rstudio
     \texttt{library(package-name)}
   \end{itemize}
 \end{itemize}
-\end{frame}
 
-\begin{frame}[fragile]{Example}
-\phantomsection\label{example}
+\subsection{Example}\label{example}
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{install.packages}\NormalTok{(}\StringTok{"dplyr"}\NormalTok{)}
 \FunctionTok{library}\NormalTok{(dplyr)}
 \end{Highlighting}
 \end{Shaded}
-\end{frame}
 
-\begin{frame}{Tidyverse}
-\phantomsection\label{tidyverse}
-\begin{columns}[T]
-\begin{column}{0.4\textwidth}
+\subsection{Tidyverse}\label{tidyverse}
+
 \begin{itemize}
 \tightlist
 \item
@@ -364,16 +355,11 @@ Script outline in Rstudio
 \begin{center}
 \includegraphics[width=0.5\textwidth,height=\textheight]{Intro_R_files/mediabag/tidyverse.png}
 \end{center}
-\end{column}
 
-\begin{column}{0.6\textwidth}
 \includegraphics[width=1\textwidth,height=\textheight]{Intro_R_files/mediabag/tidyverse-packages.png}
-\end{column}
-\end{columns}
-\end{frame}
 
-\begin{frame}{About tidy data}
-\phantomsection\label{about-tidy-data}
+\subsection{About tidy data}\label{about-tidy-data}
+
 Tidy data is a standard, consistent way to organize tabular data.
 Briefly, tidy data follows a short series of rules:
 
@@ -384,10 +370,9 @@ Briefly, tidy data follows a short series of rules:
 Source: R for Data Science. Grolemund and Wickham.
 
 \end{footnotesize}}
-\end{frame}
 
-\begin{frame}[fragile]{Pipe operator}
-\phantomsection\label{pipe-operator}
+\subsection{Pipe operator}\label{pipe-operator}
+
 \begin{itemize}
 \item
   One of the key features of tidyverse is the possibility to chain
@@ -405,10 +390,9 @@ Source: R for Data Science. Grolemund and Wickham.
   \texttt{\textbar{}\textgreater{}} is \texttt{Ctrl+Shift+M} (Windows \&
   Linux) or \texttt{Cmd+Shift+M} (Mac).
 \end{itemize}
-\end{frame}
 
-\begin{frame}[fragile]{Pipe operator}
-\phantomsection\label{pipe-operator-1}
+\subsection{Pipe operator}\label{pipe-operator-1}
+
 \emph{First, I'll grab the coffee grounds, then I'll fill up the coffee
 maker with water, hit the start button, wait for it to brew, and finally
 pour myself a cup}
@@ -421,27 +405,19 @@ pour myself a cup}
   \FunctionTok{put}\NormalTok{(cup)}
 \end{Highlighting}
 \end{Shaded}
-\end{frame}
 
-\begin{frame}{Iris dataset}
-\phantomsection\label{iris-dataset}
-\begin{columns}[T]
-\begin{column}{0.4\textwidth}
+\subsection{Iris dataset}\label{iris-dataset}
+
 The iris
 \href{https://en.wikipedia.org/wiki/Iris_flower_data_set}{flower
 dataset} was collected by Edgar Anderson, an American botanist, in the
 1920s. This data was used by statistician Ronald Fisher to demonstrate
 statistical methods of classification.
-\end{column}
 
-\begin{column}{0.6\textwidth}
 \includegraphics[width=1\textwidth,height=\textheight]{Intro_R_files/mediabag/iris_flower.png}
-\end{column}
-\end{columns}
-\end{frame}
 
-\begin{frame}[fragile]{Importing data in R}
-\phantomsection\label{importing-data-in-r}
+\subsection{Importing data in R}\label{importing-data-in-r}
+
 R can import data from files in many different formats. For example:
 
 \begin{itemize}
@@ -457,32 +433,61 @@ R can import data from files in many different formats. For example:
 \item
   shapefiles with the \texttt{sf} package
 \end{itemize}
-\end{frame}
 
-\begin{frame}{Formats}
-\phantomsection\label{formats}
+\subsection{Formats}\label{formats}
+
 \begin{longtable}[]{@{}lll@{}}
 \toprule\noalign{}
 Function & Value Separator & Decimal Separator \\
 \midrule\noalign{}
 \endhead
+\bottomrule\noalign{}
+\endlastfoot
 read\_csv() & , & . \\
 read\_csv2() & ; & , \\
 read\_tsv() & tab & . \\
 read\_delim() & custom character & . \\
 read\_table2() & space & . \\
-\bottomrule\noalign{}
 \end{longtable}
-\end{frame}
 
-\begin{frame}[fragile]{Reading data}
-\phantomsection\label{reading-data}
+\subsection{Reading data}\label{reading-data}
+
 \begin{Shaded}
 \begin{Highlighting}[numbers=left,,]
 \FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+-- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
+v dplyr     1.1.4     v readr     2.1.5
+v forcats   1.0.0     v stringr   1.5.1
+v ggplot2   3.5.0     v tibble    3.2.1
+v lubridate 1.9.3     v tidyr     1.3.1
+v purrr     1.0.2     
+-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()
+i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
 \NormalTok{iris }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"Data/iris.csv"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+New names:
+Rows: 150 Columns: 6
+-- Column specification
+-------------------------------------------------------- Delimiter: "," chr
+(1): Species dbl (5): ...1, Sepal.Length, Sepal.Width, Petal.Length,
+Petal.Width
+i Use `spec()` to retrieve the full column specification for this data. i
+Specify the column types or set `show_col_types = FALSE` to quiet this message.
+* `` -> `...1`
+\end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -490,10 +495,9 @@ read\_table2() & space & . \\
 \NormalTok{iris }\OtherTok{\textless{}{-}}\FunctionTok{read.csv}\NormalTok{(}\StringTok{"Data/iris.csv"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
-\end{frame}
 
-\begin{frame}[fragile]{Exploring the data}
-\phantomsection\label{exploring-the-data}
+\subsection{Exploring the data}\label{exploring-the-data}
+
 Check that your data was imported without any mistakes
 
 \begin{Shaded}
@@ -531,10 +535,9 @@ Check that your data was imported without any mistakes
 5   149          6.2         3.4          5.4         2.3 virginica
 6   150          5.9         3            5.1         1.8 virginica
 \end{verbatim}
-\end{frame}
 
-\begin{frame}[fragile]{Exploring the data}
-\phantomsection\label{exploring-the-data-1}
+\subsection{Exploring the data}\label{exploring-the-data-1}
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{glimpse}\NormalTok{(iris) }\CommentTok{\# Tells you variables types }
@@ -574,15 +577,13 @@ $ Species      <chr> "setosa", "setosa", "setosa", "setosa", "setosa", "setosa~
  3rd Qu.:1.800                     
  Max.   :2.500                     
 \end{verbatim}
-\end{frame}
 
-\begin{frame}{Manipulating data}
-\phantomsection\label{manipulating-data}
+\subsection{Manipulating data}\label{manipulating-data}
+
 \includegraphics[width=0.8\textwidth,height=\textheight]{Intro_R_files/mediabag/person-making-fresh-.jpg}
-\end{frame}
 
-\begin{frame}[fragile]{From wide to long}
-\phantomsection\label{from-wide-to-long}
+\subsection{From wide to long}\label{from-wide-to-long}
+
 The iris data are organized is ``wide'' format. Let's transform in
 ``long'' format
 
@@ -607,10 +608,9 @@ The iris data are organized is ``wide'' format. Let's transform in
 5 setosa  Petal.Width          0.2
 6 setosa  ...1                 2  
 \end{verbatim}
-\end{frame}
 
-\begin{frame}[fragile]{Group\_by and summarize}
-\phantomsection\label{group_by-and-summarize}
+\subsection{Group\_by and summarize}\label{group_by-and-summarize}
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{iris\_means }\OtherTok{\textless{}{-}}\NormalTok{ iris }\SpecialCharTok{|\textgreater{}} 
@@ -630,10 +630,9 @@ The iris data are organized is ``wide'' format. Let's transform in
 2 versicolor    5.94 0.0730
 3 virginica     6.59 0.0899
 \end{verbatim}
-\end{frame}
 
-\begin{frame}[fragile]{Filter - subset rows}
-\phantomsection\label{filter---subset-rows}
+\subsection{Filter - subset rows}\label{filter---subset-rows}
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{iris\_versicolor }\OtherTok{\textless{}{-}}\NormalTok{ iris }\SpecialCharTok{|\textgreater{}}  \FunctionTok{filter}\NormalTok{( Species }\SpecialCharTok{==} \StringTok{"versicolor"}\NormalTok{)}
@@ -643,19 +642,17 @@ The iris data are organized is ``wide'' format. Let's transform in
 \NormalTok{iris\_pl}\OtherTok{\textless{}{-}}\NormalTok{iris }\SpecialCharTok{|\textgreater{}}  \FunctionTok{filter}\NormalTok{(Petal.Length }\SpecialCharTok{\textgreater{}} \DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
-\end{frame}
 
-\begin{frame}[fragile]{Select - subset columns}
-\phantomsection\label{select---subset-columns}
+\subsection{Select - subset columns}\label{select---subset-columns}
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{iris\_subset}\OtherTok{\textless{}{-}}\NormalTok{iris }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(Species, Petal.Width, Petal.Length)}
 \end{Highlighting}
 \end{Shaded}
-\end{frame}
 
-\begin{frame}[fragile]{Mutate}
-\phantomsection\label{mutate}
+\subsection{Mutate}\label{mutate}
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{iris\_log }\OtherTok{\textless{}{-}}\NormalTok{iris }\SpecialCharTok{|\textgreater{}} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{log.Sepal.length =} \FunctionTok{log}\NormalTok{(Sepal.Length))}
@@ -676,19 +673,17 @@ The iris data are organized is ``wide'' format. Let's transform in
 6     6          5.4         3.9          1.7         0.4 setosa 
 # i 1 more variable: log.Sepal.length <dbl>
 \end{verbatim}
-\end{frame}
 
-\begin{frame}[fragile]{Plotting data}
-\phantomsection\label{plotting-data}
+\subsection{Plotting data}\label{plotting-data}
+
 You can plot graphs using the ggplot2 package (part of the tidyverse).
 
 \textbf{Note:} \texttt{ggplot} functions are chained using a \texttt{+}
 sign. This is because \texttt{ggplot} does not pass an object to a
 function but add different layers on top of each other.
-\end{frame}
 
-\begin{frame}{ggplot layers}
-\phantomsection\label{ggplot-layers}
+\subsection{ggplot layers}\label{ggplot-layers}
+
 \begin{figure}[H]
 
 {\centering \includegraphics[width=0.6\textwidth,height=\textheight]{Intro_R_files/mediabag/ggplot_setup.png}
@@ -698,18 +693,41 @@ function but add different layers on top of each other.
 \caption{Source: https://biostats-r.github.io/}
 
 \end{figure}%
-\end{frame}
 
-\begin{frame}{Plotting Iris}
-\phantomsection\label{plotting-iris}
-\end{frame}
+\subsection{Plotting Iris}\label{plotting-iris}
 
-\begin{frame}{Modelling}
-\phantomsection\label{modelling}
-\end{frame}
+Lets say we want to plot the relationship between petal length and petal
+width for each species.
 
-\begin{frame}[fragile]{Saving plots}
-\phantomsection\label{saving-plots}
+You can visualize such relationship by plotting petal length against
+petal width in a scatter plot:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{iris }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}
+    \AttributeTok{x =}\NormalTok{ Petal.Length,}
+    \AttributeTok{y =}\NormalTok{ Petal.Width,}
+    \AttributeTok{color =}\NormalTok{ Species }\CommentTok{\# to assign a color to each group}
+\NormalTok{  )) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+} \CommentTok{\# to plot a scatter plot}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{x =} \StringTok{"Petal length (cm)"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Petal width (cm)"}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Intro_R_files/figure-pdf/unnamed-chunk-22-1.pdf}
+
+\subsection{Plotting Iris}\label{plotting-iris-1}
+
+\includegraphics{Intro_R_files/figure-pdf/unnamed-chunk-23-1.pdf}
+
+\subsection{Modelling}\label{modelling}
+
+\subsection{Saving plots}\label{saving-plots}
+
 You can save a plot by clicking on the \texttt{Export} button in the
 \texttt{Plots} window (bottom right window by default).
 
@@ -722,12 +740,10 @@ you are not limited by file sizes. Otherwise, save your plots as
 \NormalTok{plot }\SpecialCharTok{|\textgreater{}} \FunctionTok{ggsave}\NormalTok{(}\StringTok{"plot.png"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
-\end{frame}
 
-\begin{frame}{To go further}
-\phantomsection\label{to-go-further}
+\subsection{To go further}\label{to-go-further}
+
 Visit: \href{https://ourcodingclub.github.io/}{Coding Club}
-\end{frame}
 
 
 

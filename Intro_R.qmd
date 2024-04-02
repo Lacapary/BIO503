@@ -3,24 +3,27 @@ title: "Introduction to R and Rstudio"
 author:   
   - Camila Pacheco    
   - Katrín Björnsdóttir
-format: 
+format:
   revealjs:
      theme: blood
      fontsize: 2.1em
-     incremental: true  
+     incremental: true
      css: styles.css
      aspectratio: 169
+  # html:
+  #   toc: true
+  #   html-math-method: katex
 ---
 
 ## Our mission
 
-- Get you familiar with the R environment
+-   Get you familiar with the R environment
 
-- Teach you how to import and work with datasets
+-   Teach you how to import and work with datasets
 
-- Get you familiar with tidy data and *Tidyverse*
+-   Get you familiar with tidy data and *Tidyverse*
 
-- Show you how to make simple plots in *ggplot*
+-   Show you how to make simple plots in *ggplot*
 
 ## What is R ?
 
@@ -40,6 +43,7 @@ format:
 RStudio is a user-friendly interface for R
 
 ```{r, out.width="80%"}
+#| echo: False
 knitr::include_graphics("sources/RStudio_IDE_screenshot.png")
 ```
 
@@ -146,9 +150,9 @@ Source: R for Data Science. Grolemund and Wickham.
 
 ## Pipe operator
 
--   One of the key features of tidyverse is the possibility to chain functions in an effective way using the pipe operator `|>`.
+-   One of the key features of tidyverse is the possibility to chain functions in an effective way using the pipe operator`%>%` or `|>`.
 
--   Pipes pass the results from one function directly into the next function connected to each other via a `|>`, making the code easy to read and write.
+-   Pipes pass the results from one function directly into the next function connected to each other via a `%>%` or `|>`, making the code easy to read and write.
 
 -   **The pipe basically means “and then”.**
 
@@ -302,6 +306,7 @@ Lets say we want to plot the relationship between petal length and petal width f
 You can visualize such relationship by plotting petal length against petal width in a scatter plot:
 
 ```{r echo=T}
+#| output: false
 iris %>% 
   ggplot(aes(
     x = Petal.Length,
@@ -347,4 +352,13 @@ plot |> ggsave("plot.png")
 
 ## To go further
 
-Visit: [Coding Club](https://ourcodingclub.github.io/)
+- Visit: [Coding Club](https://ourcodingclub.github.io/)
+
+- EDGE coding club: Every 15 days, we have a coding club on Mondays at 10:30 in the Supernova room (Natrium)
+
+- On Monday, **May 20th**, there will be a dedicated session for the projects.
+
+
+```{r eval=FALSE, echo=FALSE }
+renderthis::to_pdf("Intro_R.html")
+```
