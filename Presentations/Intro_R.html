@@ -419,8 +419,6 @@ Katrín Björnsdóttir
 <li class="fragment"><p>Teach you how to import and work with datasets</p></li>
 <li class="fragment"><p>Get you familiar with tidy data and <code>Tidyverse</code></p></li>
 <li class="fragment"><p>Show you how to make simple plots in <code>ggplot</code></p></li>
-<li class="fragment"><p>Get you familiar with tidy data and <em>Tidyverse</em></p></li>
-<li class="fragment"><p>Show you how to make simple plots in <em>ggplot</em></p></li>
 </ul>
 </section>
 <section id="what-is-r" class="slide level2">
@@ -656,7 +654,7 @@ Katrín Björnsdóttir
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="co"># R basic function</span></span>
-<span id="cb7-2"><a href=""></a>iris <span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"Data/iris.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-2"><a href=""></a>iris <span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"Data/iris.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exploring-the-data" class="slide level2">
@@ -665,27 +663,23 @@ Katrín Björnsdóttir
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="fu">head</span>(iris)    <span class="co"># Displays the first rows of a df</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 6
-   ...1 Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-  &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
-1     1          5.1         3.5          1.4         0.2 setosa 
-2     2          4.9         3            1.4         0.2 setosa 
-3     3          4.7         3.2          1.3         0.2 setosa 
-4     4          4.6         3.1          1.5         0.2 setosa 
-5     5          5           3.6          1.4         0.2 setosa 
-6     6          5.4         3.9          1.7         0.4 setosa </code></pre>
+<pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+1          5.1         3.5          1.4         0.2  setosa
+2          4.9         3.0          1.4         0.2  setosa
+3          4.7         3.2          1.3         0.2  setosa
+4          4.6         3.1          1.5         0.2  setosa
+5          5.0         3.6          1.4         0.2  setosa
+6          5.4         3.9          1.7         0.4  setosa</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">tail</span>(iris)  <span class="co"># Displays the last rows of a df</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 6
-   ...1 Sepal.Length Sepal.Width Petal.Length Petal.Width Species  
-  &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;    
-1   145          6.7         3.3          5.7         2.5 virginica
-2   146          6.7         3            5.2         2.3 virginica
-3   147          6.3         2.5          5           1.9 virginica
-4   148          6.5         3            5.2         2   virginica
-5   149          6.2         3.4          5.4         2.3 virginica
-6   150          5.9         3            5.1         1.8 virginica</code></pre>
+<pre><code>    Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
+145          6.7         3.3          5.7         2.5 virginica
+146          6.7         3.0          5.2         2.3 virginica
+147          6.3         2.5          5.0         1.9 virginica
+148          6.5         3.0          5.2         2.0 virginica
+149          6.2         3.4          5.4         2.3 virginica
+150          5.9         3.0          5.1         1.8 virginica</code></pre>
 </div>
 </div>
 </section>
@@ -695,30 +689,29 @@ Katrín Björnsdóttir
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">glimpse</span>(iris) <span class="co"># Tells you variables types </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 150
-Columns: 6
-$ ...1         &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
+Columns: 5
 $ Sepal.Length &lt;dbl&gt; 5.1, 4.9, 4.7, 4.6, 5.0, 5.4, 4.6, 5.0, 4.4, 4.9, 5.4, 4.…
 $ Sepal.Width  &lt;dbl&gt; 3.5, 3.0, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2.9, 3.1, 3.7, 3.…
 $ Petal.Length &lt;dbl&gt; 1.4, 1.4, 1.3, 1.5, 1.4, 1.7, 1.4, 1.5, 1.4, 1.5, 1.5, 1.…
 $ Petal.Width  &lt;dbl&gt; 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0.2, 0.…
-$ Species      &lt;chr&gt; "setosa", "setosa", "setosa", "setosa", "setosa", "setosa…</code></pre>
+$ Species      &lt;fct&gt; setosa, setosa, setosa, setosa, setosa, setosa, setosa, s…</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">summary</span>(iris) <span class="co"># Gives you a summary of the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      ...1         Sepal.Length    Sepal.Width     Petal.Length  
- Min.   :  1.00   Min.   :4.300   Min.   :2.000   Min.   :1.000  
- 1st Qu.: 38.25   1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600  
- Median : 75.50   Median :5.800   Median :3.000   Median :4.350  
- Mean   : 75.50   Mean   :5.843   Mean   :3.057   Mean   :3.758  
- 3rd Qu.:112.75   3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100  
- Max.   :150.00   Max.   :7.900   Max.   :4.400   Max.   :6.900  
-  Petal.Width      Species         
- Min.   :0.100   Length:150        
- 1st Qu.:0.300   Class :character  
- Median :1.300   Mode  :character  
- Mean   :1.199                     
- 3rd Qu.:1.800                     
- Max.   :2.500                     </code></pre>
+<pre><code>  Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+ Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
+ 1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+ Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+ Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
+ 3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+ Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+       Species  
+ setosa    :50  
+ versicolor:50  
+ virginica :50  
+                
+                
+                </code></pre>
 </div>
 </div>
 </section>
@@ -738,13 +731,13 @@ $ Species      &lt;chr&gt; "setosa", "setosa", "setosa", "setosa", "setosa", "se
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   Species trait        measurement
-  &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;
-1 setosa  ...1                 1  
-2 setosa  Sepal.Length         5.1
-3 setosa  Sepal.Width          3.5
-4 setosa  Petal.Length         1.4
-5 setosa  Petal.Width          0.2
-6 setosa  ...1                 2  </code></pre>
+  &lt;fct&gt;   &lt;chr&gt;              &lt;dbl&gt;
+1 setosa  Sepal.Length         5.1
+2 setosa  Sepal.Width          3.5
+3 setosa  Petal.Length         1.4
+4 setosa  Petal.Width          0.2
+5 setosa  Sepal.Length         4.9
+6 setosa  Sepal.Width          3  </code></pre>
 </div>
 </div>
 </section>
@@ -760,7 +753,7 @@ $ Species      &lt;chr&gt; "setosa", "setosa", "setosa", "setosa", "setosa", "se
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
   Species    SL_mean  SL_se
-  &lt;chr&gt;        &lt;dbl&gt;  &lt;dbl&gt;
+  &lt;fct&gt;        &lt;dbl&gt;  &lt;dbl&gt;
 1 setosa        5.01 0.0498
 2 versicolor    5.94 0.0730
 3 virginica     6.59 0.0899</code></pre>
@@ -790,16 +783,13 @@ $ Species      &lt;chr&gt; "setosa", "setosa", "setosa", "setosa", "setosa", "se
 <span id="cb22-2"><a href=""></a></span>
 <span id="cb22-3"><a href=""></a><span class="fu">head</span>(iris_log)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 7
-   ...1 Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-  &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
-1     1          5.1         3.5          1.4         0.2 setosa 
-2     2          4.9         3            1.4         0.2 setosa 
-3     3          4.7         3.2          1.3         0.2 setosa 
-4     4          4.6         3.1          1.5         0.2 setosa 
-5     5          5           3.6          1.4         0.2 setosa 
-6     6          5.4         3.9          1.7         0.4 setosa 
-# ℹ 1 more variable: log.Sepal.length &lt;dbl&gt;</code></pre>
+<pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species log.Sepal.length
+1          5.1         3.5          1.4         0.2  setosa         1.629241
+2          4.9         3.0          1.4         0.2  setosa         1.589235
+3          4.7         3.2          1.3         0.2  setosa         1.547563
+4          4.6         3.1          1.5         0.2  setosa         1.526056
+5          5.0         3.6          1.4         0.2  setosa         1.609438
+6          5.4         3.9          1.7         0.4  setosa         1.686399</code></pre>
 </div>
 </div>
 </section>
@@ -833,7 +823,7 @@ $ Species      &lt;chr&gt; "setosa", "setosa", "setosa", "setosa", "setosa", "se
 <section id="plotting-iris-1" class="slide level2">
 <h2>Plotting Iris</h2>
 
-<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-24-1.png" width="960" class="r-stretch"></section>
+<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-25-1.png" width="960" class="r-stretch"></section>
 <section id="plotting-iris-2" class="slide level2">
 <h2>Plotting Iris</h2>
 <p>Now lets say you would like to make a boxplot to compare the sepal length between the three species.</p>
@@ -854,14 +844,22 @@ $ Species      &lt;chr&gt; "setosa", "setosa", "setosa", "setosa", "setosa", "se
 <section id="plotting-iris-3" class="slide level2">
 <h2>Plotting Iris</h2>
 
-<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-26-1.png" width="960" class="r-stretch"><p><code>ggplot</code> offers many plotting possibilities which we will go further into later. If you are eager, you can learn more <a href="https://ggplot2-book.org/">here</a> or <a href="https://ourcodingclub.github.io/tutorials/datavis/">here</a>.</p>
+<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-27-1.png" width="960" class="r-stretch"><p><code>ggplot</code> offers many plotting possibilities which we will go further into later. If you are eager, you can learn more <a href="https://ggplot2-book.org/">here</a> or <a href="https://ourcodingclub.github.io/tutorials/datavis/">here</a>.</p>
+</section>
+<section id="saving-plots" class="slide level2">
+<h2>Saving plots</h2>
+<p>You can save a plot by clicking on the <code>Export</code> button in the <code>Plots</code> window (bottom right window by default).</p>
+<p>Save your plots as <code>.svg</code> if your text editor supports it and if you are not limited by file sizes. Otherwise, save your plots as <code>.png</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a>p <span class="sc">|&gt;</span> <span class="fu">ggsave</span>(<span class="st">"plot.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="modelling" class="slide level2">
 <h2>Modelling</h2>
 <p>Now we want to test if there is a relationship between petal length and petal width. For that we run a simple linear model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a>iris.m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Petal.Length <span class="sc">~</span> Petal.Width, <span class="at">data =</span> iris)</span>
-<span id="cb26-2"><a href=""></a><span class="fu">summary</span>(iris.m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a>iris.m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Petal.Length <span class="sc">~</span> Petal.Width, <span class="at">data =</span> iris)</span>
+<span id="cb27-2"><a href=""></a><span class="fu">summary</span>(iris.m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -889,8 +887,8 @@ F-statistic:  1882 on 1 and 148 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h2>Modelling</h2>
 <p>But do we expect there to be a difference between species Lets add species as an interaction to make it a bit more complicated.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>iris.m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Petal.Length <span class="sc">~</span> Petal.Width <span class="sc">*</span> Species, <span class="at">data =</span> iris)</span>
-<span id="cb28-2"><a href=""></a><span class="fu">summary</span>(iris.m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>iris.m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Petal.Length <span class="sc">~</span> Petal.Width <span class="sc">*</span> Species, <span class="at">data =</span> iris)</span>
+<span id="cb29-2"><a href=""></a><span class="fu">summary</span>(iris.m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -921,67 +919,59 @@ F-statistic: 681.9 on 5 and 144 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h2>Modelling</h2>
 <p>Now lets visualize the relationship using ggplot (notice how we only included stat`smooth to our original scatter plot).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a>p<span class="ot">&lt;-</span>iris <span class="sc">%&gt;%</span> </span>
-<span id="cb30-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
-<span id="cb30-3"><a href=""></a>    <span class="at">x =</span> Petal.Length,</span>
-<span id="cb30-4"><a href=""></a>    <span class="at">y =</span> Petal.Width,</span>
-<span id="cb30-5"><a href=""></a>    <span class="at">color =</span> Species)) <span class="sc">+</span> <span class="co"># to assign a color to each group</span></span>
-<span id="cb30-6"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb30-7"><a href=""></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="fu">aes</span>(<span class="at">fill =</span> Species, <span class="at">colour =</span> Species)) <span class="sc">+</span>    </span>
-<span id="cb30-8"><a href=""></a>  <span class="fu">labs</span>(</span>
-<span id="cb30-9"><a href=""></a>    <span class="at">x =</span> <span class="st">"Petal length (cm)"</span>,</span>
-<span id="cb30-10"><a href=""></a>    <span class="at">y =</span> <span class="st">"Petal width (cm)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>p<span class="ot">&lt;-</span>iris <span class="sc">%&gt;%</span> </span>
+<span id="cb31-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
+<span id="cb31-3"><a href=""></a>    <span class="at">x =</span> Petal.Length,</span>
+<span id="cb31-4"><a href=""></a>    <span class="at">y =</span> Petal.Width,</span>
+<span id="cb31-5"><a href=""></a>    <span class="at">color =</span> Species)) <span class="sc">+</span> <span class="co"># to assign a color to each group</span></span>
+<span id="cb31-6"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb31-7"><a href=""></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="fu">aes</span>(<span class="at">fill =</span> Species, <span class="at">colour =</span> Species)) <span class="sc">+</span>    </span>
+<span id="cb31-8"><a href=""></a>  <span class="fu">labs</span>(</span>
+<span id="cb31-9"><a href=""></a>    <span class="at">x =</span> <span class="st">"Petal length (cm)"</span>,</span>
+<span id="cb31-10"><a href=""></a>    <span class="at">y =</span> <span class="st">"Petal width (cm)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="modelling-3" class="slide level2">
 <h2>Modelling</h2>
 
-<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-30-1.png" width="960" class="r-stretch"></section>
+<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-32-1.png" width="960" class="r-stretch"></section>
 <section id="modelling-4" class="slide level2">
 <h2>Modelling</h2>
 <p>In the previous plot we just made we used the default ggplot settings. Although this is a great looking plot, we can make it even better since ggplot has a lot of power in customization, here is one example but feel free to play around with this, it can actually be quite satisfying when you get the hang of it.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>p<span class="ot">&lt;-</span>iris <span class="sc">%&gt;%</span> </span>
-<span id="cb31-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
-<span id="cb31-3"><a href=""></a>    <span class="at">x =</span> Petal.Length,</span>
-<span id="cb31-4"><a href=""></a>    <span class="at">y =</span> Petal.Width,</span>
-<span id="cb31-5"><a href=""></a>    <span class="at">color =</span> Species <span class="co"># to assign a color to each group</span></span>
-<span id="cb31-6"><a href=""></a>  )) <span class="sc">+</span></span>
-<span id="cb31-7"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> <span class="co"># to plot a scatter plot</span></span>
-<span id="cb31-8"><a href=""></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="fu">aes</span>(<span class="at">fill =</span> Species, <span class="at">colour =</span> Species), <span class="at">linewidth =</span> <span class="fl">1.5</span>) <span class="sc">+</span> <span class="co">#add a linear fit for each species</span></span>
-<span id="cb31-9"><a href=""></a>  <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">"Species"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#023d79"</span>, <span class="st">"#faa307"</span>, <span class="st">"#3f5426"</span>)) <span class="sc">+</span> <span class="co">#add manually selected colors to the points of different species</span></span>
-<span id="cb31-10"><a href=""></a>  <span class="fu">scale_fill_manual</span>(<span class="at">name =</span> <span class="st">"Species"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#023d79"</span>, <span class="st">"#faa307"</span>, <span class="st">"#3f5426"</span>)) <span class="sc">+</span> <span class="co">#add manually selected colors to the linear fit for each species</span></span>
-<span id="cb31-11"><a href=""></a>  <span class="fu">labs</span>(</span>
-<span id="cb31-12"><a href=""></a>    <span class="at">x =</span> <span class="st">"Petal length (cm)"</span>, <span class="co">#x axis label</span></span>
-<span id="cb31-13"><a href=""></a>    <span class="at">y =</span> <span class="st">"Petal width (cm)"</span> <span class="co">#y axis label </span></span>
-<span id="cb31-14"><a href=""></a>  ) <span class="sc">+</span></span>
-<span id="cb31-15"><a href=""></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span> <span class="co">#theme within the ggplot2 package (different themes available, f.ex. theme_classic, theme_minimal)</span></span>
-<span id="cb31-16"><a href=""></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), <span class="co">#use the theme function to customize axis text, label test, legends etc.</span></span>
-<span id="cb31-17"><a href=""></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
-<span id="cb31-18"><a href=""></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">"plain"</span>),             </span>
-<span id="cb31-19"><a href=""></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">"plain"</span>),             </span>
-<span id="cb31-20"><a href=""></a>        <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb31-21"><a href=""></a>        <span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb31-22"><a href=""></a>        <span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb31-23"><a href=""></a>        <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb31-24"><a href=""></a>        <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="at">units =</span> , <span class="st">"cm"</span>),</span>
-<span id="cb31-25"><a href=""></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
-<span id="cb31-26"><a href=""></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"italic"</span>),          </span>
-<span id="cb31-27"><a href=""></a>        <span class="at">legend.position =</span> <span class="st">"right"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>p<span class="ot">&lt;-</span>iris <span class="sc">%&gt;%</span> </span>
+<span id="cb32-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
+<span id="cb32-3"><a href=""></a>    <span class="at">x =</span> Petal.Length,</span>
+<span id="cb32-4"><a href=""></a>    <span class="at">y =</span> Petal.Width,</span>
+<span id="cb32-5"><a href=""></a>    <span class="at">color =</span> Species <span class="co"># to assign a color to each group</span></span>
+<span id="cb32-6"><a href=""></a>  )) <span class="sc">+</span></span>
+<span id="cb32-7"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> <span class="co"># to plot a scatter plot</span></span>
+<span id="cb32-8"><a href=""></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="fu">aes</span>(<span class="at">fill =</span> Species, <span class="at">colour =</span> Species), <span class="at">linewidth =</span> <span class="fl">1.5</span>) <span class="sc">+</span> <span class="co">#add a linear fit for each species</span></span>
+<span id="cb32-9"><a href=""></a>  <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">"Species"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#023d79"</span>, <span class="st">"#faa307"</span>, <span class="st">"#3f5426"</span>)) <span class="sc">+</span> <span class="co">#add manually selected colors to the points of different species</span></span>
+<span id="cb32-10"><a href=""></a>  <span class="fu">scale_fill_manual</span>(<span class="at">name =</span> <span class="st">"Species"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#023d79"</span>, <span class="st">"#faa307"</span>, <span class="st">"#3f5426"</span>)) <span class="sc">+</span> <span class="co">#add manually selected colors to the linear fit for each species</span></span>
+<span id="cb32-11"><a href=""></a>  <span class="fu">labs</span>(</span>
+<span id="cb32-12"><a href=""></a>    <span class="at">x =</span> <span class="st">"Petal length (cm)"</span>, <span class="co">#x axis label</span></span>
+<span id="cb32-13"><a href=""></a>    <span class="at">y =</span> <span class="st">"Petal width (cm)"</span> <span class="co">#y axis label </span></span>
+<span id="cb32-14"><a href=""></a>  ) <span class="sc">+</span></span>
+<span id="cb32-15"><a href=""></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span> <span class="co">#theme within the ggplot2 package (different themes available, f.ex. theme_classic, theme_minimal)</span></span>
+<span id="cb32-16"><a href=""></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), <span class="co">#use the theme function to customize axis text, label test, legends etc.</span></span>
+<span id="cb32-17"><a href=""></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb32-18"><a href=""></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">"plain"</span>),             </span>
+<span id="cb32-19"><a href=""></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">"plain"</span>),             </span>
+<span id="cb32-20"><a href=""></a>        <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb32-21"><a href=""></a>        <span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb32-22"><a href=""></a>        <span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb32-23"><a href=""></a>        <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb32-24"><a href=""></a>        <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="at">units =</span> , <span class="st">"cm"</span>),</span>
+<span id="cb32-25"><a href=""></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb32-26"><a href=""></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"italic"</span>),          </span>
+<span id="cb32-27"><a href=""></a>        <span class="at">legend.position =</span> <span class="st">"right"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="modelling-5" class="slide level2">
 <h2>Modelling</h2>
 
-<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-32-1.png" width="960" class="r-stretch"></section>
-<section id="saving-plots" class="slide level2">
-<h2>Saving plots</h2>
-<p>You can save a plot by clicking on the <code>Export</code> button in the <code>Plots</code> window (bottom right window by default).</p>
-<p>Save your plots as <code>.svg</code> if your text editor supports it and if you are not limited by file sizes. Otherwise, save your plots as <code>.png</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>p <span class="sc">|&gt;</span> <span class="fu">ggsave</span>(<span class="st">"plot.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
+<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-34-1.png" width="960" class="r-stretch"></section>
 <section id="to-go-further" class="slide level2">
 <h2>To go further</h2>
 <ul>

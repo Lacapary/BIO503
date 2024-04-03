@@ -26,10 +26,6 @@ format:
 
 - Show you how to make simple plots in `ggplot`
 
--   Get you familiar with tidy data and *Tidyverse*
-
--   Show you how to make simple plots in *ggplot*
-
 
 ## What is R ?
 
@@ -227,6 +223,7 @@ R can import data from files in many different formats. For example:
 ## Reading data
 
 ```{r}
+#| eval: false
 #| echo: true
 #| code-line-numbers: "|1|2"
 #| output: false
@@ -234,11 +231,17 @@ library(tidyverse)
 iris <- read_csv("Data/iris.csv")
 ```
 
-```{r eval=F, echo=T}
+```{r eval=FALSE, echo=T}
 # R basic function
-iris <-read_csv("Data/iris.csv")
+iris <-read.csv("Data/iris.csv")
 ```
 
+```{r eval=TRUE, echo=FALSE }
+# R basic function
+library(tidyverse)
+library(datasets)
+data(iris)
+```
 ## Exploring the data
 
 Check that your data was imported without any mistakes
@@ -374,6 +377,15 @@ p
 
 `ggplot` offers many plotting possibilities which we will go further into later. If you are eager, you can learn more [here](https://ggplot2-book.org/) or [here](https://ourcodingclub.github.io/tutorials/datavis/).
 
+## Saving plots
+
+You can save a plot by clicking on the `Export` button in the `Plots` window (bottom right window by default).
+
+Save your plots as `.svg` if your text editor supports it and if you are not limited by file sizes. Otherwise, save your plots as `.png`.
+
+```{r eval=F, echo=T}
+p |> ggsave("plot.png")
+```
 ## Modelling
 
 Now we want to test if there is a relationship between petal length and petal width. For that we run a simple linear model.
@@ -455,16 +467,6 @@ p<-iris %>%
 
 ```{r}
 p
-```
-
-## Saving plots
-
-You can save a plot by clicking on the `Export` button in the `Plots` window (bottom right window by default).
-
-Save your plots as `.svg` if your text editor supports it and if you are not limited by file sizes. Otherwise, save your plots as `.png`.
-
-```{r eval=F, echo=T}
-p |> ggsave("plot.png")
 ```
 
 ## To go further
