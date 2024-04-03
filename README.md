@@ -33,7 +33,7 @@ if (!requireNamespace("vegan", quietly = TRUE)) {
   install.packages("vegan")
 }
 ```
-- Presentation [here](https://github.com/Lacapary/BIO503/PDFs/Intro_R.pdf)
+- Presentation [here](https://github.com/Lacapary/BIO503/blob/main/PDFs/Intro_R.pdf)
 
 ## Mixed effects models
 
