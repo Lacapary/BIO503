@@ -10,7 +10,7 @@
 <link href="Intro_R_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <link href="Intro_R_files/libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
 <link href="Intro_R_files/libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.450">
+  <meta name="generator" content="quarto-1.4.551">
 
   <meta name="author" content="Camila Pacheco">
   <meta name="author" content="Katrín Björnsdóttir">
@@ -34,7 +34,7 @@
     }
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -225,7 +225,8 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -312,6 +313,7 @@
     }
     .reveal .slide:not(.center) {
       height: 100%;
+      overflow-y: auto;
     }
     .reveal .slide.scrollable {
       overflow-y: auto;
@@ -415,12 +417,10 @@ Katrín Björnsdóttir
 <ul>
 <li class="fragment"><p>Get you familiar with the R environment</p></li>
 <li class="fragment"><p>Teach you how to import and work with datasets</p></li>
-</ul>
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD - Get you familiar with tidy data and <code>Tidyverse</code></p>
-<ul>
-<li class="fragment"><h1 id="show-you-how-to-make-simple-plots-in-ggplot">Show you how to make simple plots in <code>ggplot</code></h1></li>
+<li class="fragment"><p>Get you familiar with tidy data and <code>Tidyverse</code></p></li>
+<li class="fragment"><p>Show you how to make simple plots in <code>ggplot</code></p></li>
 <li class="fragment"><p>Get you familiar with tidy data and <em>Tidyverse</em></p></li>
-<li class="fragment"><p>Show you how to make simple plots in <em>ggplot</em> &gt;&gt;&gt;&gt;&gt;&gt;&gt; 05db5f49ddb77c26a61cace7635a0e894f409373</p></li>
+<li class="fragment"><p>Show you how to make simple plots in <em>ggplot</em></p></li>
 </ul>
 </section>
 <section id="what-is-r" class="slide level2">
@@ -448,6 +448,10 @@ Katrín Björnsdóttir
 <li class="fragment"><p><i class="fa-solid fa-circle-exclamation" aria-label="circle-exclamation"></i> These type of errors are the most common, so always double-check your code whenever R is unhappy <i class="fa-solid fa-face-sad-tear" aria-label="face-sad-tear"></i>.</p></li>
 </ul>
 </section>
+<section id="course-material" class="slide level2">
+<h2>Course material</h2>
+<p><a href="https://github.com/Lacapary/BIO503">https://github.com/Lacapary/BIO503</a></p>
+</section>
 <section id="r-studio-projects" class="slide level2">
 <h2>R studio Projects</h2>
 <ul>
@@ -462,24 +466,30 @@ Katrín Björnsdóttir
 </ul></li>
 </ul>
 </section>
+<section id="work-directory" class="slide level2">
+<h2>Work directory</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">setwd</span>(<span class="st">"/Your directory"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
 <section id="code-versus-comment" class="slide level2">
 <h2>Code versus comment</h2>
 <p>There are two types of lines: those that start with the symbol <code>#</code>, and those that do not.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1" data-code-line-numbers="|1|4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># This is a comment in R</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="co"># Comments are used to provide explanations or annotate the code</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a>x <span class="ot">&lt;-</span> <span class="dv">5</span>  <span class="co"># Assigning the value 5 to the variable x</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2" data-code-line-numbers="|1|4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="co"># This is a comment in R</span></span>
+<span id="cb2-2"><a href=""></a><span class="co"># Comments are used to provide explanations or annotate the code</span></span>
+<span id="cb2-3"><a href=""></a></span>
+<span id="cb2-4"><a href=""></a>x <span class="ot">&lt;-</span> <span class="dv">5</span>  <span class="co"># Assigning the value 5 to the variable x</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="comments-to-index-your-scrips" class="slide level2">
 <h2>Comments to index your scrips</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">#Library----</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#Some code---- </span></span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#Example----</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="co">#Library----</span></span>
+<span id="cb3-2"><a href=""></a></span>
+<span id="cb3-3"><a href=""></a><span class="co">#Some code---- </span></span>
+<span id="cb3-4"><a href=""></a></span>
+<span id="cb3-5"><a href=""></a><span class="co">#Example----</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Script outline in Rstudio</p>
 
@@ -502,8 +512,8 @@ Katrín Björnsdóttir
 <section id="example" class="slide level2">
 <h2>Example</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">install.packages</span>(<span class="st">"dplyr"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">install.packages</span>(<span class="st">"dplyr"</span>)</span>
+<span id="cb4-2"><a href=""></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="tidyverse" class="slide level2">
@@ -517,7 +527,7 @@ Katrín Björnsdóttir
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="https://mine-cetinkaya-rundel.github.io/tidy-up-ds/2019-12-lausanne/img/tidyverse.png" style="width:50.0%"></p>
+<p><img data-src="https://mine-cetinkaya-rundel.github.io/tidy-up-ds/2019-12-lausanne/img/tidyverse.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></p>
 </figure>
 </div>
 </div>
@@ -525,7 +535,11 @@ Katrín Björnsdóttir
 </div><div class="column" style="width:60%;">
 <div class="cell">
 <div class="cell-output-display">
+<div>
+<figure>
 <p><img data-src="https://mine-cetinkaya-rundel.github.io/tidy-up-ds/2019-12-lausanne/img/tidyverse-packages.png" style="width:100.0%"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -536,7 +550,11 @@ Katrín Björnsdóttir
 <p>Tidy data is a standard, consistent way to organize tabular data. Briefly, tidy data follows a short series of rules:</p>
 <div class="cell">
 <div class="cell-output-display">
+<div>
+<figure>
 <p><img data-src="https://biostats-r.github.io/biostats/workingInR/figures/tidy1.png" style="width:100.0%"></p>
+</figure>
+</div>
 </div>
 </div>
 
@@ -546,7 +564,7 @@ Katrín Björnsdóttir
 <section id="pipe-operator" class="slide level2">
 <h2>Pipe operator</h2>
 <ul>
-<li class="fragment"><p>One of the key features of tidyverse is the possibility to chain functions in an effective way using the pipe operator<code>%&gt;%</code> or <code>|&gt;</code>.</p></li>
+<li class="fragment"><p>One of the key features of tidyverse is the possibility to chain functions in an effective way using the pipe operator <code>%&gt;%</code> or <code>|&gt;</code>.</p></li>
 <li class="fragment"><p>Pipes pass the results from one function directly into the next function connected to each other via a <code>%&gt;%</code> or <code>|&gt;</code>, making the code easy to read and write.</p></li>
 <li class="fragment"><p><strong>The pipe basically means “and then”.</strong></p></li>
 <li class="fragment"><p><strong>Note:</strong> the keyboard shorcut for <code>|&gt;</code> is <code>Ctrl+Shift+M</code> (Windows &amp; Linux) or <code>Cmd+Shift+M</code> (Mac).</p></li>
@@ -556,10 +574,10 @@ Katrín Björnsdóttir
 <h2>Pipe operator</h2>
 <p><em>First, I’ll grab the coffee grounds, then I’ll fill up the coffee maker with water, hit the start button, wait for it to brew, and finally pour myself a cup</em></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">get</span>(<span class="st">"coffee_groundS"</span>,<span class="st">"23"</span>)  <span class="sc">|&gt;</span> </span>
-<span id="cb4-2"><a href="#cb4-2"></a>  <span class="fu">fill_up</span>(<span class="st">"coffee_maker"</span>,<span class="st">"water"</span>)   <span class="sc">|&gt;</span> </span>
-<span id="cb4-3"><a href="#cb4-3"></a>  <span class="fu">on</span>(start_button)  <span class="sc">|&gt;</span> </span>
-<span id="cb4-4"><a href="#cb4-4"></a>  <span class="fu">put</span>(cup)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">get</span>(<span class="st">"coffee_groundS"</span>,<span class="st">"23"</span>)  <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href=""></a>  <span class="fu">fill_up</span>(<span class="st">"coffee_maker"</span>,<span class="st">"water"</span>)   <span class="sc">|&gt;</span> </span>
+<span id="cb5-3"><a href=""></a>  <span class="fu">on</span>(start_button)  <span class="sc">|&gt;</span> </span>
+<span id="cb5-4"><a href=""></a>  <span class="fu">put</span>(cup)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="iris-dataset" class="slide level2">
@@ -570,7 +588,11 @@ Katrín Björnsdóttir
 </div><div class="column" style="width:60%;">
 <div class="cell">
 <div class="cell-output-display">
-<p><img data-src="https://cbdm-01.zdv.uni-mainz.de/~galanisl/danalysis/images/iris_flower.png" style="width:100.0%"></p>
+<div>
+<figure>
+<p><img data-src="sources/iris_species.PNG" style="width:100.0%"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -629,19 +651,19 @@ Katrín Björnsdóttir
 <section id="reading-data" class="slide level2">
 <h2>Reading data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5" data-code-line-numbers="|1|2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>iris <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/iris.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6" data-code-line-numbers="|1|2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb6-2"><a href=""></a>iris <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/iris.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># R basic function</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>iris <span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"Data/iris.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="co"># R basic function</span></span>
+<span id="cb7-2"><a href=""></a>iris <span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"Data/iris.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exploring-the-data" class="slide level2">
 <h2>Exploring the data</h2>
 <p>Check that your data was imported without any mistakes</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">head</span>(iris)    <span class="co"># Displays the first rows of a df</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="fu">head</span>(iris)    <span class="co"># Displays the first rows of a df</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 6
    ...1 Sepal.Length Sepal.Width Petal.Length Petal.Width Species
@@ -653,7 +675,7 @@ Katrín Björnsdóttir
 5     5          5           3.6          1.4         0.2 setosa 
 6     6          5.4         3.9          1.7         0.4 setosa </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">tail</span>(iris)  <span class="co"># Displays the last rows of a df</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">tail</span>(iris)  <span class="co"># Displays the last rows of a df</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 6
    ...1 Sepal.Length Sepal.Width Petal.Length Petal.Width Species  
@@ -670,7 +692,7 @@ Katrín Björnsdóttir
 <section id="exploring-the-data-1" class="slide level2">
 <h2>Exploring the data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">glimpse</span>(iris) <span class="co"># Tells you variables types </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">glimpse</span>(iris) <span class="co"># Tells you variables types </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 150
 Columns: 6
@@ -681,7 +703,7 @@ $ Petal.Length &lt;dbl&gt; 1.4, 1.4, 1.3, 1.5, 1.4, 1.7, 1.4, 1.5, 1.4, 1.5, 1.5
 $ Petal.Width  &lt;dbl&gt; 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0.2, 0.…
 $ Species      &lt;chr&gt; "setosa", "setosa", "setosa", "setosa", "setosa", "setosa…</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">summary</span>(iris) <span class="co"># Gives you a summary of the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">summary</span>(iris) <span class="co"># Gives you a summary of the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      ...1         Sepal.Length    Sepal.Width     Petal.Length  
  Min.   :  1.00   Min.   :4.300   Min.   :2.000   Min.   :1.000  
@@ -708,11 +730,11 @@ $ Species      &lt;chr&gt; "setosa", "setosa", "setosa", "setosa", "setosa", "se
 <h2>From wide to long</h2>
 <p>The iris data are organized is “wide” format. Let’s transform in “long” format</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>iris_long <span class="ot">&lt;-</span> iris <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>( </span>
-<span id="cb15-2"><a href="#cb15-2"></a>                    <span class="at">cols =</span> <span class="sc">-</span>Species,</span>
-<span id="cb15-3"><a href="#cb15-3"></a>                    <span class="at">names_to =</span> <span class="st">"trait"</span>,</span>
-<span id="cb15-4"><a href="#cb15-4"></a>                    <span class="at">values_to =</span> <span class="st">"measurement"</span>)</span>
-<span id="cb15-5"><a href="#cb15-5"></a><span class="fu">head</span>(iris_long)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>iris_long <span class="ot">&lt;-</span> iris <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>( </span>
+<span id="cb16-2"><a href=""></a>                    <span class="at">cols =</span> <span class="sc">-</span>Species,</span>
+<span id="cb16-3"><a href=""></a>                    <span class="at">names_to =</span> <span class="st">"trait"</span>,</span>
+<span id="cb16-4"><a href=""></a>                    <span class="at">values_to =</span> <span class="st">"measurement"</span>)</span>
+<span id="cb16-5"><a href=""></a><span class="fu">head</span>(iris_long)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   Species trait        measurement
@@ -729,12 +751,12 @@ $ Species      &lt;chr&gt; "setosa", "setosa", "setosa", "setosa", "setosa", "se
 <section id="group_by-and-summarize" class="slide level2">
 <h2>Group_by and summarize</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>iris_means <span class="ot">&lt;-</span> iris <span class="sc">|&gt;</span> </span>
-<span id="cb17-2"><a href="#cb17-2"></a>  <span class="fu">group_by</span>(Species) <span class="sc">|&gt;</span> </span>
-<span id="cb17-3"><a href="#cb17-3"></a>  <span class="fu">summarize</span>(<span class="at">SL_mean =</span> <span class="fu">mean</span>(Sepal.Length),</span>
-<span id="cb17-4"><a href="#cb17-4"></a>            <span class="at">SL_se =</span> <span class="fu">sd</span>(Sepal.Length)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>()))</span>
-<span id="cb17-5"><a href="#cb17-5"></a></span>
-<span id="cb17-6"><a href="#cb17-6"></a><span class="fu">head</span>(iris_means)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>iris_means <span class="ot">&lt;-</span> iris <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href=""></a>  <span class="fu">group_by</span>(Species) <span class="sc">|&gt;</span> </span>
+<span id="cb18-3"><a href=""></a>  <span class="fu">summarize</span>(<span class="at">SL_mean =</span> <span class="fu">mean</span>(Sepal.Length),</span>
+<span id="cb18-4"><a href=""></a>            <span class="at">SL_se =</span> <span class="fu">sd</span>(Sepal.Length)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>()))</span>
+<span id="cb18-5"><a href=""></a></span>
+<span id="cb18-6"><a href=""></a><span class="fu">head</span>(iris_means)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
   Species    SL_mean  SL_se
@@ -748,25 +770,25 @@ $ Species      &lt;chr&gt; "setosa", "setosa", "setosa", "setosa", "setosa", "se
 <section id="filter---subset-rows" class="slide level2">
 <h2>Filter - subset rows</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>iris_versicolor <span class="ot">&lt;-</span> iris <span class="sc">|&gt;</span>  <span class="fu">filter</span>( Species <span class="sc">==</span> <span class="st">"versicolor"</span>)</span>
-<span id="cb19-2"><a href="#cb19-2"></a></span>
-<span id="cb19-3"><a href="#cb19-3"></a>iris_no_versicolor <span class="ot">&lt;-</span> iris <span class="sc">|&gt;</span>  <span class="fu">filter</span>( Species <span class="sc">!=</span> <span class="st">"versicolor"</span>)</span>
-<span id="cb19-4"><a href="#cb19-4"></a></span>
-<span id="cb19-5"><a href="#cb19-5"></a>iris_pl<span class="ot">&lt;-</span>iris <span class="sc">|&gt;</span>  <span class="fu">filter</span>(Petal.Length <span class="sc">&gt;</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>iris_versicolor <span class="ot">&lt;-</span> iris <span class="sc">|&gt;</span>  <span class="fu">filter</span>( Species <span class="sc">==</span> <span class="st">"versicolor"</span>)</span>
+<span id="cb20-2"><a href=""></a></span>
+<span id="cb20-3"><a href=""></a>iris_no_versicolor <span class="ot">&lt;-</span> iris <span class="sc">|&gt;</span>  <span class="fu">filter</span>( Species <span class="sc">!=</span> <span class="st">"versicolor"</span>)</span>
+<span id="cb20-4"><a href=""></a></span>
+<span id="cb20-5"><a href=""></a>iris_pl<span class="ot">&lt;-</span>iris <span class="sc">|&gt;</span>  <span class="fu">filter</span>(Petal.Length <span class="sc">&gt;</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="select---subset-columns" class="slide level2">
 <h2>Select - subset columns</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>iris_subset<span class="ot">&lt;-</span>iris <span class="sc">|&gt;</span> <span class="fu">select</span>(Species, Petal.Width, Petal.Length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a>iris_subset<span class="ot">&lt;-</span>iris <span class="sc">|&gt;</span> <span class="fu">select</span>(Species, Petal.Width, Petal.Length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="mutate" class="slide level2">
 <h2>Mutate</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>iris_log <span class="ot">&lt;-</span>iris <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">log.Sepal.length =</span> <span class="fu">log</span>(Sepal.Length))</span>
-<span id="cb21-2"><a href="#cb21-2"></a></span>
-<span id="cb21-3"><a href="#cb21-3"></a><span class="fu">head</span>(iris_log)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a>iris_log <span class="ot">&lt;-</span>iris <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">log.Sepal.length =</span> <span class="fu">log</span>(Sepal.Length))</span>
+<span id="cb22-2"><a href=""></a></span>
+<span id="cb22-3"><a href=""></a><span class="fu">head</span>(iris_log)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 7
    ...1 Sepal.Length Sepal.Width Petal.Length Petal.Width Species
@@ -795,52 +817,51 @@ $ Species      &lt;chr&gt; "setosa", "setosa", "setosa", "setosa", "setosa", "se
 <p>Lets say we want to plot the relationship between petal length and petal width for each species.</p>
 <p>You can visualize such relationship by plotting petal length against petal width in a scatter plot:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>iris <span class="sc">%&gt;%</span> </span>
-<span id="cb23-2"><a href="#cb23-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
-<span id="cb23-3"><a href="#cb23-3"></a>    <span class="at">x =</span> Petal.Length,</span>
-<span id="cb23-4"><a href="#cb23-4"></a>    <span class="at">y =</span> Petal.Width,</span>
-<span id="cb23-5"><a href="#cb23-5"></a>    <span class="at">color =</span> Species <span class="co"># to assign a color to each group</span></span>
-<span id="cb23-6"><a href="#cb23-6"></a>  )) <span class="sc">+</span></span>
-<span id="cb23-7"><a href="#cb23-7"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="co"># to plot a scatter plot</span></span>
-<span id="cb23-8"><a href="#cb23-8"></a>  <span class="fu">labs</span>(</span>
-<span id="cb23-9"><a href="#cb23-9"></a>    <span class="at">x =</span> <span class="st">"Petal length (cm)"</span>,</span>
-<span id="cb23-10"><a href="#cb23-10"></a>    <span class="at">y =</span> <span class="st">"Petal width (cm)"</span></span>
-<span id="cb23-11"><a href="#cb23-11"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>p<span class="ot">&lt;-</span>iris <span class="sc">%&gt;%</span> </span>
+<span id="cb24-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
+<span id="cb24-3"><a href=""></a>    <span class="at">x =</span> Petal.Length,</span>
+<span id="cb24-4"><a href=""></a>    <span class="at">y =</span> Petal.Width,</span>
+<span id="cb24-5"><a href=""></a>    <span class="at">color =</span> Species <span class="co"># to assign a color to each group</span></span>
+<span id="cb24-6"><a href=""></a>  )) <span class="sc">+</span></span>
+<span id="cb24-7"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="co"># to plot a scatter plot</span></span>
+<span id="cb24-8"><a href=""></a>  <span class="fu">labs</span>(</span>
+<span id="cb24-9"><a href=""></a>    <span class="at">x =</span> <span class="st">"Petal length (cm)"</span>,</span>
+<span id="cb24-10"><a href=""></a>    <span class="at">y =</span> <span class="st">"Petal width (cm)"</span></span>
+<span id="cb24-11"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="plotting-iris-1" class="slide level2">
 <h2>Plotting Iris</h2>
 
-<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-23-1.png" width="960" class="r-stretch"></section>
+<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-24-1.png" width="960" class="r-stretch"></section>
 <section id="plotting-iris-2" class="slide level2">
 <h2>Plotting Iris</h2>
 <p>Now lets say you would like to make a boxplot to compare the sepal length between the three species.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>iris <span class="sc">%&gt;%</span> </span>
-<span id="cb24-2"><a href="#cb24-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
-<span id="cb24-3"><a href="#cb24-3"></a>    <span class="at">x =</span> Species,</span>
-<span id="cb24-4"><a href="#cb24-4"></a>    <span class="at">y =</span> Sepal.Length,</span>
-<span id="cb24-5"><a href="#cb24-5"></a>    <span class="at">fill =</span> Species</span>
-<span id="cb24-6"><a href="#cb24-6"></a>  )) <span class="sc">+</span></span>
-<span id="cb24-7"><a href="#cb24-7"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="co"># to plot a boxplot</span></span>
-<span id="cb24-8"><a href="#cb24-8"></a>  <span class="fu">labs</span>(</span>
-<span id="cb24-9"><a href="#cb24-9"></a>    <span class="at">x =</span> <span class="cn">NULL</span>, <span class="co"># to remove the label of the x axis</span></span>
-<span id="cb24-10"><a href="#cb24-10"></a>    <span class="at">y =</span> <span class="st">"Sepal length (cm)"</span></span>
-<span id="cb24-11"><a href="#cb24-11"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>p<span class="ot">&lt;-</span>iris <span class="sc">%&gt;%</span> </span>
+<span id="cb25-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
+<span id="cb25-3"><a href=""></a>    <span class="at">x =</span> Species,</span>
+<span id="cb25-4"><a href=""></a>    <span class="at">y =</span> Sepal.Length,</span>
+<span id="cb25-5"><a href=""></a>    <span class="at">fill =</span> Species</span>
+<span id="cb25-6"><a href=""></a>  )) <span class="sc">+</span></span>
+<span id="cb25-7"><a href=""></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="co"># to plot a boxplot</span></span>
+<span id="cb25-8"><a href=""></a>  <span class="fu">labs</span>(</span>
+<span id="cb25-9"><a href=""></a>    <span class="at">x =</span> <span class="cn">NULL</span>, <span class="co"># to remove the label of the x axis</span></span>
+<span id="cb25-10"><a href=""></a>    <span class="at">y =</span> <span class="st">"Sepal length (cm)"</span></span>
+<span id="cb25-11"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-24-1.png" width="960" class="r-stretch"></section>
+</section>
 <section id="plotting-iris-3" class="slide level2">
 <h2>Plotting Iris</h2>
 
-<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-25-1.png" width="960" class="r-stretch"><p><code>ggplot</code> offers many plotting possibilities which we will go further into later. If you are eager, you can learn more <a href="https://ggplot2-book.org/">here</a> or <a href="https://ourcodingclub.github.io/tutorials/datavis/">here</a>.</p>
+<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-26-1.png" width="960" class="r-stretch"><p><code>ggplot</code> offers many plotting possibilities which we will go further into later. If you are eager, you can learn more <a href="https://ggplot2-book.org/">here</a> or <a href="https://ourcodingclub.github.io/tutorials/datavis/">here</a>.</p>
 </section>
 <section id="modelling" class="slide level2">
 <h2>Modelling</h2>
 <p>Now we want to test if there is a relationship between petal length and petal width. For that we run a simple linear model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>iris.m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Petal.Length <span class="sc">~</span> Petal.Width, <span class="at">data =</span> iris)</span>
-<span id="cb25-2"><a href="#cb25-2"></a><span class="fu">summary</span>(iris.m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a>iris.m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Petal.Length <span class="sc">~</span> Petal.Width, <span class="at">data =</span> iris)</span>
+<span id="cb26-2"><a href=""></a><span class="fu">summary</span>(iris.m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -866,10 +887,10 @@ F-statistic:  1882 on 1 and 148 DF,  p-value: &lt; 2.2e-16</code></pre>
 </section>
 <section id="modelling-1" class="slide level2">
 <h2>Modelling</h2>
-<p>But do we expect there to be a difference between species Lets add species as an interaction to make it a bit more complicated.^</p>
+<p>But do we expect there to be a difference between species Lets add species as an interaction to make it a bit more complicated.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>iris.m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Petal.Length <span class="sc">~</span> Petal.Width <span class="sc">*</span> Species, <span class="at">data =</span> iris)</span>
-<span id="cb27-2"><a href="#cb27-2"></a><span class="fu">summary</span>(iris.m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>iris.m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Petal.Length <span class="sc">~</span> Petal.Width <span class="sc">*</span> Species, <span class="at">data =</span> iris)</span>
+<span id="cb28-2"><a href=""></a><span class="fu">summary</span>(iris.m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -900,70 +921,65 @@ F-statistic: 681.9 on 5 and 144 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h2>Modelling</h2>
 <p>Now lets visualize the relationship using ggplot (notice how we only included stat`smooth to our original scatter plot).</p>
 <div class="cell">
-<div class="cell-output-display">
-<p><img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-28-1.png" width="960"></p>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>iris <span class="sc">%&gt;%</span> </span>
-<span id="cb29-2"><a href="#cb29-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
-<span id="cb29-3"><a href="#cb29-3"></a>    <span class="at">x =</span> Petal.Length,</span>
-<span id="cb29-4"><a href="#cb29-4"></a>    <span class="at">y =</span> Petal.Width,</span>
-<span id="cb29-5"><a href="#cb29-5"></a>    <span class="at">color =</span> Species)) <span class="sc">+</span> <span class="co"># to assign a color to each group</span></span>
-<span id="cb29-6"><a href="#cb29-6"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb29-7"><a href="#cb29-7"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="fu">aes</span>(<span class="at">fill =</span> Species, <span class="at">colour =</span> Species)) <span class="sc">+</span>    </span>
-<span id="cb29-8"><a href="#cb29-8"></a>  <span class="fu">labs</span>(</span>
-<span id="cb29-9"><a href="#cb29-9"></a>    <span class="at">x =</span> <span class="st">"Petal length (cm)"</span>,</span>
-<span id="cb29-10"><a href="#cb29-10"></a>    <span class="at">y =</span> <span class="st">"Petal width (cm)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-29-1.png" width="960"></p>
-</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a>p<span class="ot">&lt;-</span>iris <span class="sc">%&gt;%</span> </span>
+<span id="cb30-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
+<span id="cb30-3"><a href=""></a>    <span class="at">x =</span> Petal.Length,</span>
+<span id="cb30-4"><a href=""></a>    <span class="at">y =</span> Petal.Width,</span>
+<span id="cb30-5"><a href=""></a>    <span class="at">color =</span> Species)) <span class="sc">+</span> <span class="co"># to assign a color to each group</span></span>
+<span id="cb30-6"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb30-7"><a href=""></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="fu">aes</span>(<span class="at">fill =</span> Species, <span class="at">colour =</span> Species)) <span class="sc">+</span>    </span>
+<span id="cb30-8"><a href=""></a>  <span class="fu">labs</span>(</span>
+<span id="cb30-9"><a href=""></a>    <span class="at">x =</span> <span class="st">"Petal length (cm)"</span>,</span>
+<span id="cb30-10"><a href=""></a>    <span class="at">y =</span> <span class="st">"Petal width (cm)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="modelling-3" class="slide level2">
 <h2>Modelling</h2>
-<p>In the previous plot we just made we used the default ggplot settings. Although this is a great looking plot, we can make it even better since ggplot has a lot of power in customization, here is one example but feel free to play around with this, it can actually be quite satisfying when you get the hang of it.</p>
 
 <img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-30-1.png" width="960" class="r-stretch"></section>
 <section id="modelling-4" class="slide level2">
 <h2>Modelling</h2>
+<p>In the previous plot we just made we used the default ggplot settings. Although this is a great looking plot, we can make it even better since ggplot has a lot of power in customization, here is one example but feel free to play around with this, it can actually be quite satisfying when you get the hang of it.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>iris <span class="sc">%&gt;%</span> </span>
-<span id="cb30-2"><a href="#cb30-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
-<span id="cb30-3"><a href="#cb30-3"></a>    <span class="at">x =</span> Petal.Length,</span>
-<span id="cb30-4"><a href="#cb30-4"></a>    <span class="at">y =</span> Petal.Width,</span>
-<span id="cb30-5"><a href="#cb30-5"></a>    <span class="at">color =</span> Species <span class="co"># to assign a color to each group</span></span>
-<span id="cb30-6"><a href="#cb30-6"></a>  )) <span class="sc">+</span></span>
-<span id="cb30-7"><a href="#cb30-7"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> <span class="co"># to plot a scatter plot</span></span>
-<span id="cb30-8"><a href="#cb30-8"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="fu">aes</span>(<span class="at">fill =</span> Species, <span class="at">colour =</span> Species), <span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span> <span class="co">#add a linear fit for each species</span></span>
-<span id="cb30-9"><a href="#cb30-9"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">"Species"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#023d79"</span>, <span class="st">"#faa307"</span>, <span class="st">"#3f5426"</span>)) <span class="sc">+</span> <span class="co">#add manually selected colors to the points of different species</span></span>
-<span id="cb30-10"><a href="#cb30-10"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">name =</span> <span class="st">"Species"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#023d79"</span>, <span class="st">"#faa307"</span>, <span class="st">"#3f5426"</span>)) <span class="sc">+</span> <span class="co">#add manually selected colors to the linear fit for each species</span></span>
-<span id="cb30-11"><a href="#cb30-11"></a>  <span class="fu">labs</span>(</span>
-<span id="cb30-12"><a href="#cb30-12"></a>    <span class="at">x =</span> <span class="st">"Petal length (cm)"</span>, <span class="co">#x axis label</span></span>
-<span id="cb30-13"><a href="#cb30-13"></a>    <span class="at">y =</span> <span class="st">"Petal width (cm)"</span> <span class="co">#y axis label </span></span>
-<span id="cb30-14"><a href="#cb30-14"></a>  ) <span class="sc">+</span></span>
-<span id="cb30-15"><a href="#cb30-15"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span> <span class="co">#theme within the ggplot2 package (different themes available, f.ex. theme_classic, theme_minimal)</span></span>
-<span id="cb30-16"><a href="#cb30-16"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), <span class="co">#use the theme function to customize axis text, label test, legends etc.</span></span>
-<span id="cb30-17"><a href="#cb30-17"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
-<span id="cb30-18"><a href="#cb30-18"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">"plain"</span>),             </span>
-<span id="cb30-19"><a href="#cb30-19"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">"plain"</span>),             </span>
-<span id="cb30-20"><a href="#cb30-20"></a>        <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb30-21"><a href="#cb30-21"></a>        <span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb30-22"><a href="#cb30-22"></a>        <span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb30-23"><a href="#cb30-23"></a>        <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb30-24"><a href="#cb30-24"></a>        <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="at">units =</span> , <span class="st">"cm"</span>),</span>
-<span id="cb30-25"><a href="#cb30-25"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
-<span id="cb30-26"><a href="#cb30-26"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"italic"</span>),          </span>
-<span id="cb30-27"><a href="#cb30-27"></a>        <span class="at">legend.position =</span> <span class="st">"right"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>p<span class="ot">&lt;-</span>iris <span class="sc">%&gt;%</span> </span>
+<span id="cb31-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
+<span id="cb31-3"><a href=""></a>    <span class="at">x =</span> Petal.Length,</span>
+<span id="cb31-4"><a href=""></a>    <span class="at">y =</span> Petal.Width,</span>
+<span id="cb31-5"><a href=""></a>    <span class="at">color =</span> Species <span class="co"># to assign a color to each group</span></span>
+<span id="cb31-6"><a href=""></a>  )) <span class="sc">+</span></span>
+<span id="cb31-7"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> <span class="co"># to plot a scatter plot</span></span>
+<span id="cb31-8"><a href=""></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="fu">aes</span>(<span class="at">fill =</span> Species, <span class="at">colour =</span> Species), <span class="at">linewidth =</span> <span class="fl">1.5</span>) <span class="sc">+</span> <span class="co">#add a linear fit for each species</span></span>
+<span id="cb31-9"><a href=""></a>  <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">"Species"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#023d79"</span>, <span class="st">"#faa307"</span>, <span class="st">"#3f5426"</span>)) <span class="sc">+</span> <span class="co">#add manually selected colors to the points of different species</span></span>
+<span id="cb31-10"><a href=""></a>  <span class="fu">scale_fill_manual</span>(<span class="at">name =</span> <span class="st">"Species"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#023d79"</span>, <span class="st">"#faa307"</span>, <span class="st">"#3f5426"</span>)) <span class="sc">+</span> <span class="co">#add manually selected colors to the linear fit for each species</span></span>
+<span id="cb31-11"><a href=""></a>  <span class="fu">labs</span>(</span>
+<span id="cb31-12"><a href=""></a>    <span class="at">x =</span> <span class="st">"Petal length (cm)"</span>, <span class="co">#x axis label</span></span>
+<span id="cb31-13"><a href=""></a>    <span class="at">y =</span> <span class="st">"Petal width (cm)"</span> <span class="co">#y axis label </span></span>
+<span id="cb31-14"><a href=""></a>  ) <span class="sc">+</span></span>
+<span id="cb31-15"><a href=""></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span> <span class="co">#theme within the ggplot2 package (different themes available, f.ex. theme_classic, theme_minimal)</span></span>
+<span id="cb31-16"><a href=""></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), <span class="co">#use the theme function to customize axis text, label test, legends etc.</span></span>
+<span id="cb31-17"><a href=""></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb31-18"><a href=""></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">"plain"</span>),             </span>
+<span id="cb31-19"><a href=""></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">"plain"</span>),             </span>
+<span id="cb31-20"><a href=""></a>        <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb31-21"><a href=""></a>        <span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb31-22"><a href=""></a>        <span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb31-23"><a href=""></a>        <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb31-24"><a href=""></a>        <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="at">units =</span> , <span class="st">"cm"</span>),</span>
+<span id="cb31-25"><a href=""></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb31-26"><a href=""></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"italic"</span>),          </span>
+<span id="cb31-27"><a href=""></a>        <span class="at">legend.position =</span> <span class="st">"right"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-31-1.png" width="960" class="r-stretch"></section>
+</section>
+<section id="modelling-5" class="slide level2">
+<h2>Modelling</h2>
+
+<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-32-1.png" width="960" class="r-stretch"></section>
 <section id="saving-plots" class="slide level2">
 <h2>Saving plots</h2>
 <p>You can save a plot by clicking on the <code>Export</code> button in the <code>Plots</code> window (bottom right window by default).</p>
 <p>Save your plots as <code>.svg</code> if your text editor supports it and if you are not limited by file sizes. Otherwise, save your plots as <code>.png</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>plot <span class="sc">|&gt;</span> <span class="fu">ggsave</span>(<span class="st">"plot.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>p <span class="sc">|&gt;</span> <span class="fu">ggsave</span>(<span class="st">"plot.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="to-go-further" class="slide level2">
@@ -971,10 +987,20 @@ F-statistic: 681.9 on 5 and 144 DF,  p-value: &lt; 2.2e-16</code></pre>
 <ul>
 <li class="fragment"><p>Visit: <a href="https://ourcodingclub.github.io/">Coding Club</a></p></li>
 <li class="fragment"><p>EDGE coding club: Every 15 days, we have a coding club on Mondays at 10:30 in the Supernova room (Natrium)</p></li>
-<li class="fragment"><p>On Monday, <strong>May 20th</strong>, there will be a dedicated session for the projects.</p></li>
 </ul>
+</section>
+<section id="what-is-next" class="slide level2">
+<h2>What is next</h2>
+<ul>
+<li class="fragment">15 of April 13:15-17:00</li>
+<li class="fragment"><em>2125 Marelden</em></li>
+<li class="fragment"><a href="https://ourcodingclub.github.io/tutorials/mixed-models/">Linear mixed models</a></li>
+<li class="fragment">On <strong>Tuesday May 21th</strong>, there will be a dedicated session for the projects.</li>
+</ul>
+<div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
+</div>
 </div>
 </section>
     </div>
@@ -1003,7 +1029,6 @@ F-statistic: 681.9 on 5 and 144 DF,  p-value: &lt; 2.2e-16</code></pre>
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
-'smaller': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -1189,42 +1214,80 @@ F-statistic: 681.9 on 5 and 144 DF,  p-value: &lt; 2.2e-16</code></pre>
       });
     </script>
     
+
     <script>
+
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
       // slide changes (different for each slide format).
+
       (function () {
+
         // dispatch for htmlwidgets
+
         function fireSlideEnter() {
+
           const event = window.document.createEvent("Event");
+
           event.initEvent("slideenter", true, true);
+
           window.document.dispatchEvent(event);
+
         }
+
+    
 
         function fireSlideChanged(previousSlide, currentSlide) {
+
           fireSlideEnter();
 
+    
+
           // dispatch for shiny
+
           if (window.jQuery) {
+
             if (previousSlide) {
+
               window.jQuery(previousSlide).trigger("hidden");
+
             }
+
             if (currentSlide) {
+
               window.jQuery(currentSlide).trigger("shown");
+
             }
+
           }
+
         }
+
+    
 
         // hookup for slidy
+
         if (window.w3c_slidy) {
+
           window.w3c_slidy.add_observer(function (slide_num) {
+
             // slide_num starts at position 1
+
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
           });
+
         }
 
+    
+
       })();
+
     </script>
+
+    
 
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -1302,10 +1365,27 @@ F-statistic: 681.9 on 5 and 144 DF,  p-value: &lt; 2.2e-16</code></pre>
         // clear code selection
         e.clearSelection();
       });
-      function tippyHover(el, contentFn) {
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp('/' + window.location.host + '/');
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
-          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -1315,8 +1395,17 @@ F-statistic: 681.9 on 5 and 144 DF,  p-value: &lt; 2.2e-16</code></pre>
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start'
+          placement: 'bottom-start',
         };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 
@@ -1330,7 +1419,11 @@ F-statistic: 681.9 on 5 and 144 DF,  p-value: &lt; 2.2e-16</code></pre>
           try { href = new URL(href).hash; } catch {}
           const id = href.replace(/^#\/?/, "");
           const note = window.document.getElementById(id);
-          return note.innerHTML;
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
         });
       }
       const findCites = (el) => {

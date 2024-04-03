@@ -10,6 +10,7 @@ format:
      incremental: true
      css: styles.css
      aspectratio: 169
+     scrollable: true
   # html:
   #   toc: true
   #   html-math-method: katex
@@ -21,15 +22,14 @@ format:
 
 -   Teach you how to import and work with datasets
 
-<<<<<<< HEAD
 - Get you familiar with tidy data and `Tidyverse`
 
 - Show you how to make simple plots in `ggplot`
-=======
+
 -   Get you familiar with tidy data and *Tidyverse*
 
 -   Show you how to make simple plots in *ggplot*
->>>>>>> 05db5f49ddb77c26a61cace7635a0e894f409373
+
 
 ## What is R ?
 
@@ -59,6 +59,10 @@ knitr::include_graphics("sources/RStudio_IDE_screenshot.png")
 
 -   {{< fa circle-exclamation >}} These type of errors are the most common, so always double-check your code whenever R is unhappy {{< fa face-sad-tear >}}.
 
+## Course material
+
+[https://github.com/Lacapary/BIO503](https://github.com/Lacapary/BIO503)
+
 ## R studio Projects
 
 -   It is a convenient way to organize your work in RStudio -it creates a dedicated directory (folder) on your computer where you can store all the files related to your project, including R scripts, data files, documentation, and more.
@@ -70,6 +74,17 @@ knitr::include_graphics("sources/RStudio_IDE_screenshot.png")
 -   If you want to create your project from an existing folder:
 
     -   \> `New Project` and choose a `Directory name` for your project.
+    
+## Work directory
+```{r}
+#| echo: true
+#| output: false
+#| eval: false
+
+setwd("/Your directory")
+
+```
+
 
 ## Code versus comment
 
@@ -156,7 +171,7 @@ Source: R for Data Science. Grolemund and Wickham.
 
 ## Pipe operator
 
--   One of the key features of tidyverse is the possibility to chain functions in an effective way using the pipe operator`%>%` or `|>`.
+-   One of the key features of tidyverse is the possibility to chain functions in an effective way using the pipe operator `%>%` or `|>`.
 
 -   Pipes pass the results from one function directly into the next function connected to each other via a `%>%` or `|>`, making the code easy to read and write.
 
@@ -184,8 +199,7 @@ The iris [flower dataset](https://en.wikipedia.org/wiki/Iris_flower_data_set) wa
 
 ::: {.column width="60%"}
 ```{r, echo=FALSE, out.width="100%"}
-knitr::include_graphics("https://cbdm-01.zdv.uni-mainz.de/~galanisl/danalysis/images/iris_flower.png
-")
+knitr::include_graphics("sources/iris_species.PNG")
 ```
 :::
 :::
@@ -215,13 +229,14 @@ R can import data from files in many different formats. For example:
 ```{r}
 #| echo: true
 #| code-line-numbers: "|1|2"
+#| output: false
 library(tidyverse)
 iris <- read_csv("Data/iris.csv")
 ```
 
 ```{r eval=F, echo=T}
 # R basic function
-iris <-read.csv("Data/iris.csv")
+iris <-read_csv("Data/iris.csv")
 ```
 
 ## Exploring the data
@@ -306,14 +321,13 @@ knitr::include_graphics("https://biostats-r.github.io/biostats/workingInR/figure
 ```
 
 ## Plotting Iris
-
 Lets say we want to plot the relationship between petal length and petal width for each species.
 
 You can visualize such relationship by plotting petal length against petal width in a scatter plot:
 
 ```{r echo=T}
 #| output: false
-iris %>% 
+p<-iris %>% 
   ggplot(aes(
     x = Petal.Length,
     y = Petal.Width,
@@ -326,22 +340,10 @@ iris %>%
   )
 
 ```
-
 ## Plotting Iris
-
-```{r echo=F}
-iris %>% 
-  ggplot(aes(
-    x = Petal.Length,
-    y = Petal.Width,
-    color = Species # to assign a color to each group
-  )) +
-  geom_point() + # to plot a scatter plot
-  labs(
-    x = "Petal length (cm)",
-    y = "Petal width (cm)"
-  )
-
+```{r}
+#| echo: False 
+p
 ```
 
 ## Plotting Iris
@@ -349,7 +351,7 @@ iris %>%
 Now lets say you would like to make a boxplot to compare the sepal length between the three species.
 
 ```{r echo=T}
-iris %>% 
+p<-iris %>% 
   ggplot(aes(
     x = Species,
     y = Sepal.Length,
@@ -366,17 +368,7 @@ iris %>%
 ## Plotting Iris
 
 ```{r echo=F}
-iris %>% 
-  ggplot(aes(
-    x = Species,
-    y = Sepal.Length,
-    fill = Species
-  )) +
-  geom_boxplot() + # to plot a boxplot
-  labs(
-    x = NULL, # to remove the label of the x axis
-    y = "Sepal length (cm)"
-  )
+p
 
 ```
 
@@ -395,7 +387,7 @@ The summary function gives you the output from the model. We can see that petal 
 
 ## Modelling
 
-But do we expect there to be a difference between species Lets add species as an interaction to make it a bit more complicated.^
+But do we expect there to be a difference between species Lets add species as an interaction to make it a bit more complicated.
 
 ```{r echo=T}
 iris.m2 <- lm(Petal.Length ~ Petal.Width * Species, data = iris)
@@ -406,8 +398,8 @@ summary(iris.m2)
 
 Now lets visualize the relationship using ggplot (notice how we only included stat`smooth to our original scatter plot).
 
-```{r echo=F}
-iris %>% 
+```{r echo=TRUE}
+p<-iris %>% 
   ggplot(aes(
     x = Petal.Length,
     y = Petal.Width,
@@ -419,32 +411,24 @@ iris %>%
     y = "Petal width (cm)")
 ```
 
-```{r echo=T}
-iris %>% 
-  ggplot(aes(
-    x = Petal.Length,
-    y = Petal.Width,
-    color = Species)) + # to assign a color to each group
-  geom_point() + 
-  stat_smooth(method = "lm", aes(fill = Species, colour = Species)) +    
-  labs(
-    x = "Petal length (cm)",
-    y = "Petal width (cm)")
+## Modelling
+```{r echo=FALSE}
+p
 ```
 
 ## Modelling
 
 In the previous plot we just made we used the default ggplot settings. Although this is a great looking plot, we can make it even better since ggplot has a lot of power in customization, here is one example but feel free to play around with this, it can actually be quite satisfying when you get the hang of it.
 
-```{r echo=F}
-iris %>% 
+```{r echo=t}
+p<-iris %>% 
   ggplot(aes(
     x = Petal.Length,
     y = Petal.Width,
     color = Species # to assign a color to each group
   )) +
   geom_point(size = 3) + # to plot a scatter plot
-  stat_smooth(method = "lm", aes(fill = Species, colour = Species), size = 1.5) + #add a linear fit for each species
+  stat_smooth(method = "lm", aes(fill = Species, colour = Species), linewidth = 1.5) + #add a linear fit for each species
   scale_color_manual(name = "Species", values = c("#023d79", "#faa307", "#3f5426")) + #add manually selected colors to the points of different species
   scale_fill_manual(name = "Species", values = c("#023d79", "#faa307", "#3f5426")) + #add manually selected colors to the linear fit for each species
   labs(
@@ -466,36 +450,11 @@ iris %>%
         legend.position = "right")
 ```
 
+
 ## Modelling
 
-```{r echo=T}
-iris %>% 
-  ggplot(aes(
-    x = Petal.Length,
-    y = Petal.Width,
-    color = Species # to assign a color to each group
-  )) +
-  geom_point(size = 3) + # to plot a scatter plot
-  stat_smooth(method = "lm", aes(fill = Species, colour = Species), size = 1.5) + #add a linear fit for each species
-  scale_color_manual(name = "Species", values = c("#023d79", "#faa307", "#3f5426")) + #add manually selected colors to the points of different species
-  scale_fill_manual(name = "Species", values = c("#023d79", "#faa307", "#3f5426")) + #add manually selected colors to the linear fit for each species
-  labs(
-    x = "Petal length (cm)", #x axis label
-    y = "Petal width (cm)" #y axis label 
-  ) +
-  theme_bw()+ #theme within the ggplot2 package (different themes available, f.ex. theme_classic, theme_minimal)
-  theme(axis.text.x = element_text(size = 10), #use the theme function to customize axis text, label test, legends etc.
-        axis.text.y = element_text(size = 10),
-        axis.title.x = element_text(size = 14, face = "plain"),             
-        axis.title.y = element_text(size = 14, face = "plain"),             
-        panel.grid.major.x = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.minor.y = element_blank(),
-        panel.grid.major.y = element_blank(),
-        plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), units = , "cm"),
-        plot.title = element_text(size = 20, vjust = 1, hjust = 0.5),
-        legend.text = element_text(size = 12, face = "italic"),          
-        legend.position = "right")
+```{r}
+p
 ```
 
 ## Saving plots
@@ -505,7 +464,7 @@ You can save a plot by clicking on the `Export` button in the `Plots` window (bo
 Save your plots as `.svg` if your text editor supports it and if you are not limited by file sizes. Otherwise, save your plots as `.png`.
 
 ```{r eval=F, echo=T}
-plot |> ggsave("plot.png")
+p |> ggsave("plot.png")
 ```
 
 ## To go further
@@ -514,8 +473,12 @@ plot |> ggsave("plot.png")
 
 - EDGE coding club: Every 15 days, we have a coding club on Mondays at 10:30 in the Supernova room (Natrium)
 
-- On Monday, **May 20th**, there will be a dedicated session for the projects.
+## What is next
 
+- 15 of April 13:15-17:00 
+- *2125 Marelden*
+- [Linear mixed models](https://ourcodingclub.github.io/tutorials/mixed-models/)
+- On **Tuesday May 21th**, there will be a dedicated session for the projects.
 
 ```{r eval=FALSE, echo=FALSE }
 renderthis::to_pdf("Intro_R.html")
