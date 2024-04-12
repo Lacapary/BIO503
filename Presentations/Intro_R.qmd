@@ -468,6 +468,41 @@ p<-iris %>%
 ```{r}
 p
 ```
+## Modelling
+
+Get familiar with different data distributions
+Here is a brief summary of the data distributions you might encounter most often.
+
+- Gaussian - Continuous data (normal distribution and homoscedasticity assumed)
+- Poisson - Count abundance data (integer values, zero-inflated data, left-skewed data)
+- Binomial - Binary variables (TRUE/FALSE, 0/1, presence/absence data)
+
+Choosing the right statistical test for your analysis is an important step about which you should think carefully.
+
+## Modelling
+
+![lm which](https://ourcodingclub.github.io/assets/img/tutorials/modelling/DL_intro_lm_which.png)
+
+## Modelling
+Syntax  for a model with poisson (count) distribution
+
+```{r}
+#| output: false
+#| eval: false
+#| echo: true
+
+glm(y ~ x, family = poisson, data = df)
+  
+```
+Syntax  for a model with binomial distribution
+
+```{r}
+#| output: false
+#| eval: false
+#| echo: true
+glm(y ~ x, family = binomial, data = df)
+  
+```
 
 ## To go further
 

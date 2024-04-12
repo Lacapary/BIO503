@@ -972,6 +972,31 @@ F-statistic: 681.9 on 5 and 144 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h2>Modelling</h2>
 
 <img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-34-1.png" width="960" class="r-stretch"></section>
+<section id="modelling-6" class="slide level2">
+<h2>Modelling</h2>
+<p>Get familiar with different data distributions Here is a brief summary of the data distributions you might encounter most often.</p>
+<ul>
+<li class="fragment">Gaussian - Continuous data (normal distribution and homoscedasticity assumed)</li>
+<li class="fragment">Poisson - Count abundance data (integer values, zero-inflated data, left-skewed data)</li>
+<li class="fragment">Binomial - Binary variables (TRUE/FALSE, 0/1, presence/absence data)</li>
+</ul>
+<p>Choosing the right statistical test for your analysis is an important step about which you should think carefully.</p>
+</section>
+<section id="modelling-7" class="slide level2">
+<h2>Modelling</h2>
+
+<img data-src="https://ourcodingclub.github.io/assets/img/tutorials/modelling/DL_intro_lm_which.png" class="r-stretch quarto-figure-center"><p class="caption">lm which</p></section>
+<section id="modelling-8" class="slide level2">
+<h2>Modelling</h2>
+<p>Syntax for a model with poisson (count) distribution</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">glm</span>(y <span class="sc">~</span> x, <span class="at">family =</span> poisson, <span class="at">data =</span> df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Syntax for a model with binomial distribution</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a><span class="fu">glm</span>(y <span class="sc">~</span> x, <span class="at">family =</span> binomial, <span class="at">data =</span> df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
 <section id="to-go-further" class="slide level2">
 <h2>To go further</h2>
 <ul>
