@@ -1,0 +1,487 @@
+---
+title: "Introduction to R and Rstudio"
+author:   
+  - Camila Pacheco    
+  - Katrín Björnsdóttir
+format:
+  revealjs:
+     theme: blood
+     fontsize: 2.1em
+     incremental: true
+     css: styles.css
+     aspectratio: 169
+     scrollable: true
+  # html:
+  #   toc: true
+  #   html-math-method: katex
+---
+
+## Our mission
+
+-   Get you familiar with the R environment
+
+-   Teach you how to import and work with datasets
+
+- Get you familiar with tidy data and `Tidyverse`
+
+- Show you how to make simple plots in `ggplot`
+
+
+## What is R ?
+
+::: columns
+::: {.column width="40%"}
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/1086px-R_logo.svg.png?20240131042527){.absolute top="200" left="0" width="350" height="300"}
+:::
+
+::: {.column width="60%"}
+-   Originally developed for statistical computing and graphics
+-   R has evolved into a versatile programming language
+:::
+:::
+
+## What is RStudio?
+
+RStudio is a user-friendly interface for R
+
+```{r, out.width="80%"}
+#| echo: False
+knitr::include_graphics("sources/RStudio_IDE_screenshot.png")
+```
+
+## R is prone to errors
+
+-   {{< fa bomb >}} Such as typos, using the wrong letter case, forgetting a quote, bracket or comma. Such mistakes will break your code and throw an error.
+
+-   {{< fa circle-exclamation >}} These type of errors are the most common, so always double-check your code whenever R is unhappy {{< fa face-sad-tear >}}.
+
+## Course material
+
+[https://github.com/Lacapary/BIO503](https://github.com/Lacapary/BIO503)
+
+## R studio Projects
+
+-   It is a convenient way to organize your work in RStudio -it creates a dedicated directory (folder) on your computer where you can store all the files related to your project, including R scripts, data files, documentation, and more.
+
+-   To create a new project, go to:
+
+    -   `File` \> `New Project…` \> `New Directory` (or `Existing Directory`)
+
+-   If you want to create your project from an existing folder:
+
+    -   \> `New Project` and choose a `Directory name` for your project.
+    
+## Work directory
+```{r}
+#| echo: true
+#| output: false
+#| eval: false
+
+setwd("/Your directory")
+
+```
+
+
+## Code versus comment
+
+There are two types of lines: those that start with the symbol `#`, and those that do not.
+
+```{r}
+#| echo: true
+#| code-line-numbers: "|1|4"
+# This is a comment in R
+# Comments are used to provide explanations or annotate the code
+
+x <- 5  # Assigning the value 5 to the variable x
+```
+
+## Comments to index your scrips
+
+```{r}
+#| echo: true
+#Library----
+
+#Some code---- 
+
+#Example----
+```
+
+Script outline in Rstudio
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("https://i.stack.imgur.com/4yjqd.png")
+
+```
+
+## R package
+
+-   Package is a collection of R functions, data sets, and other resources bundled together for specific purposes.
+
+-   To install a package, type:
+
+    -   `install.packages("package-name")`
+
+-   **You only need to install packages once**
+
+-   Load the packages, type:
+
+    -   `library(package-name)`
+
+## Example
+
+```{r eval=F, echo=T}
+install.packages("dplyr")
+library(dplyr)
+```
+
+## Tidyverse
+
+::: columns
+::: {.column width="40%"}
+-   It is a collection of R packages designed to make data science tasks easier and more efficient.
+
+```{r echo=FALSE,out.width="50%", fig.align="center"}
+knitr::include_graphics("https://mine-cetinkaya-rundel.github.io/tidy-up-ds/2019-12-lausanne/img/tidyverse.png")
+```
+:::
+
+::: {.column width="60%"}
+```{r echo=FALSE, out.width="100%"}
+knitr::include_graphics("https://mine-cetinkaya-rundel.github.io/tidy-up-ds/2019-12-lausanne/img/tidyverse-packages.png")
+```
+:::
+:::
+
+## About tidy data
+
+Tidy data is a standard, consistent way to organize tabular data. Briefly, tidy data follows a short series of rules:
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("https://biostats-r.github.io/biostats/workingInR/figures/tidy1.png")
+
+```
+
+::: aside
+Source: R for Data Science. Grolemund and Wickham.
+:::
+
+## Pipe operator
+
+-   One of the key features of tidyverse is the possibility to chain functions in an effective way using the pipe operator `%>%` or `|>`.
+
+-   Pipes pass the results from one function directly into the next function connected to each other via a `%>%` or `|>`, making the code easy to read and write.
+
+-   **The pipe basically means “and then”.**
+
+-   **Note:** the keyboard shorcut for `|>` is `Ctrl+Shift+M` (Windows & Linux) or `Cmd+Shift+M` (Mac).
+
+## Pipe operator
+
+*First, I'll grab the coffee grounds, then I'll fill up the coffee maker with water, hit the start button, wait for it to brew, and finally pour myself a cup*
+
+```{r eval=F, echo=T}
+get("coffee_groundS","23")  |> 
+  fill_up("coffee_maker","water")   |> 
+  on(start_button)  |> 
+  put(cup)
+```
+
+## Iris dataset
+
+::: columns
+::: {.column width="40%"}
+The iris [flower dataset](https://en.wikipedia.org/wiki/Iris_flower_data_set) was collected by Edgar Anderson, an American botanist, in the 1920s. This data was used by statistician Ronald Fisher to demonstrate statistical methods of classification.
+:::
+
+::: {.column width="60%"}
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("sources/iris_species.PNG")
+```
+:::
+:::
+
+## Importing data in R
+
+R can import data from files in many different formats. For example:
+
+-   csv files with the `readr` package
+-   excel files with the `readxl` package
+-   xlm files with the `xml2` package
+-   netcdf files with the `ncdf4` package
+-   shapefiles with the `sf` package
+
+## Formats
+
+| Function      | Value Separator  | Decimal Separator |
+|---------------|------------------|-------------------|
+| read_csv()    | ,                | .                 |
+| read_csv2()   | ;                | ,                 |
+| read_tsv()    | tab              | .                 |
+| read_delim()  | custom character | .                 |
+| read_table2() | space            | .                 |
+
+## Reading data
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: "|1|2"
+#| output: false
+library(tidyverse)
+iris <- read_csv("Data/iris.csv")
+```
+
+```{r eval=FALSE, echo=T}
+# R basic function
+iris <-read.csv("Data/iris.csv")
+```
+
+```{r eval=TRUE, echo=FALSE }
+# R basic function
+library(tidyverse)
+library(datasets)
+data(iris)
+```
+## Exploring the data
+
+Check that your data was imported without any mistakes
+
+```{r echo=T}
+head(iris)    # Displays the first rows of a df
+tail(iris)  # Displays the last rows of a df
+```
+
+## Exploring the data
+
+```{r echo=T}
+glimpse(iris) # Tells you variables types 
+summary(iris) # Gives you a summary of the data
+```
+
+## Manipulating data
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("https://www.enzymeinnovation.com/wp-content/uploads/2018/08/person-making-fresh-pizza-dough-by-hand.jpg")
+```
+
+## From wide to long
+
+The iris data are organized is "wide" format. Let's transform in "long” format
+
+```{r echo=T}
+iris_long <- iris |> pivot_longer( 
+                    cols = -Species,
+                    names_to = "trait",
+                    values_to = "measurement")
+head(iris_long)
+```
+
+## Group_by and summarize
+
+```{r echo=T}
+iris_means <- iris |> 
+  group_by(Species) |> 
+  summarize(SL_mean = mean(Sepal.Length),
+            SL_se = sd(Sepal.Length)/sqrt(n()))
+
+head(iris_means)
+```
+
+## Filter - subset rows
+
+```{r echo=T}
+iris_versicolor <- iris |>  filter( Species == "versicolor")
+
+iris_no_versicolor <- iris |>  filter( Species != "versicolor")
+
+iris_pl<-iris |>  filter(Petal.Length > 2)
+```
+
+## Select - subset columns
+
+```{r echo=T}
+iris_subset<-iris |> select(Species, Petal.Width, Petal.Length)
+```
+
+## Mutate
+
+```{r echo=T}
+iris_log <-iris |> mutate(log.Sepal.length = log(Sepal.Length))
+
+head(iris_log)
+```
+
+## Plotting data
+
+You can plot graphs using the ggplot2 package (part of the tidyverse).
+
+**Note:** `ggplot` functions are chained using a `+` sign. This is because `ggplot` does not pass an object to a function but add different layers on top of each other.
+
+## ggplot layers
+
+```{r, echo=FALSE, out.width="60%", fig.align="center", fig.cap="Source: https://biostats-r.github.io/"}
+knitr::include_graphics("https://biostats-r.github.io/biostats/workingInR/figures/ggplot_setup.png")
+```
+
+## Plotting Iris
+Lets say we want to plot the relationship between petal length and petal width for each species.
+
+You can visualize such relationship by plotting petal length against petal width in a scatter plot:
+
+```{r echo=T}
+#| output: false
+p<-iris %>% 
+  ggplot(aes(
+    x = Petal.Length,
+    y = Petal.Width,
+    color = Species # to assign a color to each group
+  )) +
+  geom_point() + # to plot a scatter plot
+  labs(
+    x = "Petal length (cm)",
+    y = "Petal width (cm)"
+  )
+
+```
+## Plotting Iris
+```{r}
+#| echo: False 
+p
+```
+
+## Plotting Iris
+
+Now lets say you would like to make a boxplot to compare the sepal length between the three species.
+
+```{r echo=T}
+p<-iris %>% 
+  ggplot(aes(
+    x = Species,
+    y = Sepal.Length,
+    fill = Species
+  )) +
+  geom_boxplot() + # to plot a boxplot
+  labs(
+    x = NULL, # to remove the label of the x axis
+    y = "Sepal length (cm)"
+  )
+
+```
+
+## Plotting Iris
+
+```{r echo=F}
+p
+
+```
+
+`ggplot` offers many plotting possibilities which we will go further into later. If you are eager, you can learn more [here](https://ggplot2-book.org/) or [here](https://ourcodingclub.github.io/tutorials/datavis/).
+
+## Saving plots
+
+You can save a plot by clicking on the `Export` button in the `Plots` window (bottom right window by default).
+
+Save your plots as `.svg` if your text editor supports it and if you are not limited by file sizes. Otherwise, save your plots as `.png`.
+
+```{r eval=F, echo=T}
+p |> ggsave("plot.png")
+```
+## Modelling
+
+Now we want to test if there is a relationship between petal length and petal width. For that we run a simple linear model.
+
+```{r echo=T}
+iris.m1 <- lm(Petal.Length ~ Petal.Width, data = iris)
+summary(iris.m1)
+```
+
+The summary function gives you the output from the model. We can see that petal width significantly effects petal length (as you might have expected). Our model did *very* good, explaining about 93% of the variation in petal length.
+
+## Modelling
+
+But do we expect there to be a difference between species Lets add species as an interaction to make it a bit more complicated.
+
+```{r echo=T}
+iris.m2 <- lm(Petal.Length ~ Petal.Width * Species, data = iris)
+summary(iris.m2)
+```
+
+## Modelling
+
+Now lets visualize the relationship using ggplot (notice how we only included stat`smooth to our original scatter plot).
+
+```{r echo=TRUE}
+p<-iris %>% 
+  ggplot(aes(
+    x = Petal.Length,
+    y = Petal.Width,
+    color = Species)) + # to assign a color to each group
+  geom_point() + 
+  stat_smooth(method = "lm", aes(fill = Species, colour = Species)) +    
+  labs(
+    x = "Petal length (cm)",
+    y = "Petal width (cm)")
+```
+
+## Modelling
+```{r echo=FALSE}
+p
+```
+
+## Modelling
+
+In the previous plot we just made we used the default ggplot settings. Although this is a great looking plot, we can make it even better since ggplot has a lot of power in customization, here is one example but feel free to play around with this, it can actually be quite satisfying when you get the hang of it.
+
+```{r echo=t}
+p<-iris %>% 
+  ggplot(aes(
+    x = Petal.Length,
+    y = Petal.Width,
+    color = Species # to assign a color to each group
+  )) +
+  geom_point(size = 3) + # to plot a scatter plot
+  stat_smooth(method = "lm", aes(fill = Species, colour = Species), linewidth = 1.5) + #add a linear fit for each species
+  scale_color_manual(name = "Species", values = c("#023d79", "#faa307", "#3f5426")) + #add manually selected colors to the points of different species
+  scale_fill_manual(name = "Species", values = c("#023d79", "#faa307", "#3f5426")) + #add manually selected colors to the linear fit for each species
+  labs(
+    x = "Petal length (cm)", #x axis label
+    y = "Petal width (cm)" #y axis label 
+  ) +
+  theme_bw()+ #theme within the ggplot2 package (different themes available, f.ex. theme_classic, theme_minimal)
+  theme(axis.text.x = element_text(size = 10), #use the theme function to customize axis text, label test, legends etc.
+        axis.text.y = element_text(size = 10),
+        axis.title.x = element_text(size = 14, face = "plain"),             
+        axis.title.y = element_text(size = 14, face = "plain"),             
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.major.y = element_blank(),
+        plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), units = , "cm"),
+        plot.title = element_text(size = 20, vjust = 1, hjust = 0.5),
+        legend.text = element_text(size = 12, face = "italic"),          
+        legend.position = "right")
+```
+
+
+## Modelling
+
+```{r}
+p
+```
+
+## To go further
+
+- Visit: [Coding Club](https://ourcodingclub.github.io/)
+
+- EDGE coding club: Every 15 days, we have a coding club on Mondays at 10:30 in the Supernova room (Natrium)
+
+## What is next
+
+- 15 of April 13:15-17:00 
+- *2125 Marelden*
+- [Linear mixed models](https://ourcodingclub.github.io/tutorials/mixed-models/)
+- On **Tuesday May 21th**, there will be a dedicated session for the projects.
+
+```{r eval=FALSE, echo=FALSE }
+renderthis::to_pdf("Intro_R.html")
+```
