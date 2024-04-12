@@ -1,0 +1,7 @@
+code.sourceCode {
+  font-size: 1.5em;
+  /* or try font-size: xx-large; */
+}
+em, i, b, strong {
+  color: #AF041B ;
+}
