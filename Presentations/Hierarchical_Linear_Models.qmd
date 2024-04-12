@@ -1,0 +1,585 @@
+---
+title: "Hierarchical Linear Models"
+subtitle: "Mixed Models, and Multilevel Models, GLMMs, etc..."
+author:   
+  - Camila Pacheco    
+  - Katrín Björnsdóttir
+format:
+  revealjs:
+     theme: blood
+     fontsize: 2.1em
+     incremental: true
+     css: styles.css
+     aspectratio: 169
+     scrollable: true
+     include-in-header: 
+      text: |
+        <style>
+        .v-center-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 90%;
+        }
+        </style>
+  # html:
+  #   toc: true
+  #   html-math-method: katex
+---
+
+## Today
+
+-   What are hierarchical linear models
+-   Identify situations in which the use of mixed effects is appropriate
+-   Implement basic linear mixed models (LMM) with `R`
+-   Break {{< fa face-smile >}}
+-   Practice
+
+::: fragment
+<img src="https://media1.tenor.com/m/oTeBa4EVepMAAAAC/business-cat-working.gif"/>
+:::
+
+## Required Material
+
+You are required to have downloaded and installed
+
+```{r}
+#| output: false
+#| eval: false
+#| echo: true
+
+install.packages(c("lme4",
+                      "ggeffects",
+                      "stargazer"
+                      ))
+```
+
+## Required Material
+
+::: v-center-container
+<h4>Do not hesitate to ask questions!</h4>
+:::
+
+## Ecological and biological data can be complex!
+
+-   Hierarchical structure in the data
+
+-   Many covariates and grouping factors
+
+-   Unbalanced study/experimental design
+
+## What is Independence Assumption?
+
+A linear regression model assumes that :
+
+::: fragment
+*Any other data point does not influence each data point in a dataset*
+:::
+
+-   We are **NOT** referring to your independent and responses variable
+
+-   *Ideally* we want them to be correlated it
+
+::: fragment
+We are referring withing the variable
+:::
+
+## Diagnosis of dependence?
+
+Think about how the data were collected.
+
+::: fragment
+**Are there clusters in my data?**
+:::
+
+::: fragment
+For example:
+:::
+
+::: fragment
+Are there data from individual species clustered within sampling area?
+:::
+
+## Hierarchical structres example
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("Hierarchical_Linear_Models_files/Figures/hierarchical_example.png")
+```
+
+## Hierarchical structres in ecology
+
+-   Grouping factors: populations, species, sites
+-   Sample sizes: Species area relationship
+-   Time: Might take repeated measurements of the same plant in time
+-   Space: the closer the similar
+
+## How could we analyze this data?
+
+We need to explicitly account for the correlated nature of the data
+
+::: fragment
+The *random effects* structure will aid correct inference about *fixed effects*, depending on which level of the system’s hierarchy is being manipulated.
+:::
+
+-   What is random effects ?
+-   What is fixed effects?
+-   When to used them ?
+
+## When to used them ?
+
+You will need to used random and fixed effects every time your data has a **Hierarchical** structure.
+
+-   It’s important to not that this difference has little to do with the variables themselves, and a lot to do with your research question!
+
+-   What is just variation (“**noise**”) that you need to control for?
+
+## Fixed effects : deterministic processes
+
+-   They are like drivers, categories or groups that you think might directly influence the outcome you're studying.
+
+-   They're called "*fixed*" because you're interested in the specific levels of these categories.
+
+-   `"I want to know how these different things (fixed effects) affect the outcome."`
+
+-   levels of a factor (qualitative variable)
+
+-   a predictor (quantitative variable)
+
+## Random effects : stochastic processes
+
+-   Name random doesn’t have much to do with mathematical randomness
+-   They are like grouping factors for which we are trying to control
+-   You're not interested in the specific effect of these factors themselves
+-   but we know that they might be influencing the patterns we see
+-   `"I want to know how these factors (random effects) contribute to the overall variation in the outcome."`
+-   They are always categorical
+
+## Data for this part of the session
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("https://static1.srcdn.com/wordpress/wp-content/uploads/2022/08/Illustrations-of-various-dragons-from-Dungeons-and-Dragons.jpg")
+```
+
+[Coding Club Mixed models](https://ourcodingclub.github.io/tutorials/mixed-models/)
+
+## Explore the data
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+library(tidyverse)
+load("CC-Linear-mixed-models/dragons.RData")
+head(dragons)
+hist(dragons$testScore)
+```
+
+## Scaling the data
+
+It is good practice to standardize your explanatory variables before proceeding so that they have a mean of zero (“centering”) and standard deviation of one (“scaling”).
+
+If two variables in the same model have very different scales, the mixed model will likely return a `convergence error` when trying to compute the parameters.
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+
+dragons<- dragons |> 
+  mutate(bodyLength2=scale(bodyLength,center = TRUE, scale = TRUE))
+```
+
+## Research question
+
+::: v-center-container
+<h4>Is the test score affected by body length?</h4>
+:::
+
+## Linear model
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+basic.lm <- lm(testScore ~ bodyLength2, data = dragons)
+summary(basic.lm)
+```
+
+## Linear model
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+(prelim_plot <- ggplot(dragons, aes(x = bodyLength, y = testScore)) +
+  geom_point() +
+  geom_smooth(method = "lm"))+
+  theme_classic()
+```
+
+-   it seems like bigger dragons do better in our intelligence test. That seems a bit odd: size shouldn’t really affect the test scores.
+
+## Assumptions check
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+plot(basic.lm)
+```
+
+## Assumptions check
+
+::: v-center-container
+<h4>Are our data independent?</h4>
+:::
+
+## Assumptions check
+
+`Data description:` The data were collected from multiple samples from eight mountain ranges.
+
+-   It’s perfectly plausible that the data from within each mountain range are more similar to each other than the data from different mountain ranges
+-   they are Hierarchical!
+
+## Assumptions check
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+
+(colour_plot <- ggplot(dragons, aes(x = bodyLength, y = testScore, colour = mountainRange)) +
+  geom_point(size = 2) +
+  theme_classic() +
+  theme(legend.position = "none"))
+```
+
+## How to implement mixed models in R?
+
+-   Step 1: Model building
+-   Step 2: Model validation
+-   Step 3: Model interpretation
+-   Step 4: Model visualization
+
+## Step 1: Model building
+
+Hierarchical linear models do is they essentially fit a separate regression line for each and every cluster.
+
+## Step 1: Model building Dragons
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+(colour_plot <- ggplot(dragons, aes(x = bodyLength, y = testScore, colour = mountainRange)) +
+  geom_point(size = 2) +
+  geom_smooth(method = "lm",se=FALSE)+
+  theme_classic() )
+
+```
+
+## Step 1: Model building
+
+Hierarchical linear models do is they essentially fit a separate regression line for each and every cluster. And then estimates what we call the *Fixed slope*. Average slope between x and y across my clusters.
+
+::: fragment
+Mathematically speaking it is more complicated than that.
+:::
+
+## Step 1: Model building Dragons
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+#| code-line-numbers: "|1|2|3|4|5"
+library(lme4) #"linear mixed model" function from lme4 package
+mixed.lmer <- lmer(testScore ~ bodyLength2 +
+                     (1|mountainRange), #random effect
+                   data = dragons,
+                   REML = TRUE #estimation method other method ML but it has a bias
+                   )
+summary(mixed.lmer)
+```
+
+## Step 1: Model building Dragons
+
+Mountain ranges are clearly important: they explain a lot of variation:
+
+| Factor         | Variance |
+|----------------|----------|
+| Mountain range | 339.7    |
+| Residuals      | 223.8    |
+| Body length    | ?        |
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+
+(339.7/(339.7 + 223.8) )* 100
+```
+
+::: fragment
+Variance Body length
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+
+100-60.28
+```
+:::
+
+## Step 2: Model validation Dragons
+
+Assumptions check
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+plot(mixed.lmer)
+qqnorm(resid(mixed.lmer))
+qqline(resid(mixed.lmer))
+```
+
+## Step 1: Model building Nesting
+
+Example:
+
+10 control \| 10 experimental
+
+-   3 years
+
+-   Each season
+
+-   20 beds
+
+-   50 seedlings
+
+-   5 leaves
+
+-   5 leaves x 50 seedlings x 20 beds x 4 seasons x 3 years = 60 000 measurements per treatment
+
+## Step 1: Model building Nesting
+
+Effect of treatment in leaf length
+
+::: fragment
+```         
+leafLength ~ treatment 
+```
+:::
+
+::: fragment
+-   *Pseudoreplication*
+-   Massively increasing sampling size
+:::
+
+::: fragment
+Better model
+
+```         
+leafLength ~ treatment + (1|Bed/Plant/Leaf)
+```
+:::
+
+::: fragment
+What about the crossed effects ?
+
+-   Crossed (or partially crossed) random factors that do not represent levels in a hierarchy.
+-   This account for the fact that all plants in the experiment, regardless of the fixed (treatment) effect, may have experienced a very hot summer in the second year.
+
+```         
+leafLength ~ treatment + (1|Bed/Plant/Leaf) + (1|Season)
+```
+:::
+
+## Step 1: Model building Dragons Nesting
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+#| code-line-numbers: "|2|5"
+mixed.lmer2 <- lmer(testScore ~ bodyLength2+
+                      (1|mountainRange/site),
+                    data = dragons)  
+summary(mixed.lmer2)
+
+mixed.lmer3 <- lmer(testScore ~ bodyLength2
+                    +(1|mountainRange) + (1|mountainRange:site),
+                    data = dragons)
+summary(mixed.lmer3)
+
+```
+
+## Step 1: Model building Dragons Nesting
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: false
+(mm_plot <- ggplot(dragons, aes(x = bodyLength, y = testScore, colour = site)) +
+      facet_wrap(~mountainRange, nrow=2) +   # a panel for each mountain range
+      geom_point(alpha = 0.5) +
+      theme_classic() +
+      geom_line(data = cbind(dragons, pred = predict(mixed.lmer2)), aes(y = pred), size = 1) +  # adding predicted line from mixed model 
+      theme(legend.position = "none",
+            panel.spacing = unit(2, "lines"))  # adding space between panels
+)
+```
+
+## Random slopes and Random intercept
+
+::: {.fragment .fade-in}
+A *random-intercept* model recognizes that each cluster might have its own starting point (intercept), but keeps the slope constant among them. So in our example we acknowledge that some populations may be smarter or dumber to begin with.
+:::
+
+::: {.fragment .fade-in}
+*Lets say* we expect that dragons in all mountain ranges do not exhibit the same relationship between body length and intelligence (rando, slope)
+:::
+
+## Random slopes and Random intercept
+
+We only need to make one change to our model to allow for random slopes as well as intercept, and that’s adding the fixed variable into the random effect brackets:
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+#| code-line-numbers: "|2"
+mixed.ranslope <- lmer(testScore ~ bodyLength2 +
+                         (1 + bodyLength2|mountainRange/site), 
+                       data = dragons) 
+
+summary(mixed.ranslope)
+```
+
+## Random slopes and Random intercept
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: false
+(mm_plot <- ggplot(dragons, aes(x = bodyLength, y = testScore, colour = site)) +
+      facet_wrap(~mountainRange, nrow=2) +   # a panel for each mountain range
+      geom_point(alpha = 0.5) +
+      theme_classic() +
+      geom_line(data = cbind(dragons, pred = predict(mixed.ranslope)), aes(y = pred), size = 1) +  # adding predicted line from mixed model 
+      theme(legend.position = "none",
+            panel.spacing = unit(2, "lines"))  # adding space between panels
+)
+```
+
+## Step 3: Model interpretation
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+library(stargazer)
+stargazer(mixed.lmer2,
+          digits = 3,
+          type="text",
+          star.cutoffs = c(0.05, 0.01, 0.001),
+          digit.separator = "")
+```
+
+## Step 4. Visualization
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+#| code-line-numbers: "1|3-4|6"
+library(ggeffects)
+
+# Extract the prediction data frame
+pred.mm <- ggpredict(mixed.lmer2, terms = c("bodyLength2"))  # this gives overall predictions for the model
+head(pred.mm)
+```
+
+## Step 4. Visualization
+
+```{r}
+#| output: false
+#| eval: true
+#| echo: true
+#| code-line-numbers: "|3-4|5-13|13-17"
+
+# Plot the predictions 
+p<-ggplot(pred.mm) +
+    # slope
+    geom_line(aes(x = x, y = predicted)) +
+    # error band
+    geom_ribbon(
+      aes(
+        x = x,
+        ymin = predicted - std.error,
+        ymax = predicted + std.error
+      ),
+      fill = "lightgrey",
+      alpha = 0.5
+    ) +
+    # adding the raw data (scaled values)
+    geom_point(data = dragons,                      
+               aes(x = bodyLength2, y = testScore, colour = mountainRange)) +
+    labs(x = "Body Length (indexed)",
+         y = "Test Score",
+         title = "Body length does not affect intelligence in dragons") +
+    theme_minimal()
+
+```
+
+## Step 4. Visualization
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: false
+p
+```
+
+## Step 4. Visualization
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+#| code-line-numbers: "|3|4"
+p<-
+  ggpredict(mixed.lmer2, terms = c("bodyLength2", "mountainRange"),
+            type = "random") %>% 
+   plot(show_ci = FALSE) +
+   labs(x = "Body Length", y = "Test Score", 
+        title = "Effect of body size on intelligence in dragons") + 
+   theme_minimal()
+```
+
+
+## Step 4. Visualization
+```{r}
+#| output: true
+#| eval: true
+#| echo: false
+p
+```
+## Additional ressources
+
+Popular libraries for (G)LMMs:
+
+- Frequentist : `nlme`, `lme4`, `glmmTMB` 
+- Bayesian : `brms`, `rstan`, `rstanarm`, `MCMCglmm`
+
+- Nice visualization : [link](https://mfviz.com/hierarchical-models/)
+
+- Visit: [Coding Club](https://ourcodingclub.github.io/)
+
+## BREAK
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("https://assets-global.website-files.com/647888ca92d03e3fca3f1ea0/647888ca92d03e3fca3f2376_shutterstock_792140977.jpg")
+```
