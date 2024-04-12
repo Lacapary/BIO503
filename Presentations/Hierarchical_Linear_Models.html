@@ -831,7 +831,9 @@ bodyLength2 0.000 </code></pre>
 <h2>Step 1: Model building Nesting</h2>
 <p>Effect of treatment in leaf length</p>
 <div class="fragment">
-<pre><code>leafLength ~ treatment </code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>leafLength <span class="sc">~</span> treatment </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 <div class="fragment">
 <ul>
@@ -841,7 +843,9 @@ bodyLength2 0.000 </code></pre>
 </div>
 <div class="fragment">
 <p>Better model</p>
-<pre><code>leafLength ~ treatment + (1|Bed/Plant/Leaf)</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a>leafLength <span class="sc">~</span> treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Bed<span class="sc">/</span>Plant<span class="sc">/</span>Leaf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 <div class="fragment">
 <p>What about the crossed effects ?</p>
@@ -849,7 +853,9 @@ bodyLength2 0.000 </code></pre>
 <li class="fragment">Crossed (or partially crossed) random factors that do not represent levels in a hierarchy.</li>
 <li class="fragment">This account for the fact that all plants in the experiment, regardless of the fixed (treatment) effect, may have experienced a very hot summer in the second year.</li>
 </ul>
-<pre><code>leafLength ~ treatment + (1|Bed/Plant/Leaf) + (1|Season)</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a>leafLength <span class="sc">~</span> treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Bed<span class="sc">/</span>Plant<span class="sc">/</span>Leaf) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Season)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </section>
 <section id="step-1-model-building-dragons-nesting" class="slide level2">
@@ -923,7 +929,7 @@ bodyLength2 0.000 </code></pre>
 <section id="step-1-model-building-dragons-nesting-1" class="slide level2">
 <h2>Step 1: Model building Dragons Nesting</h2>
 
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch"></section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-19-1.png" width="960" class="r-stretch"></section>
 <section id="random-slopes-and-random-intercept" class="slide level2">
 <h2>Random slopes and Random intercept</h2>
 <div class="fragment fade-in">
@@ -978,7 +984,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <section id="random-slopes-and-random-intercept-2" class="slide level2">
 <h2>Random slopes and Random intercept</h2>
 
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-18-1.png" width="960" class="r-stretch"></section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-21-1.png" width="960" class="r-stretch"></section>
 <section id="step-3-model-interpretation" class="slide level2">
 <h2>Step 3: Model interpretation</h2>
 <div class="cell">
@@ -1066,7 +1072,7 @@ Adjusted for:
 <section id="step-4.-visualization-2" class="slide level2">
 <h2>Step 4. Visualization</h2>
 
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-22-1.png" width="960" class="r-stretch"></section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-25-1.png" width="960" class="r-stretch"></section>
 <section id="step-4.-visualization-3" class="slide level2">
 <h2>Step 4. Visualization</h2>
 <div class="cell">
@@ -1082,7 +1088,7 @@ Adjusted for:
 <section id="step-4.-visualization-4" class="slide level2">
 <h2>Step 4. Visualization</h2>
 
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-24-1.png" width="960" class="r-stretch"></section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-27-1.png" width="960" class="r-stretch"></section>
 <section id="additional-ressources" class="slide level2">
 <h2>Additional ressources</h2>
 <p>Popular libraries for (G)LMMs:</p>

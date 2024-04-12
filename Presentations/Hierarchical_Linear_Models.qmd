@@ -368,7 +368,10 @@ Example:
 Effect of treatment in leaf length
 
 ::: fragment
-```         
+```{r} 
+#| output: false
+#| eval: false
+#| echo: true
 leafLength ~ treatment 
 ```
 :::
@@ -381,7 +384,11 @@ leafLength ~ treatment
 ::: fragment
 Better model
 
-```         
+```{r} 
+#| output: false
+#| eval: false
+#| echo: true
+
 leafLength ~ treatment + (1|Bed/Plant/Leaf)
 ```
 :::
@@ -392,7 +399,11 @@ What about the crossed effects ?
 -   Crossed (or partially crossed) random factors that do not represent levels in a hierarchy.
 -   This account for the fact that all plants in the experiment, regardless of the fixed (treatment) effect, may have experienced a very hot summer in the second year.
 
-```         
+```{r}   
+#| output: false
+#| eval: false
+#| echo: true
+
 leafLength ~ treatment + (1|Bed/Plant/Leaf) + (1|Season)
 ```
 :::
