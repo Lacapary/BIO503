@@ -37,6 +37,15 @@ if (!requireNamespace("vegan", quietly = TRUE)) {
 
 ## Mixed effects models
 
+Required packages
+```
+install.packages(c("lme4",
+                      "ggeffects",
+                      "stargazer"
+                      ))
+```
+- Presentation [here](https://github.com/Lacapary/BIO503/blob/main/PDFs/Hierarchical_Linear_Models.pdf)
+
 ## Multivariate analysis
 
 Happy coding and welcome to the world of R!
