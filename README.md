@@ -37,6 +37,10 @@ if (!requireNamespace("vegan", quietly = TRUE)) {
 
 ## Mixed effects models
 
+-   What are hierarchical linear models
+-   Identify situations in which the use of mixed effects is appropriate
+-   Implement basic linear mixed models (LMM) with `R`
+
 Required packages
 ```
 install.packages(c("lme4",
