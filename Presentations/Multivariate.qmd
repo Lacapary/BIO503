@@ -1,0 +1,38 @@
+---
+title: "Multivariate statistics"
+author:   
+  - Camila Pacheco    
+  - Katrín Björnsdóttir
+format:
+  revealjs:
+     theme: blood
+     fontsize: 2.1em
+     incremental: true
+     css: styles.css
+     aspectratio: 169
+     scrollable: true
+     include-in-header:
+      text: |
+        <style>
+        .v-center-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 90%;
+        }
+        </style>
+  # html:
+  #   toc: true
+  #   html-math-method: katex
+---
+
+## Today
+
+-   Learn the basics of multivariate analysis to reveal patterns
+-   Use `R` to perform Uncontrained ordinations
+-   Learn the following methods:
+    -   Clustering analysis
+    -   Detrended correspondence analysis (DCA)
+    -   Principal Component Analysis (PCA)
+-   Break {{< fa face-smile >}}
+-   Practice
