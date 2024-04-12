@@ -12,7 +12,7 @@ format:
      css: styles.css
      aspectratio: 169
      scrollable: true
-     include-in-header: 
+     include-in-header:
       text: |
         <style>
         .v-center-container {
@@ -582,4 +582,8 @@ Popular libraries for (G)LMMs:
 
 ```{r, echo=FALSE, out.width="100%"}
 knitr::include_graphics("https://assets-global.website-files.com/647888ca92d03e3fca3f1ea0/647888ca92d03e3fca3f2376_shutterstock_792140977.jpg")
+```
+
+```{r eval=FALSE, echo=FALSE }
+renderthis::to_pdf("Hierarchical_Linear_Models.html")
 ```
