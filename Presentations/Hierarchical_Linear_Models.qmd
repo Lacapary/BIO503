@@ -84,7 +84,7 @@ The summary function gives you the output from the model. We can see that petal 
 
 ## Linear models
 
-But do we expect there to be a difference between species Lets add species as an interaction to make it a bit more complicated.
+Do we expect there to be a difference between species? Lets add species as an interaction to make it a bit more complicated.
 
 ```{r echo=T}
 iris.m2 <- lm(Petal.Length ~ Petal.Width * Species, data = iris)
@@ -162,7 +162,10 @@ Here is a brief summary of the data distributions you might encounter most often
 - Poisson - Count abundance data (integer values, zero-inflated data, left-skewed data)
 - Binomial - Binary variables (TRUE/FALSE, 0/1, presence/absence data)
 
+::: fragment
 Choosing the right statistical test for your analysis is an important step about which you should think carefully.
+::: 
+
 
 ## Generalize linear models
 
@@ -732,3 +735,71 @@ knitr::include_graphics("https://assets-global.website-files.com/647888ca92d03e3
 ```{r eval=FALSE, echo=FALSE }
 renderthis::to_pdf("Hierarchical_Linear_Models.html")
 ```
+
+## Exercise
+
+Now let's practice ...
+
+::: fragment
+<img src="https://media1.tenor.com/m/hHaVzeiH-hcAAAAC/imsickofwork-technologysu-x.gif"/>
+:::
+
+## ITEX
+
+We will be using a dataset from the ITEX network.
+
+- ITEX is a long-term warming experiment that uses standardized protocols to examine impacts of warming on Arctic ecosystems.
+
+- Established in the 1990s - vegetation monitoring over three decades.
+
+- Uses a simple method that is easy to establish in the field - open top chambers
+
+::: fragment
+```{r, echo=FALSE, out.width="20%"}
+knitr::include_graphics("Hierarchical_Linear_Models_files/Figures/otc.png")
+```
+:::
+
+## ITEX
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("Hierarchical_Linear_Models_files/Figures/audkuluheidi.JPG")
+```
+
+
+## Let's look at the data
+
+```{r, echo=TRUE}
+itex <- read_csv("Data/ITEX_diversity_data.csv")
+```
+
+::: fragment
+```{r, echo=TRUE}
+head(itex)
+```
+:::
+
+::: fragment
+```{r, echo=TRUE}
+length(unique(itex$SITE)) #this code tells you how many different samples we have within the SITE column
+```
+:::
+
+::: fragment
+```{r, echo=TRUE}
+unique(itex$SITE) #you can also do this and then it gives you the name of all samples within the SITE column
+```
+:::
+
+## Exercises
+
+Ex. 1 - Using the ITEX diversity dataset, what is the relationship between diversity and temperature across sites?
+
+- Think about what will be the response variable, what to include as fixed effects and what to include as a random effect.
+- Does the summary output correspond to the structure of the data? Think about how the data was sampled and how you structured your model.
+
+::: fragment
+Ex. 2 - What is the relationship between diversity and temperature WITHIN sites?
+:::
+
+- Think about how to restructure your model based on the new question.
