@@ -41,6 +41,10 @@ format:
 
 ## Required Material
 
+https://github.com/lacapary/BIO503/
+
+## Required Material
+
 You are required to have downloaded and installed
 
 ```{r}

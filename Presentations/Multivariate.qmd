@@ -29,10 +29,236 @@ format:
 ## Today
 
 -   Learn the basics of multivariate analysis to reveal patterns
--   Use `R` to perform Uncontrained ordinations
+-   Use `R` to perform Unconstrained ordinations
 -   Learn the following methods:
     -   Clustering analysis
     -   Detrended correspondence analysis (DCA)
     -   Principal Component Analysis (PCA)
 -   Break {{< fa face-smile >}}
 -   Practice
+
+
+::: fragment
+<img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXUzbThkY2phaWQzc2lkOWxra3pjem9xeXQ3djJ4aHJpb2UzbHc2cyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/bGgsc5mWoryfgKBx1u/giphy.gif"/>
+:::
+
+## Required Material
+
+You are required to have downloaded and installed
+
+```{r}
+#| output: false
+#| eval: false
+#| echo: true
+
+install.packages(c("vegan",
+                      "ape",
+                   "factoextra",
+                   "dendextend"
+                      ))
+```
+
+## Required Material
+
+::: v-center-container
+<h4>Do not hesitate to ask questions!</h4>
+:::
+## Recap: Linear models
+- We learned some models to study at ecological data. 
+- These models allowed us to ask questions such as:
+  - What are the effects of precipitation and temperature on species richness?
+or 
+  - How does the abundance of species change between habitats?
+  
+## Multivariate statistics
+
+Sometimes, we want to figure out things from ecological data that has more than one main outcome or dependent variable.
+
+our research question might be:
+
+- How does the plants composition change along an elevation gradient?
+- What is the composition dissimilarity of plants communities?
+- How closely-related are local vegetation communities in terms of their composition ?
+
+::: fragment
+
+In all these questions, the outcome is composed of several variables, e.g. usually a list of samples and the types of species in them, or a list of samples and the environment they're in.
+
+:::
+
+## Multivariate statistics
+Matrix Species
+
+| Site | Species 1 | Species 2 | ... | Species n |
+|------|-----------|-----------|-----|-----------|
+| 1    | abundance 1 | abundance 2 | ... | abundance n |
+| 2    | abundance 1 | abundance 2 | ... | abundance n |
+| m | ...       | ...       | ... | ...       |
+
+Matrix locations 
+
+| Site | Temperature | Precipitation | ... | Driver n |
+|------|-----------|-----------|-----|-----------|
+| 1    | Temperature 1 | Precipitation 2 | ... | Driver n |
+| 2    | Temperature 1 | Precipitation 2 | ... | Driver n |
+| m | ...       | ...       | ... | ...       |
+
+## Multivariate statistics
+
+Matrix algebra
+
+<img src="https://i.gifer.com/NvL.gif"/>
+
+
+## Multivariate statistics
+
+Matrix algebra
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/b/bf/Matris.png?w=144"/>
+
+## Multivariate statistics
+Association matrices
+
+- Q-mode : analysis for objects or sites
+- R-mode : analysis for descriptors or species
+
+## What is ordination?
+
+> Ordination is a collective term for multivariate techniques which summarize a multidimensional dataset in such a way that when it is projected onto a low dimensional space, any intrinsic pattern the data may possess becomes apparent upon visual inspection (Pielou, 1984).
+
+- In ecological terms, ordination helps us understand community data, like how many species are in different locations. It does this by creating a simple space where similar species and samples are near each other, and different ones are far apart. Ideally, this space shows important environmental differences clearly.
+
+## What is ordination?
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+
+library(tidyverse)
+library(vegan)
+
+# Load the community dataset which we`ll use in the examples today
+data(varespec)
+
+# Open the dataset and look if you can find any patterns
+head(varespec)
+# It is probably very difficult to see any patterns by just looking at the data frame!
+```
+## What is ordination?
+
+Q-mode: Locations
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+# With this command, you`ll perform a NMDS and plot the results
+varespec %>%
+  metaMDS(trace = F) %>%
+  ordiplot(type = "none") %>%
+  text("sites") 
+```
+## Type of ordinations?
+
+- Unconstrained Ordination: we're basically letting the data *speak for itself.* We don't impose any specific relationships or constraints between the variables. 
+
+- Constrained Ordination: we impose some restrictions or *constraints* on the analysis based on what we already know or suspect about the data. 
+
+- In simple terms, unconstrained ordination lets the data tell its story without interference, while constrained ordination guides the analysis based on what we already know or suspect.
+
+- We are going to focus in Unconstrained Ordinations
+## Ordination vs. Clustering
+
+- Ordination and clustering are the two main classes of multivariate methods that community ecologists employ.
+
+- To some degree, these two approaches are complementary. 
+
+- Hierarchical data clustering allows you to explore your data and look for discontinuities (e.g. gaps in your data), gradients and meaningful ecological units (e.g. groups or subgroups of species).
+
+- Given the continuous nature of communities, ordination can be considered a more natural approach. Ordination aims at arranging samples or species continuously along gradients.
+
+## Clustering
+
+- Hierarchical clustering offers insight into how your biodiversity data are organized and can help you to disentangle different patterns and the scales at which they can be observed.
+
+- Its results can be represented as dendrograms (tree-like diagrams), which describe how closely observations are.
+
+::: fragment
+![source: Prasad Pai](https://miro.medium.com/v2/resize:fit:640/format:webp/1*2MAGLkkfRXSXhQ9pEgK0WQ.png)
+
+:::
+
+## Clustering
+
+::: columns
+::: {.column width="50%"}
+
+![source: Prasad Pai](https://miro.medium.com/v2/resize:fit:640/format:webp/1*VvOVxdBb74IOxxF2RmthCQ.png)
+
+:::
+
+::: {.column width="50%"}
+![source: Prasad Pai](https://miro.medium.com/v2/resize:fit:640/format:webp/1*guOwD01bko5ITVIJWQdIPQ.png)
+:::
+:::
+
+## Clustering 
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+
+library(dendextend)
+
+varespec_scale<- scale(varespec)
+dis_data<-varespec %>% 
+  vegdist(method = "bray",upper=FALSE)
+
+dend <- dis_data %>% 
+  hclust(method="ward.D2") %>% 
+  as.dendrogram()
+
+dend
+
+```
+## Clustering 
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+dend.plot <-  dend %>%
+  set("branches_lwd", 2) %>% # Branches line width
+  set("branches_k_color",  k = 2) %>% # Color branches by groups
+  set("labels_cex", 0.5) # Change label size
+
+plot(dend.plot, ylab = "Bray-Curtis Distance", main = "why would clusters be different?")
+```
+## Clustering 
+
+What is the ideal number of clusters?
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+library(factoextra)
+
+varespec_m<-dis_data |> as.matrix()
+
+fviz_nbclust(varespec_m, kmeans, method = "wss") +
+  geom_vline(xintercept = 2, linetype = 2)
+```
+## Clustering 
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+fviz_cluster(kmeans(varespec_m, centers = 2), geom = "point", data = varespec)+ theme_minimal()
+```
+
+## Different ordination techniques
+
+## Doing an ordination
+This ordination goes in two steps. First, we will perfom an ordination on a species abundance matrix. Then we will use environmental data (samples by environmental variables) to interpret the gradients that were uncovered by the ordination. 
