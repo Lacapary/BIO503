@@ -732,10 +732,6 @@ Popular libraries for (G)LMMs:
 knitr::include_graphics("https://assets-global.website-files.com/647888ca92d03e3fca3f1ea0/647888ca92d03e3fca3f2376_shutterstock_792140977.jpg")
 ```
 
-```{r eval=FALSE, echo=FALSE }
-renderthis::to_pdf("Hierarchical_Linear_Models.html")
-```
-
 ## Exercise
 
 Now let's practice ...
@@ -803,3 +799,8 @@ Ex. 2 - What is the relationship between diversity and temperature WITHIN sites?
 :::
 
 - Think about how to restructure your model based on the new question.
+
+
+```{r eval=FALSE, echo=FALSE }
+renderthis::to_pdf("Hierarchical_Linear_Models.html")
+```
