@@ -52,4 +52,12 @@ install.packages(c("lme4",
 
 ## Multivariate analysis
 
+- Learn the basics of multivariate analysis to reveal patterns
+- Use `R` to perform Unconstrained ordinations
+```
+install.packages(c("vegan",
+                   "ape",
+                   "factoextra",
+                   "dendextend"))
+```
 Happy coding and welcome to the world of R!
