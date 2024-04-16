@@ -430,6 +430,7 @@ Katrín Björnsdóttir
 <li class="fragment">Clustering analysis</li>
 <li class="fragment">Detrended correspondence analysis (DCA)</li>
 <li class="fragment">Principal Component Analysis (PCA)</li>
+<li class="fragment">Non-metric Multidimensional Scaling (NMDS)</li>
 </ul></li>
 <li class="fragment">Break <i class="fa-solid fa-face-smile" aria-label="face-smile"></i></li>
 <li class="fragment">Practice</li>
@@ -440,16 +441,19 @@ Katrín Björnsdóttir
 </section>
 <section id="required-material" class="slide level2">
 <h2>Required Material</h2>
+<p>https://github.com/lacapary/BIO503/</p>
+</section>
+<section id="required-material-1" class="slide level2">
+<h2>Required Material</h2>
 <p>You are required to have downloaded and installed</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"vegan"</span>,</span>
-<span id="cb1-2"><a href=""></a>                      <span class="st">"ape"</span>,</span>
+<span id="cb1-2"><a href=""></a>                   <span class="st">"ape"</span>,</span>
 <span id="cb1-3"><a href=""></a>                   <span class="st">"factoextra"</span>,</span>
-<span id="cb1-4"><a href=""></a>                   <span class="st">"dendextend"</span></span>
-<span id="cb1-5"><a href=""></a>                      ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href=""></a>                   <span class="st">"dendextend"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="required-material-1" class="slide level2">
+<section id="required-material-2" class="slide level2">
 <h2>Required Material</h2>
 <div class="v-center-container">
 <h4>
@@ -578,86 +582,76 @@ Do not hesitate to ask questions!
 <p>Ordination is a collective term for multivariate techniques which summarize a multidimensional dataset in such a way that when it is projected onto a low dimensional space, any intrinsic pattern the data may possess becomes apparent upon visual inspection (Pielou, 1984).</p>
 </blockquote>
 <ul>
-<li class="fragment">In ecological terms, ordination helps us understand community data, like how many species are in different locations. It does this by creating a simple space where similar species and samples are near each other, and different ones are far apart. Ideally, this space shows important environmental differences clearly.</li>
+<li class="fragment">In ecological terms, ordination helps us understand community data.</li>
+<li class="fragment">Like how many species are in different locations. It does this by creating a simple space where similar species and samples are near each other, and different ones are far apart.</li>
+<li class="fragment">Ideally, this space shows important environmental differences clearly.</li>
 </ul>
 </section>
-<section id="what-is-ordination-1" class="slide level2">
-<h2>What is ordination?</h2>
+<section id="the-data-for-this-session" class="slide level2">
+<h2>The data for this session?</h2>
+<p>The data originates from the research of Batterink &amp; Wijffels (1983), published as a report in Dutch.</p>
+
+<img data-src="https://www.davidzeleny.net/anadat-r/lib/exe/fetch.php/obrazky:dune_meadow_data_table.jpg?cache=" class="r-stretch"></section>
+<section id="the-data-for-this-session-1" class="slide level2">
+<h2>The data for this session?</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb2-2"><a href=""></a><span class="fu">library</span>(vegan)</span>
 <span id="cb2-3"><a href=""></a></span>
 <span id="cb2-4"><a href=""></a><span class="co"># Load the community dataset which we`ll use in the examples today</span></span>
-<span id="cb2-5"><a href=""></a><span class="fu">data</span>(varespec)</span>
-<span id="cb2-6"><a href=""></a></span>
-<span id="cb2-7"><a href=""></a><span class="co"># Open the dataset and look if you can find any patterns</span></span>
-<span id="cb2-8"><a href=""></a><span class="fu">head</span>(varespec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a href=""></a></span>
+<span id="cb2-6"><a href=""></a>dune2_spe <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/dune2_spe.csv"</span>)</span>
+<span id="cb2-7"><a href=""></a>dune2_env <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/dune2_env.csv"</span>)</span>
+<span id="cb2-8"><a href=""></a></span>
+<span id="cb2-9"><a href=""></a><span class="co"># Open the dataset and look if you can find any patterns</span></span>
+<span id="cb2-10"><a href=""></a><span class="fu">head</span>(dune2_spe)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Callvulg Empenigr Rhodtome Vaccmyrt Vaccviti Pinusylv Descflex Betupube
-18     0.55    11.13     0.00     0.00    17.80     0.07     0.00        0
-15     0.67     0.17     0.00     0.35    12.13     0.12     0.00        0
-24     0.10     1.55     0.00     0.00    13.47     0.25     0.00        0
-27     0.00    15.13     2.42     5.92    15.97     0.00     3.70        0
-23     0.00    12.68     0.00     0.00    23.73     0.03     0.00        0
-19     0.00     8.92     0.00     2.42    10.28     0.12     0.02        0
-   Vacculig Diphcomp Dicrsp Dicrfusc Dicrpoly Hylosple Pleuschr Polypili
-18     1.60     2.07   0.00     1.62     0.00      0.0     4.67     0.02
-15     0.00     0.00   0.33    10.92     0.02      0.0    37.75     0.02
-24     0.00     0.00  23.43     0.00     1.68      0.0    32.92     0.00
-27     1.12     0.00   0.00     3.63     0.00      6.7    58.07     0.00
-23     0.00     0.00   0.00     3.42     0.02      0.0    19.42     0.02
-19     0.00     0.00   0.00     0.32     0.02      0.0    21.03     0.02
-   Polyjuni Polycomm Pohlnuta Ptilcili Barbhatc Cladarbu Cladrang Cladstel
-18     0.13     0.00     0.13     0.12     0.00    21.73    21.47     3.50
-15     0.23     0.00     0.03     0.02     0.00    12.05     8.13     0.18
-24     0.23     0.00     0.32     0.03     0.00     3.58     5.52     0.07
-27     0.00     0.13     0.02     0.08     0.08     1.42     7.63     2.55
-23     2.12     0.00     0.17     1.80     0.02     9.08     9.22     0.05
-19     1.58     0.18     0.07     0.27     0.02     7.23     4.95    22.08
-   Cladunci Cladcocc Cladcorn Cladgrac Cladfimb Cladcris Cladchlo Cladbotr
-18     0.30     0.18     0.23     0.25     0.25     0.23     0.00     0.00
-15     2.65     0.13     0.18     0.23     0.25     1.23     0.00     0.00
-24     8.93     0.00     0.20     0.48     0.00     0.07     0.10     0.02
-27     0.15     0.00     0.38     0.12     0.10     0.03     0.00     0.02
-23     0.73     0.08     1.42     0.50     0.17     1.78     0.05     0.05
-19     0.25     0.10     0.25     0.18     0.10     0.12     0.05     0.02
-   Cladamau Cladsp Cetreric Cetrisla Flavniva Nepharct Stersp Peltapht Icmaeric
-18     0.08   0.02     0.02     0.00     0.12     0.02   0.62     0.02        0
-15     0.00   0.00     0.15     0.03     0.00     0.00   0.85     0.00        0
-24     0.00   0.00     0.78     0.12     0.00     0.00   0.03     0.00        0
-27     0.00   0.02     0.00     0.00     0.00     0.00   0.00     0.07        0
-23     0.00   0.00     0.00     0.00     0.02     0.00   1.58     0.33        0
-19     0.00   0.00     0.00     0.00     0.02     0.00   0.28     0.00        0
-   Cladcerv Claddefo Cladphyl
-18        0     0.25        0
-15        0     1.00        0
-24        0     0.33        0
-27        0     0.15        0
-23        0     1.97        0
-19        0     0.37        0</code></pre>
+<pre><code># A tibble: 6 × 28
+  Achimill Agrostol Airaprae Alopgeni Anthodor Bellpere Bromhord Chenalbu
+     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+1        1        0        0        0        0        0        0        0
+2        3        0        0        2        0        3        4        0
+3        0        4        0        7        0        2        0        0
+4        0        8        0        2        0        2        3        0
+5        2        0        0        0        4        2        2        0
+6        2        0        0        0        3        0        0        0
+# ℹ 20 more variables: Cirsarve &lt;dbl&gt;, Comapalu &lt;dbl&gt;, Eleopalu &lt;dbl&gt;,
+#   Elymrepe &lt;dbl&gt;, Empenigr &lt;dbl&gt;, Hyporadi &lt;dbl&gt;, Juncarti &lt;dbl&gt;,
+#   Juncbufo &lt;dbl&gt;, Lolipere &lt;dbl&gt;, Planlanc &lt;dbl&gt;, Poaprat &lt;dbl&gt;,
+#   Poatriv &lt;dbl&gt;, Ranuflam &lt;dbl&gt;, Rumeacet &lt;dbl&gt;, Sagiproc &lt;dbl&gt;,
+#   Salirepe &lt;dbl&gt;, Scorautu &lt;dbl&gt;, Trifprat &lt;dbl&gt;, Trifrepe &lt;dbl&gt;,
+#   Vicilath &lt;dbl&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="co"># It is probably very difficult to see any patterns by just looking at the data frame!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">head</span>(dune2_env)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+     A1 Moisture Management Use      Manure
+  &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt;
+1   2.8        1 SF         Haypastu      4
+2   3.5        1 BF         Haypastu      2
+3   4.3        2 SF         Haypastu      4
+4   4.2        2 SF         Haypastu      4
+5   6.3        1 HF         Hayfield      2
+6   4.3        1 HF         Haypastu      2</code></pre>
+</div>
 </div>
 </section>
-<section id="what-is-ordination-2" class="slide level2">
+<section id="what-is-ordination-1" class="slide level2">
 <h2>What is ordination?</h2>
-<p>Q-mode: Locations</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="co"># With this command, you`ll perform a NMDS and plot the results</span></span>
-<span id="cb5-2"><a href=""></a>varespec <span class="sc">%&gt;%</span></span>
-<span id="cb5-3"><a href=""></a>  <span class="fu">metaMDS</span>(<span class="at">trace =</span> F) <span class="sc">%&gt;%</span></span>
-<span id="cb5-4"><a href=""></a>  <span class="fu">ordiplot</span>(<span class="at">type =</span> <span class="st">"none"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb5-5"><a href=""></a>  <span class="fu">text</span>(<span class="st">"sites"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
-</div>
-<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
+<img data-src="https://www.quantitative-biology.ca/_main_files/figure-html/pactwo-1.png" class="r-stretch"></section>
 <section id="type-of-ordinations" class="slide level2">
 <h2>Type of ordinations?</h2>
 <ul>
 <li class="fragment"><p>Unconstrained Ordination: we’re basically letting the data <em>speak for itself.</em> We don’t impose any specific relationships or constraints between the variables.</p></li>
 <li class="fragment"><p>Constrained Ordination: we impose some restrictions or <em>constraints</em> on the analysis based on what we already know or suspect about the data.</p></li>
 <li class="fragment"><p>In simple terms, unconstrained ordination lets the data tell its story without interference, while constrained ordination guides the analysis based on what we already know or suspect.</p></li>
-<li class="fragment"><p>We are going to focus in Unconstrained Ordinations ## Ordination vs.&nbsp;Clustering</p></li>
+<li class="fragment"><p>We are going to focus in Unconstrained Ordinations</p></li>
+</ul>
+</section>
+<section id="ordination-vs.-clustering" class="slide level2">
+<h2>Ordination vs.&nbsp;Clustering</h2>
+<ul>
 <li class="fragment"><p>Ordination and clustering are the two main classes of multivariate methods that community ecologists employ.</p></li>
 <li class="fragment"><p>To some degree, these two approaches are complementary.</p></li>
 <li class="fragment"><p>Hierarchical data clustering allows you to explore your data and look for discontinuities (e.g.&nbsp;gaps in your data), gradients and meaningful ecological units (e.g.&nbsp;groups or subgroups of species).</p></li>
@@ -704,17 +698,16 @@ Do not hesitate to ask questions!
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">library</span>(dendextend)</span>
 <span id="cb6-2"><a href=""></a></span>
-<span id="cb6-3"><a href=""></a>varespec_scale<span class="ot">&lt;-</span> <span class="fu">scale</span>(varespec)</span>
-<span id="cb6-4"><a href=""></a>dis_data<span class="ot">&lt;-</span>varespec <span class="sc">%&gt;%</span> </span>
-<span id="cb6-5"><a href=""></a>  <span class="fu">vegdist</span>(<span class="at">method =</span> <span class="st">"bray"</span>,<span class="at">upper=</span><span class="cn">FALSE</span>)</span>
-<span id="cb6-6"><a href=""></a></span>
-<span id="cb6-7"><a href=""></a>dend <span class="ot">&lt;-</span> dis_data <span class="sc">%&gt;%</span> </span>
-<span id="cb6-8"><a href=""></a>  <span class="fu">hclust</span>(<span class="at">method=</span><span class="st">"ward.D2"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-9"><a href=""></a>  <span class="fu">as.dendrogram</span>()</span>
-<span id="cb6-10"><a href=""></a></span>
-<span id="cb6-11"><a href=""></a>dend</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href=""></a>dis_data<span class="ot">&lt;-</span>dune2_spe <span class="sc">%&gt;%</span> </span>
+<span id="cb6-4"><a href=""></a>  <span class="fu">vegdist</span>(<span class="at">method =</span> <span class="st">"bray"</span>,<span class="at">upper=</span><span class="cn">FALSE</span>)</span>
+<span id="cb6-5"><a href=""></a></span>
+<span id="cb6-6"><a href=""></a>dend <span class="ot">&lt;-</span> dis_data <span class="sc">%&gt;%</span> </span>
+<span id="cb6-7"><a href=""></a>  <span class="fu">hclust</span>(<span class="at">method=</span><span class="st">"ward.D2"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-8"><a href=""></a>  <span class="fu">as.dendrogram</span>()</span>
+<span id="cb6-9"><a href=""></a></span>
+<span id="cb6-10"><a href=""></a>dend</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>'dendrogram' with 2 branches and 24 members total, at height 1.730979 </code></pre>
+<pre><code>'dendrogram' with 2 branches and 20 members total, at height 1.757535 </code></pre>
 </div>
 </div>
 </section>
@@ -729,7 +722,7 @@ Do not hesitate to ask questions!
 <span id="cb8-6"><a href=""></a><span class="fu">plot</span>(dend.plot, <span class="at">ylab =</span> <span class="st">"Bray-Curtis Distance"</span>, <span class="at">main =</span> <span class="st">"why would clusters be different?"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
+<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch"></section>
 <section id="clustering-4" class="slide level2">
 <h2>Clustering</h2>
 <p>What is the ideal number of clusters?</p>
@@ -742,21 +735,418 @@ Do not hesitate to ask questions!
 <span id="cb9-6"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">2</span>, <span class="at">linetype =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
+<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
 <section id="clustering-5" class="slide level2">
 <h2>Clustering</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">fviz_cluster</span>(<span class="fu">kmeans</span>(varespec_m, <span class="at">centers =</span> <span class="dv">2</span>), <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">data =</span> varespec)<span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">fviz_cluster</span>(<span class="fu">kmeans</span>(varespec_m, <span class="at">centers =</span> <span class="dv">2</span>), <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">data =</span> dune2_spe)<span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"></section>
-<section id="different-ordination-techniques" class="slide level2">
-<h2>Different ordination techniques</h2>
+<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
+<section id="ordinations" class="slide level2">
+<h2>Ordinations</h2>
+<ul>
+<li class="fragment">Assess relationships within a set of variables (species or environmental variables)</li>
+<li class="fragment">Find key components of variation among samples, sites, species</li>
+<li class="fragment">Reduce the number of dimensions in multivariate data while limiting substantial loss of information</li>
+<li class="fragment">Create new variables for use in subsequent analyses</li>
+</ul>
 </section>
 <section id="doing-an-ordination" class="slide level2">
 <h2>Doing an ordination</h2>
-<p>This ordination goes in two steps. First, we will perfom an ordination on a species abundance matrix. Then we will use environmental data (samples by environmental variables) to interpret the gradients that were uncovered by the ordination.</p>
-<div class="quarto-auto-generated-content">
+<p>This ordination goes in two steps:</p>
+<ul>
+<li class="fragment">First, we will perform an ordination on a species abundance matrix.</li>
+<li class="fragment">Then we will use environmental data (samples by environmental variables) to interpret the gradients that were uncovered by the ordination.</li>
+</ul>
+</section>
+<section id="different-ordination-techniques" class="slide level2">
+<h2>Different ordination techniques</h2>
+<ul>
+<li class="fragment"><em>P</em>rincipal <em>C</em>omponent <em>A</em>nalysis (PCA)</li>
+<li class="fragment"><em>D</em>etrended <em>C</em>orrespondence <em>A</em>nalysis (DCA)</li>
+<li class="fragment"><em>N</em>on-metric <em>M</em>ulti<em>d</em>imensional <em>S</em>caling (NMDS)</li>
+<li class="fragment">And <em>MORE</em>…..</li>
+</ul>
+</section>
+<section id="principal-component-analysis-pca" class="slide level2">
+<h2><em>P</em>rincipal <em>C</em>omponent <em>A</em>nalysis (PCA)</h2>
+<ul>
+<li class="fragment">It is a linear dimensionality-reduction technique, i.e.&nbsp;it reduces strongly correlated data.</li>
+<li class="fragment">In a nutshell, the PCA linearly transforms the feature from the original space to a new feature space, containing principal components that explain most of the variance in the dataset</li>
+</ul>
+</section>
+<section id="principal-component-analysis-pca-1" class="slide level2">
+<h2>Principal Component Analysis (PCA)</h2>
+<div style="background-color:white; display:inline-block; padding: 10px;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="https://ourcodingclub.github.io/assets/img/tutorials/ordination/PCAexample.png"></p>
+<figcaption>source:Coding club</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="principal-component-analysis-pca-2" class="slide level2">
+<h2>Principal Component Analysis (PCA)</h2>
+<p><strong>Euclidean distances among samples</strong></p>
+<ul>
+<li class="fragment">The axes (also called principal components or PC) are orthogonal to each other (and thus independent).</li>
+<li class="fragment">Each PC is associated with an eigenvalue.</li>
+<li class="fragment">The sum of the eigenvalues will equal the sum of the variance of all variables in the data set.</li>
+<li class="fragment">The eigenvalues represent the variance extracted by each PC, and are often expressed as a percentage of the sum of all eigenvalues (i.e.&nbsp;total variance).</li>
+</ul>
+</section>
+<section id="principal-component-analysis-pca-3" class="slide level2">
+<h2>Principal Component Analysis (PCA)</h2>
+<ul>
+<li class="fragment">The relative eigenvalues thus tell how much variation that a PC is able to ‘explain’.</li>
+<li class="fragment">Axes are ranked by their eigenvalues:
+<ul>
+<li class="fragment">the first axis has the highest eigenvalue and thus explains the most variance</li>
+<li class="fragment">the second axis has the second highest eigenvalue, etc.</li>
+</ul></li>
+</ul>
+</section>
+<section id="principal-component-analysis-pca-4" class="slide level2">
+<h2>Principal Component Analysis (PCA)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>PCA <span class="ot">&lt;-</span> <span class="fu">rda</span>(dune2_spe, <span class="at">scale =</span> <span class="cn">FALSE</span>)<span class="co"># Use scale = TRUE if your variables are on different scales (e.g. for abiotic variables).</span></span>
+<span id="cb11-2"><a href=""></a><span class="co"># Here, all species are measured on the same scale </span></span>
+<span id="cb11-3"><a href=""></a><span class="co"># So use scale = FALSE</span></span>
+<span id="cb11-4"><a href=""></a>PCA</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: rda(X = dune2_spe, scale = FALSE)
+
+              Inertia Rank
+Total           78.97     
+Unconstrained   78.97   19
+Inertia is variance 
+
+Eigenvalues for unconstrained axes:
+   PC1    PC2    PC3    PC4    PC5    PC6    PC7    PC8 
+24.181 17.678  7.557  6.760  4.274  4.009  2.835  2.584 
+(Showing 8 of 19 unconstrained eigenvalues)</code></pre>
+</div>
+</div>
+</section>
+<section id="principal-component-analysis-pca-5" class="slide level2">
+<h2>Principal Component Analysis (PCA)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="co"># Now plot a bar plot of relative eigenvalues. This is the percentage variance explained by each axis</span></span>
+<span id="cb13-2"><a href=""></a><span class="fu">barplot</span>(<span class="fu">as.vector</span>(PCA<span class="sc">$</span>CA<span class="sc">$</span>eig)<span class="sc">/</span><span class="fu">sum</span>(PCA<span class="sc">$</span>CA<span class="sc">$</span>eig)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="co"># Calculate the percent of variance explained by first two axes</span></span>
+<span id="cb14-2"><a href=""></a><span class="fu">sum</span>((<span class="fu">as.vector</span>(PCA<span class="sc">$</span>CA<span class="sc">$</span>eig)<span class="sc">/</span><span class="fu">sum</span>(PCA<span class="sc">$</span>CA<span class="sc">$</span>eig))[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]) <span class="co"># 53%, this is ok.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5300765</code></pre>
+</div>
+</div>
+<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
+<section id="principal-component-analysis-pca-6" class="slide level2">
+<h2>Principal Component Analysis (PCA)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">plot</span>(PCA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-9-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">plot</span>(PCA, <span class="at">display =</span> <span class="st">"sites"</span>, <span class="at">type =</span> <span class="st">"points"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-9-2.png" width="960"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">plot</span>(PCA, <span class="at">display =</span> <span class="st">"species"</span>, <span class="at">type =</span> <span class="st">"text"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-9-3.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="principal-component-analysis-pca-7" class="slide level2">
+<h2>Principal Component Analysis (PCA)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="co"># In a biplot of a PCA, species' scores are drawn as arrows </span></span>
+<span id="cb19-2"><a href=""></a><span class="co"># that point in the direction of increasing values for that variable</span></span>
+<span id="cb19-3"><a href=""></a><span class="fu">biplot</span>(PCA, <span class="at">choices =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">type =</span> <span class="fu">c</span>(<span class="st">"text"</span>, <span class="st">"points"</span>), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>)) <span class="co"># biplot of axis 1 vs 2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-10-1.png" width="960" class="r-stretch"></section>
+<section id="principal-component-analysis-pca-8" class="slide level2">
+<h2>Principal Component Analysis (PCA)</h2>
+<ul>
+<li class="fragment">This implies that the abundance of the species is continuously increasing in the direction of the arrow, and decreasing in the opposite direction.</li>
+<li class="fragment">Thus PCA is a linear method.</li>
+<li class="fragment">PCA is extremely useful when we expect species to be linearly (or even monotonically) related to each other.</li>
+<li class="fragment">Unfortunately, we rarely encounter such a situation in nature.</li>
+</ul>
+</section>
+<section id="environmetal-variables-and-triplot" class="slide level2">
+<h2>Environmetal Variables and Triplot</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>fit <span class="ot">&lt;-</span> <span class="fu">envfit</span>(PCA, dune2_env, <span class="at">perm =</span> <span class="dv">999</span>)</span>
+<span id="cb20-2"><a href=""></a><span class="fu">scores</span>(fit, <span class="st">"vectors"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                PC1         PC2
+A1       -0.4981858 -0.11968978
+Moisture -0.8609679  0.01183937
+Manure    0.1718683  0.75960897</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">plot</span>(PCA,<span class="at">dis=</span><span class="st">"site"</span>)</span>
+<span id="cb22-2"><a href=""></a><span class="fu">plot</span>(fit, <span class="at">p.max =</span> <span class="fl">0.05</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"></section>
+<section id="detrended-correspondence-analysis-dca" class="slide level2">
+<h2><em>D</em>etrended <em>c</em>orrespondence <em>a</em>nalysis (DCA)</h2>
+<p><strong>chi-square distance metric among samples</strong></p>
+<p>Correspondence analysis(<em>CA</em>) is an ordination method.</p>
+<ul>
+<li class="fragment">It can calculate and display correspondence between samples and species in the same ordination space.</li>
+<li class="fragment">It has a problem :suffers from creating often strong arch artefact in ordination diagrams. Which is caused by a non-linear correlation between first and higher axes</li>
+</ul>
+<div class="fragment">
+<p><img data-src="https://ordination.okstate.edu/boomca.jpg"></p>
+</div>
+</section>
+<section id="detrended-correspondence-analysis-dca-1" class="slide level2">
+<h2>Detrended correspondence analysis (DCA)</h2>
+<p>Arch can be removed by detrending(<em>smooths out the data to make it easier to see the main patterns</em>), which is the base of the detrended correspondence analysis (DCA).</p>
+
+<img data-src="https://www.davidzeleny.net/anadat-r/lib/exe/fetch.php/obrazky:ca_to_dca.jpg" class="r-stretch quarto-figure-center"><p class="caption">source: davidzeleny</p></section>
+<section id="detrended-correspondence-analysis-dca-2" class="slide level2">
+<h2>Detrended correspondence analysis (DCA)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a>DCA<span class="ot">&lt;-</span><span class="fu">decorana</span>(dune2_spe)</span>
+<span id="cb23-2"><a href=""></a>DCA</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+decorana(veg = dune2_spe) 
+
+Detrended correspondence analysis with 26 segments.
+Rescaling of axes with 4 iterations.
+Total inertia (scaled Chi-square): 2.1866 
+
+                       DCA1   DCA2    DCA3    DCA4
+Eigenvalues          0.5392 0.3257 0.16889 0.19567
+Additive Eigenvalues 0.5392 0.3175 0.15318 0.18878
+Decorana values      0.5636 0.3194 0.07921 0.04138
+Axis lengths         3.8264 2.8444 2.03949 2.17577</code></pre>
+</div>
+</div>
+</section>
+<section id="detrended-correspondence-analysis-dca-3" class="slide level2">
+<h2>Detrended correspondence analysis (DCA)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">ordiplot</span> (DCA, <span class="at">display =</span> <span class="st">'sites'</span>, <span class="at">type =</span> <span class="st">'p'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-13-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">ordiplot</span> (DCA, <span class="at">display =</span> <span class="st">'species'</span>, <span class="at">type =</span> <span class="st">'t'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-13-2.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="triplot" class="slide level2">
+<h2>Triplot</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a>fit <span class="ot">&lt;-</span> <span class="fu">envfit</span>(DCA, dune2_env, <span class="at">perm =</span> <span class="dv">999</span>)</span>
+<span id="cb27-2"><a href=""></a><span class="fu">scores</span>(fit, <span class="st">"vectors"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              DCA1        DCA2
+A1       0.5149060  0.01196127
+Moisture 0.5571229  0.68949173
+Manure   0.1388042 -0.55260255</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">plot</span>(DCA,<span class="at">dis=</span><span class="st">"site"</span>)</span>
+<span id="cb29-2"><a href=""></a><span class="fu">plot</span>(fit, <span class="at">p.max =</span> <span class="fl">0.05</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"></section>
+<section id="non-metric-multidimensional-scaling-nmds" class="slide level2">
+<h2><em>N</em>on-metric <em>M</em>ulti<em>d</em>imensional <em>S</em>caling (NMDS)</h2>
+<ul>
+<li class="fragment">It uses an iterative optimization algorithm to find the best representation of distances in reduced space.</li>
+<li class="fragment">NMDS is not an eigenanalysis. This has three important consequences:
+<ul>
+<li class="fragment">There is no unique ordination result</li>
+<li class="fragment">The axes of the ordination are not ordered according to the variance they explain</li>
+<li class="fragment">The number of dimensions of the low-dimensional space must be specified before running the analysis</li>
+</ul></li>
+</ul>
+</section>
+<section id="non-metric-multidimensional-scaling-nmds-1" class="slide level2">
+<h2>Non-metric Multidimensional Scaling (NMDS)</h2>
+<ul>
+<li class="fragment">The lower the stress value (a measure of goodness-of-fit), the better the representation of objects in the ordination-space is.</li>
+<li class="fragment"><code>distance</code> specifies the distance metric to use</li>
+<li class="fragment"><code>k</code> specifies the number of dimensions.</li>
+</ul>
+</section>
+<section id="non-metric-multidimensional-scaling-nmds-2" class="slide level2">
+<h2>Non-metric Multidimensional Scaling (NMDS)</h2>
+<p>Methodology of NMDS:</p>
+<p>Step 1: Perform NMDS with 1 to 10 dimensions Step 2: Check the stress vs dimension plot Step 3: Choose optimal number of dimensions Step 4: Perform final NMDS with that number of dimensions Step 5: Check for convergent solution and final stress</p>
+</section>
+<section id="non-metric-multidimensional-scaling-nmds-3" class="slide level2">
+<h2>Non-metric Multidimensional Scaling (NMDS)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="co"># First step is to calculate a distance matrix. See PCOA for more information about the distance measures</span></span>
+<span id="cb30-2"><a href=""></a><span class="co"># Here we use bray-curtis distance, which is recommended for abundance data</span></span>
+<span id="cb30-3"><a href=""></a>dist <span class="ot">&lt;-</span> <span class="fu">vegdist</span>(dune2_spe,  <span class="at">method =</span> <span class="st">"bray"</span>)</span>
+<span id="cb30-4"><a href=""></a></span>
+<span id="cb30-5"><a href=""></a><span class="co"># In this part, we define a function NMDS.scree() that automatically </span></span>
+<span id="cb30-6"><a href=""></a><span class="co"># performs a NMDS for 1-10 dimensions and plots the nr of dimensions vs the stress</span></span>
+<span id="cb30-7"><a href=""></a>NMDS.scree <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { <span class="co">#where x is the name of the data frame variable</span></span>
+<span id="cb30-8"><a href=""></a>  <span class="fu">plot</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">10</span>), <span class="fu">replicate</span>(<span class="dv">10</span>, <span class="fu">metaMDS</span>(x, <span class="at">autotransform =</span> F, <span class="at">k =</span> <span class="dv">1</span>)<span class="sc">$</span>stress), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">10</span>),<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.30</span>), <span class="at">xlab =</span> <span class="st">"# of Dimensions"</span>, <span class="at">ylab =</span> <span class="st">"Stress"</span>, <span class="at">main =</span> <span class="st">"NMDS stress plot"</span>)</span>
+<span id="cb30-9"><a href=""></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb30-10"><a href=""></a>    <span class="fu">points</span>(<span class="fu">rep</span>(i <span class="sc">+</span> <span class="dv">1</span>,<span class="dv">10</span>),<span class="fu">replicate</span>(<span class="dv">10</span>, <span class="fu">metaMDS</span>(x, <span class="at">autotransform =</span> F, <span class="at">k =</span> i <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">$</span>stress))</span>
+<span id="cb30-11"><a href=""></a>  }</span>
+<span id="cb30-12"><a href=""></a>}</span>
+<span id="cb30-13"><a href=""></a><span class="fu">NMDS.scree</span>(dist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="non-metric-multidimensional-scaling-nmds-4" class="slide level2">
+<h2>Non-metric Multidimensional Scaling (NMDS)</h2>
+
+<img data-src="Data/ndms.png" style="width:100.0%" class="r-stretch"></section>
+<section id="non-metric-multidimensional-scaling-nmds-5" class="slide level2">
+<h2>Non-metric Multidimensional Scaling (NMDS)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="co"># Because the final result depends on the initial </span></span>
+<span id="cb31-2"><a href=""></a><span class="co"># random placement of the points </span></span>
+<span id="cb31-3"><a href=""></a><span class="co"># we`ll set a seed to make the results reproducible</span></span>
+<span id="cb31-4"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb31-5"><a href=""></a></span>
+<span id="cb31-6"><a href=""></a><span class="co"># Here, we perform the final analysis and check the result</span></span>
+<span id="cb31-7"><a href=""></a>NMDS1 <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(dist, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">trymax =</span> <span class="dv">100</span>, <span class="at">trace =</span> F)</span>
+<span id="cb31-8"><a href=""></a><span class="co"># Do you know what the trymax = 100 and trace = F means?</span></span>
+<span id="cb31-9"><a href=""></a><span class="co"># Let's check the results</span></span>
+<span id="cb31-10"><a href=""></a>NMDS1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+metaMDS(comm = dist, k = 3, trymax = 100, trace = F) 
+
+global Multidimensional Scaling using monoMDS
+
+Data:     dist 
+Distance: bray 
+
+Dimensions: 3 
+Stress:     0.06826238 
+Stress type 1, weak ties
+Best solution was repeated 5 times in 20 tries
+The best solution was from try 9 (random start)
+Scaling: centring, PC rotation, halfchange scaling 
+Species: scores missing</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="co"># If you don`t provide a dissimilarity matrix, metaMDS automatically applies Bray-Curtis. So in our case, the results would have to be the same</span></span>
+<span id="cb33-2"><a href=""></a>NMDS2 <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(dune2_spe, <span class="at">k =</span> <span class="dv">2</span>, <span class="at">trymax =</span> <span class="dv">100</span>, <span class="at">trace =</span> F)</span>
+<span id="cb33-3"><a href=""></a>NMDS2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+metaMDS(comm = dune2_spe, k = 2, trymax = 100, trace = F) 
+
+global Multidimensional Scaling using monoMDS
+
+Data:     dune2_spe 
+Distance: bray 
+
+Dimensions: 2 
+Stress:     0.1149964 
+Stress type 1, weak ties
+Best solution was repeated 10 times in 20 tries
+The best solution was from try 10 (random start)
+Scaling: centring, PC rotation, halfchange scaling 
+Species: expanded scores based on 'dune2_spe' </code></pre>
+</div>
+</div>
+</section>
+<section id="non-metric-multidimensional-scaling-nmds-6" class="slide level2">
+<h2>Non-metric Multidimensional Scaling (NMDS)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fu">stressplot</span>(NMDS1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-18-1.png" width="960" class="r-stretch"></section>
+<section id="non-metric-multidimensional-scaling-nmds-7" class="slide level2">
+<h2>Non-metric Multidimensional Scaling (NMDS)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a><span class="fu">plot</span>(NMDS1, <span class="at">type =</span> <span class="st">"t"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-19-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>#Triplot</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>fit <span class="ot">&lt;-</span> <span class="fu">envfit</span>(NMDS1, dune2_env, <span class="at">perm =</span> <span class="dv">999</span>)</span>
+<span id="cb37-2"><a href=""></a><span class="fu">scores</span>(fit, <span class="st">"vectors"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              NMDS1      NMDS2
+A1        0.5926574  0.1838978
+Moisture  0.8639184  0.2488776
+Manure   -0.1197459 -0.8307617</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">plot</span>(NMDS1,<span class="at">dis=</span><span class="st">"site"</span>)</span>
+<span id="cb39-2"><a href=""></a><span class="fu">plot</span>(fit, <span class="at">p.max =</span> <span class="fl">0.05</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-20-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="ordihull" class="slide level2">
+<h2>Ordihull</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a>group_colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"green"</span>, <span class="st">"orange"</span>)</span>
+<span id="cb40-2"><a href=""></a></span>
+<span id="cb40-3"><a href=""></a><span class="co"># Plot the NMDS1 ordination with no points plotted initially</span></span>
+<span id="cb40-4"><a href=""></a><span class="fu">plot</span>(NMDS1, <span class="at">type=</span><span class="st">"t"</span>)</span>
+<span id="cb40-5"><a href=""></a><span class="fu">plot</span>(fit, <span class="at">p.max =</span> <span class="fl">0.05</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb40-6"><a href=""></a><span class="co"># Add convex hulls around groups defined by the 'Management' variable,</span></span>
+<span id="cb40-7"><a href=""></a><span class="co"># and label the points with their corresponding group names</span></span>
+<span id="cb40-8"><a href=""></a><span class="fu">with</span>(dune2_env, <span class="fu">ordihull</span>(NMDS1, Management, </span>
+<span id="cb40-9"><a href=""></a>                         <span class="at">draw =</span> <span class="st">'polygon'</span>,</span>
+<span id="cb40-10"><a href=""></a>                          <span class="at">alpha =</span> <span class="dv">50</span>,</span>
+<span id="cb40-11"><a href=""></a>                         <span class="at">label =</span> <span class="cn">TRUE</span>,<span class="at">col =</span> group_colors ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="ordihull-1" class="slide level2">
+<h2>Ordihull</h2>
+
+<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-22-1.png" width="960" class="r-stretch"></section>
+<section id="break" class="slide level2">
+<h2>BREAK</h2>
+
+<img data-src="https://assets-global.website-files.com/647888ca92d03e3fca3f1ea0/647888ca92d03e3fca3f2376_shutterstock_792140977.jpg" style="width:100.0%" class="r-stretch"><div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
 </div>
