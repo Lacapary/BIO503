@@ -24,6 +24,7 @@ format:
   # html:
   #   toc: true
   #   html-math-method: katex
+  #   code-line-numbers: false
 ---
 
 ## Today
@@ -572,6 +573,15 @@ with(dune2_env, ordihull(NMDS1, Management,
                           alpha = 50,
                          label = TRUE,col = group_colors ))
 ```
+
+## Material
+
+Most of the material comes from :
+
+[Introduction to ordinations](https://ourcodingclub.github.io/tutorials/ordination/)
+
+Visit [Coding club](https://ourcodingclub.github.io/) for more examples
+
 ## BREAK
 
 ```{r, echo=FALSE, out.width="100%"}
