@@ -14,6 +14,7 @@ format:
   # html:
   #   toc: true
   #   html-math-method: katex
+  #   code-line-numbers: false
 ---
 
 ## Our mission
@@ -92,7 +93,7 @@ There are two types of lines: those that start with the symbol `#`, and those th
 # This is a comment in R
 # Comments are used to provide explanations or annotate the code
 
-x <- 5  # Assigning the value 5 to the variable x
+x <- 9  # Assigning the value to the variable x
 ```
 
 ## Comments to index your scrips
