@@ -24,6 +24,7 @@ format:
   # html:
   #   toc: true
   #   html-math-method: katex
+  #   code-line-numbers: false
 ---
 
 ## Today
@@ -34,13 +35,17 @@ format:
     -   Clustering analysis
     -   Detrended correspondence analysis (DCA)
     -   Principal Component Analysis (PCA)
+    -   Non-metric Multidimensional Scaling (NMDS)
 -   Break {{< fa face-smile >}}
 -   Practice
-
 
 ::: fragment
 <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXUzbThkY2phaWQzc2lkOWxra3pjem9xeXQ3djJ4aHJpb2UzbHc2cyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/bGgsc5mWoryfgKBx1u/giphy.gif"/>
 :::
+
+## Required Material
+
+https://github.com/lacapary/BIO503/
 
 ## Required Material
 
@@ -52,10 +57,9 @@ You are required to have downloaded and installed
 #| echo: true
 
 install.packages(c("vegan",
-                      "ape",
+                   "ape",
                    "factoextra",
-                   "dendextend"
-                      ))
+                   "dendextend"))
 ```
 
 ## Required Material
@@ -63,52 +67,51 @@ install.packages(c("vegan",
 ::: v-center-container
 <h4>Do not hesitate to ask questions!</h4>
 :::
+
 ## Recap: Linear models
-- We learned some models to study at ecological data. 
-- These models allowed us to ask questions such as:
-  - What are the effects of precipitation and temperature on species richness?
-or 
-  - How does the abundance of species change between habitats?
-  
+
+-   We learned some models to study at ecological data.
+-   These models allowed us to ask questions such as:
+    -   What are the effects of precipitation and temperature on species richness? or
+    -   How does the abundance of species change between habitats?
+
 ## Multivariate statistics
 
 Sometimes, we want to figure out things from ecological data that has more than one main outcome or dependent variable.
 
 our research question might be:
 
-- How does the plants composition change along an elevation gradient?
-- What is the composition dissimilarity of plants communities?
-- How closely-related are local vegetation communities in terms of their composition ?
+-   How does the plants composition change along an elevation gradient?
+-   What is the composition dissimilarity of plants communities?
+-   How closely-related are local vegetation communities in terms of their composition ?
 
 ::: fragment
-
 In all these questions, the outcome is composed of several variables, e.g. usually a list of samples and the types of species in them, or a list of samples and the environment they're in.
-
 :::
 
 ## Multivariate statistics
+
 Matrix Species
 
-| Site | Species 1 | Species 2 | ... | Species n |
-|------|-----------|-----------|-----|-----------|
+| Site | Species 1   | Species 2   | ... | Species n   |
+|------|-------------|-------------|-----|-------------|
 | 1    | abundance 1 | abundance 2 | ... | abundance n |
 | 2    | abundance 1 | abundance 2 | ... | abundance n |
-| m | ...       | ...       | ... | ...       |
+| m    | ...         | ...         | ... | ...         |
 
-Matrix locations 
+Matrix locations
 
-| Site | Temperature | Precipitation | ... | Driver n |
-|------|-----------|-----------|-----|-----------|
+| Site | Temperature   | Precipitation   | ... | Driver n |
+|------|---------------|-----------------|-----|----------|
 | 1    | Temperature 1 | Precipitation 2 | ... | Driver n |
 | 2    | Temperature 1 | Precipitation 2 | ... | Driver n |
-| m | ...       | ...       | ... | ...       |
+| m    | ...           | ...             | ... | ...      |
 
 ## Multivariate statistics
 
 Matrix algebra
 
 <img src="https://i.gifer.com/NvL.gif"/>
-
 
 ## Multivariate statistics
 
@@ -117,18 +120,27 @@ Matrix algebra
 <img src="https://upload.wikimedia.org/wikipedia/commons/b/bf/Matris.png?w=144"/>
 
 ## Multivariate statistics
+
 Association matrices
 
-- Q-mode : analysis for objects or sites
-- R-mode : analysis for descriptors or species
+-   Q-mode : analysis for objects or sites
+-   R-mode : analysis for descriptors or species
 
 ## What is ordination?
 
 > Ordination is a collective term for multivariate techniques which summarize a multidimensional dataset in such a way that when it is projected onto a low dimensional space, any intrinsic pattern the data may possess becomes apparent upon visual inspection (Pielou, 1984).
 
-- In ecological terms, ordination helps us understand community data, like how many species are in different locations. It does this by creating a simple space where similar species and samples are near each other, and different ones are far apart. Ideally, this space shows important environmental differences clearly.
+-   In ecological terms, ordination helps us understand community data.
+-   Like how many species are in different locations. It does this by creating a simple space where similar species and samples are near each other, and different ones are far apart.
+-   Ideally, this space shows important environmental differences clearly.
 
-## What is ordination?
+## The data for this session?
+
+The data originates from the research of Batterink & Wijffels (1983), published as a report in Dutch.
+
+![](https://www.davidzeleny.net/anadat-r/lib/exe/fetch.php/obrazky:dune_meadow_data_table.jpg?cache=)
+
+## The data for this session?
 
 ```{r}
 #| output: true
@@ -139,63 +151,55 @@ library(tidyverse)
 library(vegan)
 
 # Load the community dataset which we`ll use in the examples today
-data(varespec)
+
+dune2_spe <- read_csv("Data/dune2_spe.csv")
+dune2_env <- read_csv("Data/dune2_env.csv")
 
 # Open the dataset and look if you can find any patterns
-head(varespec)
-# It is probably very difficult to see any patterns by just looking at the data frame!
+head(dune2_spe)
+head(dune2_env)
+
 ```
+
 ## What is ordination?
 
-Q-mode: Locations
+![](https://www.quantitative-biology.ca/_main_files/figure-html/pactwo-1.png)
 
-```{r}
-#| output: true
-#| eval: true
-#| echo: true
-# With this command, you`ll perform a NMDS and plot the results
-varespec %>%
-  metaMDS(trace = F) %>%
-  ordiplot(type = "none") %>%
-  text("sites") 
-```
 ## Type of ordinations?
 
-- Unconstrained Ordination: we're basically letting the data *speak for itself.* We don't impose any specific relationships or constraints between the variables. 
+-   Unconstrained Ordination: we're basically letting the data *speak for itself.* We don't impose any specific relationships or constraints between the variables.
 
-- Constrained Ordination: we impose some restrictions or *constraints* on the analysis based on what we already know or suspect about the data. 
+-   Constrained Ordination: we impose some restrictions or *constraints* on the analysis based on what we already know or suspect about the data.
 
-- In simple terms, unconstrained ordination lets the data tell its story without interference, while constrained ordination guides the analysis based on what we already know or suspect.
+-   In simple terms, unconstrained ordination lets the data tell its story without interference, while constrained ordination guides the analysis based on what we already know or suspect.
 
-- We are going to focus in Unconstrained Ordinations
+-   We are going to focus in Unconstrained Ordinations
+
 ## Ordination vs. Clustering
 
-- Ordination and clustering are the two main classes of multivariate methods that community ecologists employ.
+-   Ordination and clustering are the two main classes of multivariate methods that community ecologists employ.
 
-- To some degree, these two approaches are complementary. 
+-   To some degree, these two approaches are complementary.
 
-- Hierarchical data clustering allows you to explore your data and look for discontinuities (e.g. gaps in your data), gradients and meaningful ecological units (e.g. groups or subgroups of species).
+-   Hierarchical data clustering allows you to explore your data and look for discontinuities (e.g. gaps in your data), gradients and meaningful ecological units (e.g. groups or subgroups of species).
 
-- Given the continuous nature of communities, ordination can be considered a more natural approach. Ordination aims at arranging samples or species continuously along gradients.
+-   Given the continuous nature of communities, ordination can be considered a more natural approach. Ordination aims at arranging samples or species continuously along gradients.
 
 ## Clustering
 
-- Hierarchical clustering offers insight into how your biodiversity data are organized and can help you to disentangle different patterns and the scales at which they can be observed.
+-   Hierarchical clustering offers insight into how your biodiversity data are organized and can help you to disentangle different patterns and the scales at which they can be observed.
 
-- Its results can be represented as dendrograms (tree-like diagrams), which describe how closely observations are.
+-   Its results can be represented as dendrograms (tree-like diagrams), which describe how closely observations are.
 
 ::: fragment
 ![source: Prasad Pai](https://miro.medium.com/v2/resize:fit:640/format:webp/1*2MAGLkkfRXSXhQ9pEgK0WQ.png)
-
 :::
 
 ## Clustering
 
 ::: columns
 ::: {.column width="50%"}
-
 ![source: Prasad Pai](https://miro.medium.com/v2/resize:fit:640/format:webp/1*VvOVxdBb74IOxxF2RmthCQ.png)
-
 :::
 
 ::: {.column width="50%"}
@@ -203,7 +207,7 @@ varespec %>%
 :::
 :::
 
-## Clustering 
+## Clustering
 
 ```{r}
 #| output: true
@@ -212,8 +216,7 @@ varespec %>%
 
 library(dendextend)
 
-varespec_scale<- scale(varespec)
-dis_data<-varespec %>% 
+dis_data<-dune2_spe %>% 
   vegdist(method = "bray",upper=FALSE)
 
 dend <- dis_data %>% 
@@ -223,7 +226,9 @@ dend <- dis_data %>%
 dend
 
 ```
-## Clustering 
+
+## Clustering
+
 ```{r}
 #| output: true
 #| eval: true
@@ -235,7 +240,8 @@ dend.plot <-  dend %>%
 
 plot(dend.plot, ylab = "Bray-Curtis Distance", main = "why would clusters be different?")
 ```
-## Clustering 
+
+## Clustering
 
 What is the ideal number of clusters?
 
@@ -250,15 +256,338 @@ varespec_m<-dis_data |> as.matrix()
 fviz_nbclust(varespec_m, kmeans, method = "wss") +
   geom_vline(xintercept = 2, linetype = 2)
 ```
-## Clustering 
+
+## Clustering
+
 ```{r}
 #| output: true
 #| eval: true
 #| echo: true
-fviz_cluster(kmeans(varespec_m, centers = 2), geom = "point", data = varespec)+ theme_minimal()
+fviz_cluster(kmeans(varespec_m, centers = 2), geom = "point", data = dune2_spe)+ theme_minimal()
 ```
+
+## Ordinations
+
+-   Assess relationships within a set of variables (species or environmental variables)
+-   Find key components of variation among samples, sites, species
+-   Reduce the number of dimensions in multivariate data while limiting substantial loss of information
+-   Create new variables for use in subsequent analyses
+
+## Doing an ordination
+
+This ordination goes in two steps:
+
+-   First, we will perform an ordination on a species abundance matrix.
+-   Then we will use environmental data (samples by environmental variables) to interpret the gradients that were uncovered by the ordination.
 
 ## Different ordination techniques
 
-## Doing an ordination
-This ordination goes in two steps. First, we will perfom an ordination on a species abundance matrix. Then we will use environmental data (samples by environmental variables) to interpret the gradients that were uncovered by the ordination. 
+-   *P*rincipal *C*omponent *A*nalysis (PCA)
+-   *D*etrended *C*orrespondence *A*nalysis (DCA)
+-   *N*on-metric *M*ulti*d*imensional *S*caling (NMDS)
+-   And *MORE*.....
+
+## *P*rincipal *C*omponent *A*nalysis (PCA)
+
+-   It is a linear dimensionality-reduction technique, i.e. it reduces strongly correlated data.
+-   In a nutshell, the PCA linearly transforms the feature from the original space to a new feature space, containing principal components that explain most of the variance in the dataset
+
+## Principal Component Analysis (PCA)
+
+::: {style="background-color:white; display:inline-block; padding: 10px;"}
+![source:Coding club](https://ourcodingclub.github.io/assets/img/tutorials/ordination/PCAexample.png)
+:::
+
+## Principal Component Analysis (PCA)
+
+**Euclidean distances among samples**
+
+-   The axes (also called principal components or PC) are orthogonal to each other (and thus independent).
+-   Each PC is associated with an eigenvalue.
+-   The sum of the eigenvalues will equal the sum of the variance of all variables in the data set.
+-   The eigenvalues represent the variance extracted by each PC, and are often expressed as a percentage of the sum of all eigenvalues (i.e. total variance).
+
+## Principal Component Analysis (PCA)
+
+-   The relative eigenvalues thus tell how much variation that a PC is able to ‘explain’.
+-   Axes are ranked by their eigenvalues:
+    -   the first axis has the highest eigenvalue and thus explains the most variance
+    -   the second axis has the second highest eigenvalue, etc.
+
+## Principal Component Analysis (PCA)
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+PCA <- rda(dune2_spe, scale = FALSE)# Use scale = TRUE if your variables are on different scales (e.g. for abiotic variables).
+# Here, all species are measured on the same scale 
+# So use scale = FALSE
+PCA
+```
+
+## Principal Component Analysis (PCA)
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+# Now plot a bar plot of relative eigenvalues. This is the percentage variance explained by each axis
+barplot(as.vector(PCA$CA$eig)/sum(PCA$CA$eig)) 
+
+# Calculate the percent of variance explained by first two axes
+sum((as.vector(PCA$CA$eig)/sum(PCA$CA$eig))[1:2]) # 53%, this is ok.
+
+```
+
+## Principal Component Analysis (PCA)
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+plot(PCA)
+plot(PCA, display = "sites", type = "points")
+plot(PCA, display = "species", type = "text")
+  
+```
+
+## Principal Component Analysis (PCA)
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+# In a biplot of a PCA, species' scores are drawn as arrows 
+# that point in the direction of increasing values for that variable
+biplot(PCA, choices = c(1,2), type = c("text", "points"), xlim = c(-5,5)) # biplot of axis 1 vs 2
+```
+
+## Principal Component Analysis (PCA)
+
+-   This implies that the abundance of the species is continuously increasing in the direction of the arrow, and decreasing in the opposite direction.
+-   Thus PCA is a linear method.
+-   PCA is extremely useful when we expect species to be linearly (or even monotonically) related to each other.
+-   Unfortunately, we rarely encounter such a situation in nature.
+
+## Environmetal Variables and Triplot
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+fit <- envfit(PCA, dune2_env, perm = 999)
+scores(fit, "vectors")
+plot(PCA,dis="site")
+plot(fit, p.max = 0.05, col = "red")
+```
+
+## *D*etrended *c*orrespondence *a*nalysis (DCA)
+
+**chi-square distance metric among samples**
+
+Correspondence analysis(*CA*) is an ordination method.
+
+- It can calculate and display correspondence between samples and species in the same ordination space.
+- It has a problem :suffers from creating often strong arch artefact in ordination diagrams. Which is caused by a non-linear correlation between first and higher axes
+
+::: fragment
+![](https://ordination.okstate.edu/boomca.jpg)
+:::
+
+## Detrended correspondence analysis (DCA)
+
+Arch can be removed by detrending(*smooths out the data to make it easier to see the main patterns*), which is the base of the detrended correspondence analysis (DCA).
+
+![source: davidzeleny](https://www.davidzeleny.net/anadat-r/lib/exe/fetch.php/obrazky:ca_to_dca.jpg)
+
+## Detrended correspondence analysis (DCA)
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+DCA<-decorana(dune2_spe)
+DCA
+```
+
+## Detrended correspondence analysis (DCA)
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+
+ordiplot (DCA, display = 'sites', type = 'p')
+ordiplot (DCA, display = 'species', type = 't')
+```
+
+## Triplot
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+fit <- envfit(DCA, dune2_env, perm = 999)
+scores(fit, "vectors")
+plot(DCA,dis="site")
+plot(fit, p.max = 0.05, col = "red")
+```
+
+## *N*on-metric *M*ulti*d*imensional *S*caling (NMDS)
+
+-   It uses an iterative optimization algorithm to find the best representation of distances in reduced space.
+-   NMDS is not an eigenanalysis. This has three important consequences:
+    -   There is no unique ordination result
+    -   The axes of the ordination are not ordered according to the variance they explain
+    -   The number of dimensions of the low-dimensional space must be specified before running the analysis
+
+
+## Non-metric Multidimensional Scaling (NMDS)
+-   The lower the stress value (a measure of goodness-of-fit), the better the representation of objects in the ordination-space is.
+-   `distance` specifies the distance metric to use
+-   `k` specifies the number of dimensions.
+
+## Non-metric Multidimensional Scaling (NMDS)
+
+Methodology of NMDS:
+
+Step 1: Perform NMDS with 1 to 10 dimensions Step
+2: Check the stress vs dimension plot Step 
+3: Choose optimal number of dimensions Step 
+4: Perform final NMDS with that number of dimensions Step 
+5: Check for convergent solution and final stress
+
+## Non-metric Multidimensional Scaling (NMDS)
+
+```{r}
+#| output: false
+#| eval: true
+#| echo: true
+# First step is to calculate a distance matrix. See PCOA for more information about the distance measures
+# Here we use bray-curtis distance, which is recommended for abundance data
+dist <- vegdist(dune2_spe,  method = "bray")
+
+# In this part, we define a function NMDS.scree() that automatically 
+# performs a NMDS for 1-10 dimensions and plots the nr of dimensions vs the stress
+NMDS.scree <- function(x) { #where x is the name of the data frame variable
+  plot(rep(1, 10), replicate(10, metaMDS(x, autotransform = F, k = 1)$stress), xlim = c(1, 10),ylim = c(0, 0.30), xlab = "# of Dimensions", ylab = "Stress", main = "NMDS stress plot")
+  for (i in 1:10) {
+    points(rep(i + 1,10),replicate(10, metaMDS(x, autotransform = F, k = i + 1)$stress))
+  }
+}
+NMDS.scree(dist)
+```
+
+## Non-metric Multidimensional Scaling (NMDS)
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("Data/ndms.png")
+
+```
+## Non-metric Multidimensional Scaling (NMDS)
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+# Because the final result depends on the initial 
+# random placement of the points 
+# we`ll set a seed to make the results reproducible
+set.seed(2)
+
+# Here, we perform the final analysis and check the result
+NMDS1 <- metaMDS(dist, k = 3, trymax = 100, trace = F)
+# Do you know what the trymax = 100 and trace = F means?
+# Let's check the results
+NMDS1
+
+# If you don`t provide a dissimilarity matrix, metaMDS automatically applies Bray-Curtis. So in our case, the results would have to be the same
+NMDS2 <- metaMDS(dune2_spe, k = 2, trymax = 100, trace = F)
+NMDS2
+```
+
+## Non-metric Multidimensional Scaling (NMDS)
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+stressplot(NMDS1)
+```
+
+## Non-metric Multidimensional Scaling (NMDS)
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+plot(NMDS1, type = "t")
+```
+
+#Triplot
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+fit <- envfit(NMDS1, dune2_env, perm = 999)
+scores(fit, "vectors")
+plot(NMDS1,dis="site")
+plot(fit, p.max = 0.05, col = "red")
+```
+
+## Ordihull
+
+```{r}
+#| output: false
+#| eval: false
+#| echo: true
+group_colors <- c("red", "blue", "green", "orange")
+
+# Plot the NMDS1 ordination with no points plotted initially
+plot(NMDS1, type="t")
+plot(fit, p.max = 0.05, col = "red")
+# Add convex hulls around groups defined by the 'Management' variable,
+# and label the points with their corresponding group names
+with(dune2_env, ordihull(NMDS1, Management, 
+                         draw = 'polygon',
+                          alpha = 50,
+                         label = TRUE,col = group_colors ))
+```
+
+## Ordihull
+```{r}
+#| output: true
+#| eval: true
+#| echo: false
+group_colors <- c("red", "blue", "green", "orange")
+
+# Plot the NMDS1 ordination with no points plotted initially
+plot(NMDS1, type="t")
+plot(fit, p.max = 0.05, col = "red")
+# Add convex hulls around groups defined by the 'Management' variable,
+# and label the points with their corresponding group names
+with(dune2_env, ordihull(NMDS1, Management, 
+                         draw = 'polygon',
+                          alpha = 50,
+                         label = TRUE,col = group_colors ))
+```
+
+## Material
+
+Most of the material comes from :
+
+[Introduction to ordinations](https://ourcodingclub.github.io/tutorials/ordination/)
+
+Visit [Coding club](https://ourcodingclub.github.io/) for more examples
+
+## BREAK
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("https://assets-global.website-files.com/647888ca92d03e3fca3f1ea0/647888ca92d03e3fca3f2376_shutterstock_792140977.jpg")
+```
+
+```{r eval=FALSE, echo=FALSE }
+renderthis::to_pdf("Multivariate.html")
+```

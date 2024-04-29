@@ -25,6 +25,7 @@ format:
     # html:
     #  toc: true
     #  html-math-method: katex
+    #  code-line-numbers: false
 ---
 
 ## Today
@@ -728,7 +729,8 @@ Popular libraries for (G)LMMs:
 
 - Nice visualization : [link](https://mfviz.com/hierarchical-models/)
 
-- Visit: [Coding Club](https://ourcodingclub.github.io/)
+- Most of the material comes from : [Coding Club](https://ourcodingclub.github.io/)
+
 
 ## BREAK
 
