@@ -108,8 +108,16 @@ length(unique(itex$SUBSITE)) # 82 subsites
 mixed.lmer <- lmer(SppRich ~ TempC_scaled + (1|SITE/SUBSITE), data = itex)
 summary(mixed.lmer)
 
-# the summary output for linear mixed models don't show p-values. 
-# this can be done using the stargazer package
+# The summary output for linear mixed models in the lme4 package don't show p-values.
+#This is a conscious choice made by the authors of the package, as there are many problems with p-values. 
+#Please be careful when it comes to evaluating the significance of your model. Focus on your question and avoid plugging in and dropping variables from a model haphazardly until you make something “significant”. 
+#Always choose variables based on biology/ecology and avoid adding in all possible variables that you have access to (i.e. don’t overfit). 
+#Remember that as a rule of thumb, you need 10 times more data than parameters you are trying to estimate. 
+#There are some common different methods used for model selection which we won't go into here but take a look at this thread if you are interested:
+#   https://stats.stackexchange.com/questions/95054/how-to-get-an-overall-p-value-and-effect-size-for-a-categorical-factor-in-a-mi 
+# 
+# For simplification, we'll use the stargazer package that gives us a summary output table from our model.
+
 library(stargazer) #remember to install it first if you haven't already - then load!
 
 stargazer(mixed.lmer,
