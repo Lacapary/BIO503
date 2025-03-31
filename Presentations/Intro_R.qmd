@@ -1,32 +1,35 @@
 ---
-title: "Introduction to R and Rstudio"
+title: "An Intro to R, RStudio & Causal Inference"
 author:   
   - Camila Pacheco    
   - Katrín Björnsdóttir
 format:
   revealjs:
-     theme: blood
-     fontsize: 2.1em
-     incremental: true
-     css: styles.css
-     aspectratio: 169
-     scrollable: true
+    theme: blood
+    fontsize: 2.1em
+    incremental: true
+    css: styles.css
+    aspectratio: 169
+    scrollable: true
+    transition: fade
+    highlight-style: monokai
   # html:
   #   toc: true
   #   html-math-method: katex
   #   code-line-numbers: false
 ---
 
-## Our mission
+# Welcome!
 
--   Get you familiar with the R environment
+## Session goals
 
--   Teach you how to import and work with datasets
+By the end of this session, you'll be able to:
 
-- Get you familiar with tidy data and `Tidyverse`
-
-- Show you how to make simple plots in `ggplot`
-
+- ✅ Navigate the RStudio IDE  
+- ✅ Import and clean datasets using `tidyverse`  
+- ✅ Create simple plots using `ggplot2`  
+- ✅ Understand the basics of tidy data 
+- 🧠 Introduced to causal inference
 
 ## What is R ?
 
@@ -36,54 +39,70 @@ format:
 :::
 
 ::: {.column width="60%"}
--   Originally developed for statistical computing and graphics
--   R has evolved into a versatile programming language
+- Originally developed for statistical computing and graphics  
+- Evolved into a full-featured programming language for data science  
+- Especially powerful in ecological and environmental science 🐛🌍
 :::
 :::
 
 ## What is RStudio?
 
-RStudio is a user-friendly interface for R
+- RStudio is a user-friendly interface (IDE) for R that makes your work more efficient.
 
-```{r, out.width="80%"}
+<div class="fragment">
+
+```{r, echo=FALSE, out.width="60%"}
 #| echo: False
 knitr::include_graphics("sources/RStudio_IDE_screenshot.png")
 ```
+</div>
 
-## R is prone to errors
+## R is Prone to Errors ⚠️
 
--   {{< fa bomb >}} Such as typos, using the wrong letter case, forgetting a quote, bracket or comma. Such mistakes will break your code and throw an error.
+::: {.callout-tip}
+ Use `Ctrl + Enter` to run code in RStudio
+::: 
 
--   {{< fa circle-exclamation >}} These type of errors are the most common, so always double-check your code whenever R is unhappy {{< fa face-sad-tear >}}.
+- 💥 Typos, wrong letter case, missing commas or brackets = broken code
+- 🧠 These are common—don’t panic!
+- 🔍 Double-check syntax, use the error message as a clue
 
-## Course material
 
+
+## Course Material 📘
+
+::: {.callout-important}
 [https://github.com/Lacapary/BIO503](https://github.com/Lacapary/BIO503)
+::: 
 
-## R studio Projects
+## R studio Projects 📂
 
--   It is a convenient way to organize your work in RStudio -it creates a dedicated directory (folder) on your computer where you can store all the files related to your project, including R scripts, data files, documentation, and more.
+- Keeps your files organized in one place
+- Stores scripts, data, outputs, and more
+- To create a new project:
+- Go to `File` → `New Project…` → `New Directory` (or `Existing Directory`)
+- If using an existing folder: `New Project` → `Existing Directory`
 
--   To create a new project, go to:
-
-    -   `File` \> `New Project…` \> `New Directory` (or `Existing Directory`)
-
--   If you want to create your project from an existing folder:
-
-    -   \> `New Project` and choose a `Directory name` for your project.
+<div class="fragment">
+::: {.callout-tip}
+ Use projects to avoid broken file paths and messy folders.
+:::
+</div>
+## Coding etiquette
     
-## Work directory
+
+## Use Comments to Organize Your Script
+
 ```{r}
 #| echo: true
-#| output: false
-#| eval: false
+#Library----
 
-setwd("/Your directory")
+#Some code---- 
 
+#Example----
 ```
 
-
-## Code versus comment
+## Comments for yourself and for others
 
 There are two types of lines: those that start with the symbol `#`, and those that do not.
 
@@ -96,23 +115,6 @@ There are two types of lines: those that start with the symbol `#`, and those th
 x <- 9  # Assigning the value to the variable x
 ```
 
-## Comments to index your scrips
-
-```{r}
-#| echo: true
-#Library----
-
-#Some code---- 
-
-#Example----
-```
-
-Script outline in Rstudio
-
-```{r, echo=FALSE, out.width="80%"}
-knitr::include_graphics("https://i.stack.imgur.com/4yjqd.png")
-
-```
 
 ## R package
 
@@ -135,46 +137,40 @@ install.packages("dplyr")
 library(dplyr)
 ```
 
-## Tidyverse
+## 
+::: {.callout-note title="Question"}
+ What’s one thing you’re excited (or nervous) about using R for?
+::: 
+
+## Intro to `tidyverse` 📦
 
 ::: columns
 ::: {.column width="40%"}
--   It is a collection of R packages designed to make data science tasks easier and more efficient.
 
 ```{r echo=FALSE,out.width="50%", fig.align="center"}
 knitr::include_graphics("https://mine-cetinkaya-rundel.github.io/tidy-up-ds/2019-12-lausanne/img/tidyverse.png")
 ```
 :::
 
-::: {.column width="60%"}
+::: {.column width="50%"}
 ```{r echo=FALSE, out.width="100%"}
 knitr::include_graphics("https://mine-cetinkaya-rundel.github.io/tidy-up-ds/2019-12-lausanne/img/tidyverse-packages.png")
 ```
 :::
 :::
 
-## About tidy data
-
-Tidy data is a standard, consistent way to organize tabular data. Briefly, tidy data follows a short series of rules:
-
-```{r, echo=FALSE, out.width="100%"}
-knitr::include_graphics("https://biostats-r.github.io/biostats/workingInR/figures/tidy1.png")
-
-```
-
-::: aside
-Source: R for Data Science. Grolemund and Wickham.
-:::
-
 ## Pipe operator
 
 -   One of the key features of tidyverse is the possibility to chain functions in an effective way using the pipe operator `%>%` or `|>`.
 
--   Pipes pass the results from one function directly into the next function connected to each other via a `%>%` or `|>`, making the code easy to read and write.
+-   Pipes pass the results from one function directly into the next function connected to each other 
 
 -   **The pipe basically means “and then”.**
-
--   **Note:** the keyboard shorcut for `|>` is `Ctrl+Shift+M` (Windows & Linux) or `Cmd+Shift+M` (Mac).
+<div class="fragment">
+::: {.callout-note }
+the keyboard shorcut for `|>` is `Ctrl+Shift+M` (Windows & Linux) or `Cmd+Shift+M` (Mac).
+::: 
+</div>
 
 ## Pipe operator
 
@@ -187,11 +183,29 @@ get("coffee_groundS","23")  |>
   put(cup)
 ```
 
-## Iris dataset
+## Tidy Data Concept 📊
+
+- Each variable forms a column
+- Each observation forms a row
+- Each type of observational unit forms a table
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("https://biostats-r.github.io/biostats/workingInR/figures/tidy1.png")
+
+```
+
+::: aside
+Source: R for Data Science. Grolemund and Wickham.
+:::
+
+## Using the `iris` Dataset 🌸
+
 
 ::: columns
 ::: {.column width="40%"}
-The iris [flower dataset](https://en.wikipedia.org/wiki/Iris_flower_data_set) was collected by Edgar Anderson, an American botanist, in the 1920s. This data was used by statistician Ronald Fisher to demonstrate statistical methods of classification.
+- The iris [flower dataset](https://en.wikipedia.org/wiki/Iris_flower_data_set) was collected by Edgar Anderson, an American botanist, in the 1920s. 
+
+- It includes measurements of 150 flowers across 3 species: *setosa*, *versicolor*, and *virginica*.
 :::
 
 ::: {.column width="60%"}
@@ -203,7 +217,7 @@ knitr::include_graphics("sources/iris_species.PNG")
 
 ## Importing data in R
 
-R can import data from files in many different formats. For example:
+R can import data from files in many different formats. 
 
 -   csv files with the `readr` package
 -   excel files with the `readxl` package
@@ -211,23 +225,15 @@ R can import data from files in many different formats. For example:
 -   netcdf files with the `ncdf4` package
 -   shapefiles with the `sf` package
 
-## Formats
-
-| Function      | Value Separator  | Decimal Separator |
-|---------------|------------------|-------------------|
-| read_csv()    | ,                | .                 |
-| read_csv2()   | ;                | ,                 |
-| read_tsv()    | tab              | .                 |
-| read_delim()  | custom character | .                 |
-| read_table2() | space            | .                 |
 
 ## Reading data
 
 ```{r}
-#| eval: false
+#| eval: true
 #| echo: true
 #| code-line-numbers: "|1|2"
 #| output: false
+
 library(tidyverse)
 iris <- read_csv("Data/iris.csv")
 ```
@@ -237,12 +243,6 @@ iris <- read_csv("Data/iris.csv")
 iris <-read.csv("Data/iris.csv")
 ```
 
-```{r eval=TRUE, echo=FALSE }
-# R basic function
-library(tidyverse)
-library(datasets)
-data(iris)
-```
 ## Exploring the data
 
 Check that your data was imported without any mistakes
@@ -255,7 +255,6 @@ tail(iris)  # Displays the last rows of a df
 ## Exploring the data
 
 ```{r echo=T}
-glimpse(iris) # Tells you variables types 
 summary(iris) # Gives you a summary of the data
 ```
 
@@ -293,8 +292,6 @@ head(iris_means)
 ```{r echo=T}
 iris_versicolor <- iris |>  filter( Species == "versicolor")
 
-iris_no_versicolor <- iris |>  filter( Species != "versicolor")
-
 iris_pl<-iris |>  filter(Petal.Length > 2)
 ```
 
@@ -314,9 +311,12 @@ head(iris_log)
 
 ## Plotting data
 
-You can plot graphs using the ggplot2 package (part of the tidyverse).
+You can plot graphs using the `ggplot2` package (part of the tidyverse).
 
-**Note:** `ggplot` functions are chained using a `+` sign. This is because `ggplot` does not pass an object to a function but add different layers on top of each other.
+::: {.callout-note }
+`ggplot` functions are chained using a `+` 
+::: 
+
 
 ## ggplot layers
 
@@ -327,7 +327,6 @@ knitr::include_graphics("https://biostats-r.github.io/biostats/workingInR/figure
 ## Plotting Iris
 Lets say we want to plot the relationship between petal length and petal width for each species.
 
-You can visualize such relationship by plotting petal length against petal width in a scatter plot:
 
 ```{r echo=T}
 #| output: false
@@ -344,36 +343,11 @@ p<-iris %>%
   )
 
 ```
+
 ## Plotting Iris
 ```{r}
 #| echo: False 
 p
-```
-
-## Plotting Iris
-
-Now lets say you would like to make a boxplot to compare the sepal length between the three species.
-
-```{r echo=T}
-p<-iris %>% 
-  ggplot(aes(
-    x = Species,
-    y = Sepal.Length,
-    fill = Species
-  )) +
-  geom_boxplot() + # to plot a boxplot
-  labs(
-    x = NULL, # to remove the label of the x axis
-    y = "Sepal length (cm)"
-  )
-
-```
-
-## Plotting Iris
-
-```{r echo=F}
-p
-
 ```
 
 `ggplot` offers many plotting possibilities which we will go further into later. If you are eager, you can learn more [here](https://ggplot2-book.org/) or [here](https://ourcodingclub.github.io/tutorials/datavis/).
@@ -388,18 +362,95 @@ Save your plots as `.svg` if your text editor supports it and if you are not lim
 p |> ggsave("plot.png")
 ```
 
+#
+<div style="text-align: center;">
+
+```{r, echo=FALSE, out.width="60%"}
+knitr::include_graphics("sources/causal_inference.png")
+```
+</div>
+
+
+## What is Causal Inference? 🤔
+
+Moving beyond **correlation** to understand **causal relationships**
+
+Causal inference is about answering questions like:
+**"Does X cause Y?"**
+
+## Reflect
+- What ecological systems might require causal thinking?
+
+## In ecology, that might be:
+- Does less forest cover cause fewer pollinators?
+- Does pollution cause changes in fish diversity?
+
+
+## Why is This Important in Ecology?
+
+- Ecological systems are complex
+- Many things can affect each other at the same time
+- We need tools to figure out which relationships are **real causes**, not just coincidences
+
+
+## A Simple Tool: DAGs 🧠
+
+A **DAG** (Directed Acyclic Graph) is a simple diagram to help us think clearly about cause and effect.
+
+- Circles = variables (things we measure)
+- Arrows = "causes"
+
+## DAG Example
+
+```{r}
+#| message: false
+library(ggdag)
+
+
+# Define a DAG
+dag_data <- dagify(
+  pollinators ~ habitat + flowers,
+  flowers ~ habitat,
+  exposure = "habitat",
+  outcome = "pollinators",
+  labels = c(
+    habitat = "Habitat",
+    flowers = "Flowers",
+    pollinators = "Pollinator \n Abundance"
+  )
+)
+
+ggdag_parents(dag_data, .var = "pollinators",text = FALSE,use_labels = "label") +
+  theme_dag() +
+  scale_fill_manual(values = c("#c0392b","#a569bd"))+
+  scale_color_manual(values = c("#a569bd","#c0392b"))+
+  labs(title = "DAG: Habitat → Flowers → Pollinators")+
+  theme(legend.position ="none")
+```
+
+This shows that fragmentation affects pollinators **directly** and **indirectly** (by reducing flowers).
+
+## How DAGs Help 🧭
+
+- They help us ask better research questions
+- They show us what to measure and control for
+- They help us avoid confusing correlation with causation
+
+
+# 💬 Any questions 
+
 ## To go further
 
 - Visit: [Coding Club](https://ourcodingclub.github.io/)
 
-- EDGE coding club: Every 15 days, we have a coding club on Mondays at 10:30 in the Supernova room (Natrium)
+- EDGE coding club: Every 15 days, we have a coding club on Thursdays at 1:00 pm in the 5405 Rosshavet room (Natrium)
 
 ## What is next
 
-- 15 of April 13:15-17:00 
-- *2125 Marelden*
-- [Linear mixed models](https://ourcodingclub.github.io/tutorials/mixed-models/)
-- On **Tuesday May 21th**, there will be a dedicated session for the projects.
+- 15 of April 8:15am -12m *2125 Marelden*
+<img src="https://i.pinimg.com/736x/00/f9/ea/00f9ea007dcd6fb7c7d25e6b164a0812.jpg" style="width: 100px;">
+
+- [Linear models](https://ourcodingclub.github.io/tutorials/modelling/)
 
 ```{r eval=FALSE, echo=FALSE }
 renderthis::to_pdf("Intro_R.html")
