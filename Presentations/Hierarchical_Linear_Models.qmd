@@ -4,28 +4,29 @@ subtitle: "Mixed Models, and Multilevel Models, GLMMs, etc..."
 author:   
   - Camila Pacheco    
   - Katrín Björnsdóttir
-format:
-  revealjs:
-     theme: blood
-     fontsize: 2.1em
-     incremental: true
-     css: styles.css
-     aspectratio: 169
-     scrollable: true
-     include-in-header:
-      text: |
-        <style>
-        .v-center-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 90%;
-        }
-        </style>
-    # html:
-    #  toc: true
-    #  html-math-method: katex
-    #  code-line-numbers: false
+format: pptx
+  
+  # revealjs:
+  #    theme: blood
+  #    fontsize: 2.1em
+  #    incremental: true
+  #    css: styles.css
+  #    aspectratio: 169
+  #    scrollable: true
+  #    include-in-header:
+  #     text: |
+  #       <style>
+  #       .v-center-container {
+  #         display: flex;
+  #         justify-content: center;
+  #         align-items: center;
+  #         height: 90%;
+  #       }
+  #       </style>
+  #   # html:
+  #   #  toc: true
+  #   #  html-math-method: katex
+  #   #  code-line-numbers: false
 ---
 
 ## Today
