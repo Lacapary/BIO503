@@ -29,7 +29,7 @@ By the end of this session, you'll be able to:
 - ✅ Import and clean datasets using `tidyverse`  
 - ✅ Create simple plots using `ggplot2`  
 - ✅ Understand the basics of tidy data 
-- 🧠 Introduced to causal inference
+- ✅ Introduced to causal inference
 
 ## What is R ?
 
@@ -183,7 +183,7 @@ get("coffee_groundS","23")  |>
   put(cup)
 ```
 
-## Tidy Data Concept 📊
+## Tidy Data Concept
 
 - Each variable forms a column
 - Each observation forms a row
@@ -198,7 +198,7 @@ knitr::include_graphics("https://biostats-r.github.io/biostats/workingInR/figure
 Source: R for Data Science. Grolemund and Wickham.
 :::
 
-## Using the `iris` Dataset 🌸
+## Using the `iris` Dataset
 
 
 ::: columns
@@ -373,18 +373,18 @@ knitr::include_graphics("sources/causal_inference.png")
 
 ## What is Causal Inference? 🤔
 
+It's the process of determining cause-and-effect relationship.
+
+
+```{r, echo=FALSE, out.width="40%"}
+knitr::include_graphics("sources/ice_cream_sharks.png")
+```
+
 Moving beyond **correlation** to understand **causal relationships**
+
 
 Causal inference is about answering questions like:
 **"Does X cause Y?"**
-
-## Reflect
-- What ecological systems might require causal thinking?
-
-## In ecology, that might be:
-- Does less forest cover cause fewer pollinators?
-- Does pollution cause changes in fish diversity?
-
 
 ## Why is This Important in Ecology?
 
@@ -393,12 +393,34 @@ Causal inference is about answering questions like:
 - We need tools to figure out which relationships are **real causes**, not just coincidences
 
 
-## A Simple Tool: DAGs 🧠
+## A Simple Tool: DAGs 
 
 A **DAG** (Directed Acyclic Graph) is a simple diagram to help us think clearly about cause and effect.
 
 - Circles = variables (things we measure)
 - Arrows = "causes"
+
+```{r}
+#| message: false
+library(ggdag)
+
+
+# Create the DAG
+simple_dag <- dagify(
+  y ~ x,
+  exposure = "x",
+  outcome = "y",
+  labels = c("x" = "Exposure", "y" = "Outcome"),
+  coords = list(
+    x = c(x = 1, y = 2),
+    y = c(x = 0, y = 0)
+  )
+) 
+
+# Plot simple dag
+ggdag(simple_dag) +
+  theme_dag()
+```
 
 ## DAG Example
 
@@ -414,7 +436,7 @@ dag_data <- dagify(
   exposure = "habitat",
   outcome = "pollinators",
   labels = c(
-    habitat = "Habitat",
+    habitat = "Habitat fragmentation",
     flowers = "Flowers",
     pollinators = "Pollinator \n Abundance"
   )
@@ -430,7 +452,7 @@ ggdag_parents(dag_data, .var = "pollinators",text = FALSE,use_labels = "label") 
 
 This shows that fragmentation affects pollinators **directly** and **indirectly** (by reducing flowers).
 
-## How DAGs Help 🧭
+## How DAGs Help
 
 - They help us ask better research questions
 - They show us what to measure and control for

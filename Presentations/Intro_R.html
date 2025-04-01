@@ -426,7 +426,7 @@ Katrín Björnsdóttir
 <li class="fragment">✅ Create simple plots using <code>ggplot2</code><br>
 </li>
 <li class="fragment">✅ Understand the basics of tidy data</li>
-<li class="fragment">🧠 Introduced to causal inference</li>
+<li class="fragment">✅ Introduced to causal inference</li>
 </ul>
 </section>
 <section id="what-is-r" class="slide level2">
@@ -647,7 +647,7 @@ Katrín Björnsdóttir
 </div>
 </section>
 <section id="tidy-data-concept" class="slide level2">
-<h2>Tidy Data Concept 📊</h2>
+<h2>Tidy Data Concept</h2>
 <ul>
 <li class="fragment">Each variable forms a column</li>
 <li class="fragment">Each observation forms a row</li>
@@ -667,7 +667,7 @@ Katrín Björnsdóttir
 <p>Source: R for Data Science. Grolemund and Wickham.</p>
 </div></aside></section>
 <section id="using-the-iris-dataset" class="slide level2">
-<h2>Using the <code>iris</code> Dataset 🌸</h2>
+<h2>Using the <code>iris</code> Dataset</h2>
 <div class="columns">
 <div class="column" style="width:40%;">
 <ul>
@@ -908,21 +908,10 @@ Katrín Björnsdóttir
 </section>
 <section id="what-is-causal-inference" class="slide level2">
 <h2>What is Causal Inference? 🤔</h2>
-<p>Moving beyond <strong>correlation</strong> to understand <strong>causal relationships</strong></p>
+<p>It’s the process of determining cause-and-effect relationship.</p>
+
+<img data-src="sources/ice_cream_sharks.png" style="width:40.0%" class="r-stretch"><p>Moving beyond <strong>correlation</strong> to understand <strong>causal relationships</strong></p>
 <p>Causal inference is about answering questions like: <strong>“Does X cause Y?”</strong></p>
-</section>
-<section id="reflect" class="slide level2">
-<h2>Reflect</h2>
-<ul>
-<li class="fragment">What ecological systems might require causal thinking?</li>
-</ul>
-</section>
-<section id="in-ecology-that-might-be" class="slide level2">
-<h2>In ecology, that might be:</h2>
-<ul>
-<li class="fragment">Does less forest cover cause fewer pollinators?</li>
-<li class="fragment">Does pollution cause changes in fish diversity?</li>
-</ul>
 </section>
 <section id="why-is-this-important-in-ecology" class="slide level2">
 <h2>Why is This Important in Ecology?</h2>
@@ -933,20 +922,21 @@ Katrín Björnsdóttir
 </ul>
 </section>
 <section id="a-simple-tool-dags" class="slide level2">
-<h2>A Simple Tool: DAGs 🧠</h2>
+<h2>A Simple Tool: DAGs</h2>
 <p>A <strong>DAG</strong> (Directed Acyclic Graph) is a simple diagram to help us think clearly about cause and effect.</p>
 <ul>
 <li class="fragment">Circles = variables (things we measure)</li>
 <li class="fragment">Arrows = “causes”</li>
 </ul>
-</section>
+
+<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-26-1.png" width="960" class="r-stretch"></section>
 <section id="dag-example" class="slide level2">
 <h2>DAG Example</h2>
 
-<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-25-1.png" width="960" class="r-stretch"><p>This shows that fragmentation affects pollinators <strong>directly</strong> and <strong>indirectly</strong> (by reducing flowers).</p>
+<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-27-1.png" width="960" class="r-stretch"><p>This shows that fragmentation affects pollinators <strong>directly</strong> and <strong>indirectly</strong> (by reducing flowers).</p>
 </section>
 <section id="how-dags-help" class="slide level2">
-<h2>How DAGs Help 🧭</h2>
+<h2>How DAGs Help</h2>
 <ul>
 <li class="fragment">They help us ask better research questions</li>
 <li class="fragment">They show us what to measure and control for</li>
