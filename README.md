@@ -14,7 +14,8 @@ This is a brief and condensed guide to help you grasp the **fundamentals** of th
     -   Core tidyverse packages: dplyr, ggplot2, tidyr.
     -   Loading data into R. Transforming and cleaning data using dplyr.
     -   Data Visualization with ggplot2
--   Basics of linear models
+-   Introduced to causal inference
+
 
 ### For the R introductory session:
 
