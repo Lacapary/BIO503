@@ -424,6 +424,9 @@ ggdag(simple_dag) +
 
 ## DAG Example
 
+Fragmentation affects pollinators **directly** and **indirectly** (by reducing flowers).
+
+
 ```{r}
 #| message: false
 library(ggdag)
@@ -450,7 +453,6 @@ ggdag_parents(dag_data, .var = "pollinators",text = FALSE,use_labels = "label") 
   theme(legend.position ="none")
 ```
 
-This shows that fragmentation affects pollinators **directly** and **indirectly** (by reducing flowers).
 
 ## How DAGs Help
 
