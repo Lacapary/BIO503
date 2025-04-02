@@ -25,11 +25,11 @@ format:
 
 By the end of this session, you'll be able to:
 
-- ✅ Navigate the RStudio IDE  
-- ✅ Import and clean datasets using `tidyverse`  
-- ✅ Create simple plots using `ggplot2`  
-- ✅ Understand the basics of tidy data 
-- ✅ Introduced to causal inference
+-   ✅ Navigate the RStudio IDE\
+-   ✅ Import and clean datasets using `tidyverse`\
+-   ✅ Create simple plots using `ggplot2`\
+-   ✅ Understand the basics of tidy data
+-   ✅ Introduced to causal inference
 
 ## What is R ?
 
@@ -39,57 +39,55 @@ By the end of this session, you'll be able to:
 :::
 
 ::: {.column width="60%"}
-- Originally developed for statistical computing and graphics  
-- Evolved into a full-featured programming language for data science  
-- Especially powerful in ecological and environmental science 🐛🌍
+-   Originally developed for statistical computing and graphics\
+-   Evolved into a full-featured programming language for data science\
+-   Especially powerful in ecological and environmental science 🐛🌍
 :::
 :::
 
 ## What is RStudio?
 
-- RStudio is a user-friendly interface (IDE) for R that makes your work more efficient.
+-   RStudio is a user-friendly interface (IDE) for R that makes your work more efficient.
 
-<div class="fragment">
-
+::: fragment
 ```{r, echo=FALSE, out.width="60%"}
 #| echo: False
 knitr::include_graphics("sources/RStudio_IDE_screenshot.png")
 ```
-</div>
+:::
 
 ## R is Prone to Errors ⚠️
 
-::: {.callout-tip}
- Use `Ctrl + Enter` to run code in RStudio
-::: 
+::: callout-tip
+Use `Ctrl + Enter` to run code in RStudio
+:::
 
-- 💥 Typos, wrong letter case, missing commas or brackets = broken code
-- 🧠 These are common—don’t panic!
-- 🔍 Double-check syntax, use the error message as a clue
-
-
-
-## Course Material 📘
-
-::: {.callout-important}
-[https://github.com/Lacapary/BIO503](https://github.com/Lacapary/BIO503)
-::: 
+-   💥 Typos, wrong letter case, missing commas or brackets = broken code
+-   🧠 These are common—don’t panic!
+-   🔍 Double-check syntax, use the error message as a clue
 
 ## R studio Projects 📂
 
-- Keeps your files organized in one place
-- Stores scripts, data, outputs, and more
-- To create a new project:
-- Go to `File` → `New Project…` → `New Directory` (or `Existing Directory`)
-- If using an existing folder: `New Project` → `Existing Directory`
+-   Keeps your files organized in one place
+-   Stores scripts, data, outputs, and more
+-   To create a new project:
+-   Go to `File` → `New Project…` → `New Directory` (or `Existing Directory`)
+-   If using an existing folder: `New Project` → `Existing Directory`
 
-<div class="fragment">
-::: {.callout-tip}
- Use projects to avoid broken file paths and messy folders.
+::: fragment
+::: callout-tip
+Use projects to avoid broken file paths and messy folders.
 :::
-</div>
+:::
+
+## Course Material 📘
+
+::: callout-important
+<https://github.com/Lacapary/BIO503>
+:::
+
+
 ## Coding etiquette
-    
 
 ## Use Comments to Organize Your Script
 
@@ -115,7 +113,6 @@ There are two types of lines: those that start with the symbol `#`, and those th
 x <- 9  # Assigning the value to the variable x
 ```
 
-
 ## R package
 
 -   Package is a collection of R functions, data sets, and other resources bundled together for specific purposes.
@@ -138,15 +135,15 @@ library(dplyr)
 ```
 
 ## 
+
 ::: {.callout-note title="Question"}
- What’s one thing you’re excited (or nervous) about using R for?
-::: 
+What’s one thing you’re excited (or nervous) about using R for?
+:::
 
 ## Intro to `tidyverse` 📦
 
 ::: columns
 ::: {.column width="40%"}
-
 ```{r echo=FALSE,out.width="50%", fig.align="center"}
 knitr::include_graphics("https://mine-cetinkaya-rundel.github.io/tidy-up-ds/2019-12-lausanne/img/tidyverse.png")
 ```
@@ -163,14 +160,15 @@ knitr::include_graphics("https://mine-cetinkaya-rundel.github.io/tidy-up-ds/2019
 
 -   One of the key features of tidyverse is the possibility to chain functions in an effective way using the pipe operator `%>%` or `|>`.
 
--   Pipes pass the results from one function directly into the next function connected to each other 
+-   Pipes pass the results from one function directly into the next function connected to each other
 
 -   **The pipe basically means “and then”.**
-<div class="fragment">
-::: {.callout-note }
-the keyboard shorcut for `|>` is `Ctrl+Shift+M` (Windows & Linux) or `Cmd+Shift+M` (Mac).
-::: 
-</div>
+
+    ::: fragment
+    ::: callout-note
+    the keyboard shorcut for `|>` is `Ctrl+Shift+M` (Windows & Linux) or `Cmd+Shift+M` (Mac).
+    :::
+    :::
 
 ## Pipe operator
 
@@ -185,9 +183,9 @@ get("coffee_groundS","23")  |>
 
 ## Tidy Data Concept
 
-- Each variable forms a column
-- Each observation forms a row
-- Each type of observational unit forms a table
+-   Each variable forms a column
+-   Each observation forms a row
+-   Each type of observational unit forms a table
 
 ```{r, echo=FALSE, out.width="100%"}
 knitr::include_graphics("https://biostats-r.github.io/biostats/workingInR/figures/tidy1.png")
@@ -200,12 +198,11 @@ Source: R for Data Science. Grolemund and Wickham.
 
 ## Using the `iris` Dataset
 
-
 ::: columns
 ::: {.column width="40%"}
-- The iris [flower dataset](https://en.wikipedia.org/wiki/Iris_flower_data_set) was collected by Edgar Anderson, an American botanist, in the 1920s. 
+-   The iris [flower dataset](https://en.wikipedia.org/wiki/Iris_flower_data_set) was collected by Edgar Anderson, an American botanist, in the 1920s.
 
-- It includes measurements of 150 flowers across 3 species: *setosa*, *versicolor*, and *virginica*.
+-   It includes measurements of 150 flowers across 3 species: *setosa*, *versicolor*, and *virginica*.
 :::
 
 ::: {.column width="60%"}
@@ -217,14 +214,13 @@ knitr::include_graphics("sources/iris_species.PNG")
 
 ## Importing data in R
 
-R can import data from files in many different formats. 
+R can import data from files in many different formats.
 
 -   csv files with the `readr` package
 -   excel files with the `readxl` package
 -   xlm files with the `xml2` package
 -   netcdf files with the `ncdf4` package
 -   shapefiles with the `sf` package
-
 
 ## Reading data
 
@@ -313,10 +309,9 @@ head(iris_log)
 
 You can plot graphs using the `ggplot2` package (part of the tidyverse).
 
-::: {.callout-note }
-`ggplot` functions are chained using a `+` 
-::: 
-
+::: callout-note
+`ggplot` functions are chained using a `+`
+:::
 
 ## ggplot layers
 
@@ -325,8 +320,8 @@ knitr::include_graphics("https://biostats-r.github.io/biostats/workingInR/figure
 ```
 
 ## Plotting Iris
-Lets say we want to plot the relationship between petal length and petal width for each species.
 
+Lets say we want to plot the relationship between petal length and petal width for each species.
 
 ```{r echo=T}
 #| output: false
@@ -345,6 +340,7 @@ p<-iris %>%
 ```
 
 ## Plotting Iris
+
 ```{r}
 #| echo: False 
 p
@@ -362,19 +358,17 @@ Save your plots as `.svg` if your text editor supports it and if you are not lim
 p |> ggsave("plot.png")
 ```
 
-#
-<div style="text-align: center;">
+# 
 
+::: {style="text-align: center;"}
 ```{r, echo=FALSE, out.width="60%"}
 knitr::include_graphics("sources/causal_inference.png")
 ```
-</div>
-
+:::
 
 ## What is Causal Inference? 🤔
 
 It's the process of determining cause-and-effect relationship.
-
 
 ```{r, echo=FALSE, out.width="40%"}
 knitr::include_graphics("sources/ice_cream_sharks.png")
@@ -382,23 +376,20 @@ knitr::include_graphics("sources/ice_cream_sharks.png")
 
 Moving beyond **correlation** to understand **causal relationships**
 
-
-Causal inference is about answering questions like:
-**"Does X cause Y?"**
+Causal inference is about answering questions like: **"Does X cause Y?"**
 
 ## Why is This Important in Ecology?
 
-- Ecological systems are complex
-- Many things can affect each other at the same time
-- We need tools to figure out which relationships are **real causes**, not just coincidences
+-   Ecological systems are complex
+-   Many things can affect each other at the same time
+-   We need tools to figure out which relationships are **real causes**, not just coincidences
 
-
-## A Simple Tool: DAGs 
+## A Simple Tool: DAGs
 
 A **DAG** (Directed Acyclic Graph) is a simple diagram to help us think clearly about cause and effect.
 
-- Circles = variables (things we measure)
-- Arrows = "causes"
+-   Circles = variables (things we measure)
+-   Arrows = "causes"
 
 ```{r}
 #| message: false
@@ -454,25 +445,23 @@ This shows that fragmentation affects pollinators **directly** and **indirectly*
 
 ## How DAGs Help
 
-- They help us ask better research questions
-- They show us what to measure and control for
-- They help us avoid confusing correlation with causation
+-   They help us ask better research questions
+-   They show us what to measure and control for
+-   They help us avoid confusing correlation with causation
 
-
-# 💬 Any questions 
+# 💬 Any questions
 
 ## To go further
 
-- Visit: [Coding Club](https://ourcodingclub.github.io/)
+-   Visit: [Coding Club](https://ourcodingclub.github.io/)
 
-- EDGE coding club: Every 15 days, we have a coding club on Thursdays at 1:00 pm in the 5405 Rosshavet room (Natrium)
+-   EDGE coding club: Every 15 days, we have a coding club on Thursdays at 1:00 pm in the 5405 Rosshavet room (Natrium)
 
 ## What is next
 
-- 15 of April 8:15am -12m *2125 Marelden*
-<img src="https://i.pinimg.com/736x/00/f9/ea/00f9ea007dcd6fb7c7d25e6b164a0812.jpg" style="width: 100px;">
+-   15 of April 8:15am -12m *2125 Marelden* <img src="https://i.pinimg.com/736x/00/f9/ea/00f9ea007dcd6fb7c7d25e6b164a0812.jpg" style="width: 100px;"/>
 
-- [Linear models](https://ourcodingclub.github.io/tutorials/modelling/)
+-   [Linear models](https://ourcodingclub.github.io/tutorials/modelling/)
 
 ```{r eval=FALSE, echo=FALSE }
 renderthis::to_pdf("Intro_R.html")
