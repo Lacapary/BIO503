@@ -134,12 +134,6 @@ install.packages("dplyr")
 library(dplyr)
 ```
 
-## 
-
-::: {.callout-note title="Question"}
-What’s one thing you’re excited (or nervous) about using R for?
-:::
-
 ## Intro to `tidyverse` 📦
 
 ::: columns
