@@ -457,7 +457,9 @@ ggdag_parents(dag_data, .var = "pollinators",text = FALSE,use_labels = "label") 
 
 -   15 of April 8:15am -12m *2125 Marelden* <img src="https://i.pinimg.com/736x/00/f9/ea/00f9ea007dcd6fb7c7d25e6b164a0812.jpg" style="width: 100px;"/>
 
--   [Linear models](https://ourcodingclub.github.io/tutorials/modelling/)
+- Practice using R (self-study)
+  -   Reviewing and practicing the material we covered in [today’s lecture](https://github.com/Lacapary/BIO503)
+  -   [Linear models](https://ourcodingclub.github.io/tutorials/modelling/)
 
 ```{r eval=FALSE, echo=FALSE }
 renderthis::to_pdf("Intro_R.html")
