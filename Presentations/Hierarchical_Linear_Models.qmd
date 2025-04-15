@@ -23,10 +23,10 @@ format:
 ## Today
 
 -   Linear Models
+-   Short break 😊
 -   What are hierarchical linear models
--   Identify situations in which the use of mixed effects is appropriate
--   Implement basic linear mixed models (LMM) with `R`
--   Break {{< fa face-smile >}}
+-   Learn how to build and interpret linear mixed models
+-   Break 😊
 -   Practice
 
 ::: fragment
@@ -236,7 +236,7 @@ Test score = β₀ + β₁ · Body length + ε
 Now lets visualize the relationship using ggplot.
 
 ```{r echo=TRUE}
-(p <- dragons_Bavarian %>% 
+p <- dragons_Bavarian %>% 
   ggplot(aes(
     x = bodyLength,
     y = testScore)) + # to assign a color to each group
@@ -246,7 +246,7 @@ Now lets visualize the relationship using ggplot.
   labs(
     x = "Body length",
     y = "Test score")
-)
+
 ```
 
 ## Our question
@@ -310,7 +310,7 @@ anova(model)
 - The test: "There’s a difference somewhere"
 - The post-hoc test: "Who’s different from who"
 
-
+::: fragment
 ```{r echo=TRUE}
 library(emmeans)
 # Get estimated marginal means
@@ -319,6 +319,7 @@ em <- emmeans(model, ~ Species)
 # Pairwise comparisons with Tukey adjustment
 pairs(em, adjust = "tukey")
 ```
+:::
 ## Factorial ANOVA: Post-Hoc Analysis
 
 ::: callout-important
@@ -920,12 +921,11 @@ unique(itex$SITE) #you can also do this and then it gives you the name of all sa
 ```
 :::
 
-## Exercise 1
+## Exercise 1 Modeling Diversity and Temperature
 
-Modeling Diversity and Temperature
 Using the  **ITEX diversity dataset **, explore the relationship between **plant diversity** and **temperature** across different sites.
 
-### 👉 Your Tasks:
+👉 Your Tasks:
 
 1. **Model Planning**:
    - What is your **response variable**?
@@ -933,20 +933,18 @@ Using the  **ITEX diversity dataset **, explore the relationship between **plant
    - Which variable(s) should be treated as **random effects** (e.g., site, year)?
 
 2. **Fit the Model**:
-   - Use `lmer()` to fit a model to the data.
-   - Look at the output with `summary()`.
+   - Use `lmer()` to fit a model to the data and look at the output with `summary()`.
 
 3. **Reflect**:
    - Does the model structure reflect **how the data was collected**?
-   - Does the summary output **make sense** given your sampling design?
 
-## Exercise 2
+## Exercise 2 (optional)
 
 What is the relationship between diversity and temperature **within sites**?
 
 Now that you've explored overall patterns, focus your model on how **temperature affects diversity within each site**.
 
-#### 👉 Your Tasks:
+👉 Your Tasks:
 
 1. - What changes when we ask about relationships *within sites* instead of *across* them?
    - Should you adjust the way `site` is treated in your model?

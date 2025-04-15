@@ -1,0 +1,41 @@
+---
+title: "Hierarchical models Exercises"
+format: pdf
+editor: visual
+---
+
+## Exercise 1 Modeling Diversity and Temperature
+
+Using the **ITEX diversity dataset** , explore the relationship between **plant diversity** and **temperature** across different sites.
+
+👉 Your Tasks:
+
+1.  **Model Planning**:
+    -   What is your **response variable**?
+    -   Which variables make sense as **fixed effects**?
+    -   Which variable(s) should be treated as **random effects** (e.g., site, year)?
+2.  **Fit the Model**:
+    -   Use `lmer()` to fit a model to the data and look at the output with `summary()`.
+3.  **Reflect**:
+    -   Does the model structure reflect **how the data was collected**?
+
+## Exercise 2 (optional)
+
+What is the relationship between diversity and temperature **within sites**?
+
+Now that you've explored overall patterns, focus your model on how **temperature affects diversity within each site**.
+
+👉 Your Tasks:
+
+1.  
+
+    -   What changes when we ask about relationships *within sites* instead of *across* them?
+    -   Should you adjust the way `site` is treated in your model?
+
+2.  **Model Check**:
+
+3.  **Fit a New Model (if needed)**:
+
+    -   Update your `lmer()` call to reflect this new focus.
+    -   Reinterpret the output
+

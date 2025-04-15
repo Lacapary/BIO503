@@ -7,10 +7,8 @@
 <link href="Hierarchical_Linear_Models_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Hierarchical_Linear_Models_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="Hierarchical_Linear_Models_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="Hierarchical_Linear_Models_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<link href="Hierarchical_Linear_Models_files/libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
-<link href="Hierarchical_Linear_Models_files/libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.4.553">
+<link href="Hierarchical_Linear_Models_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.4.551">
 
   <meta name="author" content="Camila Pacheco">
   <meta name="author" content="Katrín Björnsdóttir">
@@ -417,10 +415,10 @@ Katrín Björnsdóttir
 <h2>Today</h2>
 <ul>
 <li class="fragment">Linear Models</li>
+<li class="fragment">Short break 😊</li>
 <li class="fragment">What are hierarchical linear models</li>
-<li class="fragment">Identify situations in which the use of mixed effects is appropriate</li>
-<li class="fragment">Implement basic linear mixed models (LMM) with <code>R</code></li>
-<li class="fragment">Break <i class="fa-solid fa-face-smile" aria-label="face-smile"></i></li>
+<li class="fragment">Learn how to build and interpret linear mixed models</li>
+<li class="fragment">Break 😊</li>
 <li class="fragment">Practice</li>
 </ul>
 <div class="fragment">
@@ -565,7 +563,7 @@ Do not hesitate to ask questions!
 <h2>Our question</h2>
 <p>Now lets visualize the relationship using ggplot.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>(p <span class="ot">&lt;-</span> dragons_Bavarian <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>p <span class="ot">&lt;-</span> dragons_Bavarian <span class="sc">%&gt;%</span> </span>
 <span id="cb6-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
 <span id="cb6-3"><a href=""></a>    <span class="at">x =</span> bodyLength,</span>
 <span id="cb6-4"><a href=""></a>    <span class="at">y =</span> testScore)) <span class="sc">+</span> <span class="co"># to assign a color to each group</span></span>
@@ -574,11 +572,9 @@ Do not hesitate to ask questions!
 <span id="cb6-7"><a href=""></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
 <span id="cb6-8"><a href=""></a>  <span class="fu">labs</span>(</span>
 <span id="cb6-9"><a href=""></a>    <span class="at">x =</span> <span class="st">"Body length"</span>,</span>
-<span id="cb6-10"><a href=""></a>    <span class="at">y =</span> <span class="st">"Test score"</span>)</span>
-<span id="cb6-11"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
+<span id="cb6-10"><a href=""></a>    <span class="at">y =</span> <span class="st">"Test score"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
+</section>
 <section id="our-question-4" class="slide level2">
 <h2>Our question</h2>
 <p>Now lets visualize the relationship using ggplot.</p>
@@ -673,6 +669,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <li class="fragment"><p>The test: “There’s a difference somewhere”</p></li>
 <li class="fragment"><p>The post-hoc test: “Who’s different from who”</p></li>
 </ul>
+<div class="fragment">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">library</span>(emmeans)</span>
 <span id="cb13-2"><a href=""></a><span class="co"># Get estimated marginal means</span></span>
@@ -687,6 +684,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
  versicolor - virginica   -0.652 0.103 147  -6.333  &lt;.0001
 
 P value adjustment: tukey method for comparing a family of 3 estimates </code></pre>
+</div>
 </div>
 </div>
 </section>
@@ -1259,10 +1257,10 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 </div>
 </section>
-<section id="exercise-1" class="slide level2 scrollable">
-<h2>Exercise 1</h2>
-<p>Modeling Diversity and Temperature Using the <strong>ITEX diversity dataset </strong>, explore the relationship between <strong>plant diversity</strong> and <strong>temperature</strong> across different sites.</p>
-<h3 id="your-tasks">👉 Your Tasks:</h3>
+<section id="exercise-1-modeling-diversity-and-temperature" class="slide level2 scrollable">
+<h2>Exercise 1 Modeling Diversity and Temperature</h2>
+<p>Using the <strong>ITEX diversity dataset </strong>, explore the relationship between <strong>plant diversity</strong> and <strong>temperature</strong> across different sites.</p>
+<p>👉 Your Tasks:</p>
 <ol type="1">
 <li class="fragment"><strong>Model Planning</strong>:
 <ul>
@@ -1272,21 +1270,19 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 </ul></li>
 <li class="fragment"><strong>Fit the Model</strong>:
 <ul>
-<li class="fragment">Use <code>lmer()</code> to fit a model to the data.</li>
-<li class="fragment">Look at the output with <code>summary()</code>.</li>
+<li class="fragment">Use <code>lmer()</code> to fit a model to the data and look at the output with <code>summary()</code>.</li>
 </ul></li>
 <li class="fragment"><strong>Reflect</strong>:
 <ul>
 <li class="fragment">Does the model structure reflect <strong>how the data was collected</strong>?</li>
-<li class="fragment">Does the summary output <strong>make sense</strong> given your sampling design?</li>
 </ul></li>
 </ol>
 </section>
-<section id="exercise-2" class="slide level2 scrollable">
-<h2>Exercise 2</h2>
+<section id="exercise-2-optional" class="slide level2 scrollable">
+<h2>Exercise 2 (optional)</h2>
 <p>What is the relationship between diversity and temperature <strong>within sites</strong>?</p>
 <p>Now that you’ve explored overall patterns, focus your model on how <strong>temperature affects diversity within each site</strong>.</p>
-<h4 id="your-tasks-1">👉 Your Tasks:</h4>
+<p>👉 Your Tasks:</p>
 <ol type="1">
 <li class="fragment"><ul>
 <li class="fragment">What changes when we ask about relationships <em>within sites</em> instead of <em>across</em> them?</li>

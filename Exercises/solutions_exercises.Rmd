@@ -1,7 +1,7 @@
 ---
 title: "Quantitative methods - solutions to exercises"
 author: "Katrín Björnsdóttir & Camila Pacheco Riaño"
-date: "2024-04-26"
+date: "2025-04-15"
 output: html_document
 ---
 
@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Libraries
 
-*Remeber that you have to load the packages each time you start a new R session*
+*Remember that you have to load the packages each time you start a new R session*
 
 ```{r, warning = FALSE, meassage = FALSE}
 library(lme4)
@@ -51,23 +51,10 @@ mutate is used to make a new column, in this case we are making a new column cal
 hist <- hist(itex$SppRich) # this shows us the distribution of our response variable
 ```
 
-It is a good practice to scale the explanatory variables.
-
-```{r}
-itex <- itex %>% 
-  mutate(TempC_scaled = scale(TempC, center = TRUE, scale = TRUE))
-```
-
-Do you remember what that does?
-
-.....
-
-By scaling/centering you position the data around the mean of 0. So the values will be positioned on either side of 0 depending on how far from the mean the values are.
-
 By exploring the relationship between diversity and temperature across sites we could start with a simple linear model.
 
 ```{r}
-itex.lm <- lm(SppRich ~ TempC_scaled, data = itex)
+itex.lm <- lm(SppRich ~ TempC, data = itex)
 summary(itex.lm)
 ```
 
@@ -82,7 +69,7 @@ From the summary output you can read plenty, but I'll explain a few for now. -
 Now lets plot this relationship
 
 ```{r}
-(prelim_plot <- ggplot(itex, aes(x = TempC_scaled, y = SppRich)) +
+(prelim_plot <- ggplot(itex, aes(x = TempC, y = SppRich)) +
     geom_point() +
     geom_smooth(method = "lm"))
 ```
@@ -100,7 +87,7 @@ Now lets explore this relationship a bit more, lets add colors based on sites to
 *sidenote : in ggplot you can add colors by including "color = SITE" within the aesthetic*
 
 ```{r, warnings = FALSE}
-(colour_plot <- ggplot(itex, aes(x = TempC_scaled, y = SppRich, color = SITE)) +
+(colour_plot <- ggplot(itex, aes(x =TempC, y = SppRich, color = SITE)) +
     geom_point(size = 2) +
     theme_classic() +
     theme(legend.position = "none"))
@@ -111,7 +98,7 @@ Can we see any pattern? ... Yes I think so. The colors which represent different
 Because of the nested structure of our data, i.e. plots within subsites within sites we might want to think about using a **linear mixed model**. Then we need to think about what we want to include as random effects. Because we expect plots within SITE and SUBSITE to be more similar to each other, we will add SITE and SUBSITE as random effect
 
 ```{r}
-mixed.lmer <- lmer(SppRich ~ TempC_scaled + (1|SITE/SUBSITE), data = itex)
+mixed.lmer <- lmer(SppRich ~ TempC + (1|SITE/SUBSITE), data = itex)
 summary(mixed.lmer)
 ```
 
@@ -146,12 +133,12 @@ sum(is.na(itex$SppRich)) # no NAs in SppRich, how about TempC_scaled?
 ```
 
 ```{r}
-sum(is.na(itex$TempC_scaled)) # yes, here we have 9 missing values
+sum(is.na(itex$TempC)) # yes, here we have 9 missing values
 ```
 
 ```{r, warning = FALSE}
 itex <- itex %>% 
-  filter(!is.na(TempC_scaled)) # here we filter out all NA values within TempC_scaled
+  filter(!is.na(TempC)) # here we filter out all NA values within TempC_scaled
 ```
 
 *sidenote: adding a "!" infront will remove values when using the filter function*
@@ -175,7 +162,7 @@ Great now we can continue.
 Run the model again with the fixed dataset.
 
 ```{r}
-mixed.lmer <- lmer(SppRich ~ TempC_scaled + (1|SITE/SUBSITE), data = itex)
+mixed.lmer <- lmer(SppRich ~ TempC + (1|SITE/SUBSITE), data = itex)
 summary(mixed.lmer)
 ```
 
@@ -204,7 +191,7 @@ Now for fun, lets visualize the new model to compare with our original linear mo
 Extract the prediction dataframe.
 
 ```{r}
-pred.mm <- ggpredict(mixed.lmer, terms = c("TempC_scaled"))  # this gives an overall predictions for the model.
+pred.mm <- ggpredict(mixed.lmer, terms = c("TempC"))  # this gives an overall predictions for the model.
 
 ```
 
@@ -223,7 +210,7 @@ library(viridis)
 ```{r}
 (ggplot(pred.mm) + 
     geom_point(data = itex, 
-               aes(x = TempC_scaled, y = SppRich, colour = SITE)) + # adding the raw data (scaled values) as points
+               aes(x = TempC, y = SppRich, colour = SITE)) + # adding the raw data (scaled values) as points
     geom_line(aes(x = x, y = predicted), linewidth = 1, color = "black") +  # this is the slope
     geom_ribbon(aes(x = x, ymin = predicted - std.error, ymax = predicted + std.error), 
                 fill = "lightgrey", alpha = 0.5) +  # this is the error band
@@ -244,8 +231,8 @@ summary(itex.lm) #this is the output from the linear model
 
 ```{r}
 (colour_plot <- ggplot(itex) +
-    geom_point(size = 2, aes(x = TempC_scaled, y = SppRich, color = SITE)) +
-    geom_smooth(method = "lm", aes(x = TempC_scaled, y = SppRich), color = "black") +
+    geom_point(size = 2, aes(x = TempC, y = SppRich, color = SITE)) +
+    geom_smooth(method = "lm", aes(x = TempC, y = SppRich), color = "black") +
     scale_color_viridis(discrete = TRUE, option = "viridis") +
     theme_classic() +
     theme(legend.position = "none"))
@@ -258,208 +245,6 @@ Now this is it for linear mixed modelling - hope you've learned something :-)
 Remember to check out the Coding Club's INTRODUCTION TO LINEAR MIXED MODELS, find it here: <https://ourcodingclub.github.io/tutorials/mixed-models/>
 
 and this is also a great source to understand how to work with colors in ggplot: <https://r-graph-gallery.com/ggplot2-color.html>
-
-# 2. Ordinations
-
-## Libraries
-
-```{r, warning = FALSE, message = FALSE}
-library(vegan)
-```
-
-## Exercise
-
-Using the ITEX dataset (itex.long.csv), plot the species composition from two sites and four sub-sites in an NMDS ordination space and group them based on their location.
-
-Load the data
-
-```{r}
-itex.long <- read_csv("Data/itex.long.csv") %>% 
-  dplyr::select(-...1)
-```
-
-Lets look at the data
-
-```{r}
-head(itex.long)
-```
-
-Here we have another ITEX dataset where we have information on species composition and species abundance within two different ITEX sites.
-
-```{r}
-unique(itex.long$SITE) # two sites
-```
-
-```{r}
-unique(itex.long$SUBSITE) # four sub-sites or habitats, two within each site
-```
-
-This is what the different habitat names represent:
-
--   AD = ATQASUK dry
-
--   AW = ATQASUK wet
-
--   BD = BARROW dry
-
--   BW = BARROW wet
-
-First we need to convert our data from a long format to a wide format.
-
-```{r}
-itex.wide <- itex.long %>% 
-  pivot_wider(names_from  = SPECIES_NAME, values_from  = SumAbund, values_fill = 0) 
-```
-
-Lets take a look at the dataset to see how this turned out
-
-```{r}
-head(itex.wide)
-```
-
-It looks good, our species are now columns and the species abundance within each plot are now rows.
-
-Now remember how ordinations only take in numerical values, so we need to remove all columns that are something but numerical.
-
-Lets take a look at the structure of out dataset
-
-```{r}
-str(itex.wide)
-```
-
-We have 101 columns (or variables) but the three first ones are characters. Lets remove them.
-
-```{r}
-itex.nmds <- itex.wide %>% 
-  dplyr::select(-SITE, -SUBSITE, -PLOT)
-
-```
-
-Did that work?
-
-```{r}
-str(itex.nmds)
-```
-
-Yes that seemed to work
-
-*Sidenote: Make sure that you make a new dataframe (in our case itex.nmds) instead of overwiting the old one, because we need information on the sites and subsites later on.*
-
-Now we can start making our NMDS
-
-First we assigning a distance matrix to "dist" using Bray-Curtis index (remember how that index was suitable for species abundance data).
-
-```{r}
-dist <- vegdist(itex.nmds,  method = "bray")
-```
-
-*Sidenote: if you get an error saying "Error in vegdist: (itex.nmds, method = "bray") : could not find function "vegdist" -- you need to load the vegan package !!*
-
-Functions are used in R to perform a certain tasks. First you define the function (in our case NMDS.scree) and then later on you can call that function to perform that specific task.
-
-```{r}
-NMDS.scree <- function(x) { # where x is the name of the data frame variable
-  plot(rep(1, 10), replicate(10, metaMDS(x, autotransform = F, k = 1)$stress), xlim = c(1, 10),ylim = c(0, 0.30), xlab = "# of Dimensions", ylab = "Stress", main = "NMDS stress plot")
-  for (i in 1:10) {
-    points(rep(i + 1,10),replicate(10, metaMDS(x, autotransform = F, k = i + 1)$stress))
-  }
-}
-```
-
-Here we are making a function to perform a NMDS for 1-10 dimensions and then plotting the nr. of dimensions vs the stress
-
-We do this to evaluate the optimal number of dimensions we will use in our analysis.
-
-```{r, message = FALSE, warning = FALSE, results = 'hide'}
-NMDS.scree(dist)
-```
-
-This could take a while...
-
-Now remember how we want the stress to be as low as possible but we also want as low number of dimensions as possible. From the plot we made we can see that there really isn't much difference between 2 and 3 - so we can go ahead and perform an NMDS using 2 dimensions.
-
-set.seed() allows you to control the randomness in your code, making your results reproducible. It doesn't really matter what number you put in the brackets, you just have to put some number.
-
-```{r}
-set.seed(2)
-```
-
-Here, we perform the final analysis and check the result.
-
-```{r}
-NMDS1 <- metaMDS(dist, k = 2, trymax = 100, trace = F) 
-```
-
-k = 2 defines the number of dimensions we want, in our case 2, trymax determines the number of fits the ordination will perform to find the best fit, in our case 100 fits.
-
-Lets check the results - check if the stress looks good.
-
-```{r}
-NMDS1
-```
-
-```{r}
-stressplot(NMDS1)
-```
-
-Here 0.05 seems low enough.
-
-Now we can plot our ordination.
-
-```{r}
-plot(NMDS1, type = "t")
-plot(NMDS1,)
-```
-
-But notice how we only have our plots in this space, no species.
-
-We can add the species scores by giving the metaMDS the original community matrix as input and specifying the distance measure. So essentially we are performing a new ordination analysis and instead of using vegsdist we define the distance within the ordination.
-
-```{r}
-NMDS2 <- metaMDS(itex.nmds, k = 2, trymax = 100, trace = F, autotransform = FALSE, distance = "bray")
-plot(NMDS2)
-plot(NMDS2, display = "sites", type = "n")
-points(NMDS2, display = "sites", col = "red", cex = 1.25)
-text(NMDS2, display ="species")
-```
-
-Alternatively, you can use the functions ordiplot and orditorp.
-
-```{r}
-ordiplot(NMDS2, type = "n")
-orditorp(NMDS2, display = "species", col = "red", air = 0.01)
-orditorp(NMDS2, display = "sites", cex = 1.1, air = 0.01)
-```
-
-Now this is a nice plot - we can see how the plots are really separated in space, each one of the four associated with different plant species.
-
-But we don't know which group belongs to which sub-site or habitat.
-
-First we need to define our subsites in a vector.
-
-```{r, warning = FALSE}
-group <- itex.wide$SUBSITE  #remember how I told you not to overwrite this dataset, now we are going to use the SUBSITE column to define our groups
-colors <- c(rep("#ff0000", 24), rep("#590004", 24), rep("#606c38", 24), rep("#283618", 24)) #make a vector of different colors that you think are nice
-
-```
-
-Plot convex hulls with colors based on the group identity.
-
-```{r, warning = FALSE}
-ordiplot(NMDS2, type = "n")
-#orditorp(NMDS2, display = "sites", type = "n", air = 0.01, cex = 1.25)
-orditorp(NMDS2, display = "species", col = "#444444", air = 0.01)
-for(i in unique(group)) {
-  ordihull(NMDS2$point[grep(i, group),], draw="polygon",
-           groups = group[group == i],col = colors[grep(i,group)],label=T) } 
-
-```
-
-You can add the plot numbers and the species names but you can also skip it because it makes the plot a bit complicated.. it's up to you :-)
-
-Okay there we have it, notice how the habitats (the two dry habitats and the two wet habitats) are closer together in space than the two sites - why could that be?
-
-Remember to check out the Coding Club's INTRODUCTION TO ORDINATION, find it here: <https://ourcodingclub.github.io/tutorials/ordination/>
 
 Don't hesitate to contact us if you are having problems with running the script.
 
