@@ -4,6 +4,7 @@ subtitle: "Mixed Models, and Multilevel Models, GLMMs, etc..."
 author:   
   - Camila Pacheco    
   - Katrín Björnsdóttir
+<<<<<<< HEAD
 format:
   revealjs:
     theme: blood
@@ -19,9 +20,25 @@ format:
     #  html-math-method: katex
     #  code-line-numbers: false
   
+=======
+format: 
+  
+  revealjs:
+     theme: blood
+     fontsize: 2.1em
+     incremental: true
+     css: styles.css
+     aspectratio: 169
+     scrollable: true
+    # html:
+    #  toc: true
+    #  html-math-method: katex
+    #  code-line-numbers: false
+>>>>>>> main
 ---
 
 ## Today
+
 -   Linear Models
 -   What are hierarchical linear models
 -   Identify situations in which the use of mixed effects is appropriate
@@ -60,57 +77,218 @@ install.packages(c("lme4",
 
 ## Linear models
 
+What is a linear model?
+
+-   A mathematical tool used to describe the relationship between a *response variable* and an *explanatory variable*.
+
+-   In the simplest form is expressed as:\
+
+-   $Y = \beta_0 + \beta_1 X + \varepsilon$.
+
 ## Linear models
 
-Now we want to test if there is a relationship between petal length and petal width. For that we run a simple linear model.
+A simple example:
 
+Does soil nitrogen content influence plant productivity?
+
+<p style="font-size: 1.2em;">
+
+Plant biomass = β₀ + β₁ · Soil nitrogen + ε
+
+</p>
+
+## Linear Models
+
+A simple example:
+
+Does soil nitrogen content influence plant productivity?
+
+<p style="font-size: 1.2em;">
+
+[Plant biomass]{style="color: red; font-weight: bold;"} = β₀ + β₁ · Soil nitrogen + ε
+
+</p>
+
+<p style="margin-top: -10px;">
+
+↑ [Response variable]{style="font-size: 0.8em;"}
+
+</p>
+
+## Linear Models
+
+A simple example:
+
+Does soil nitrogen content influence plant productivity?
+
+<p style="font-size: 1.2em;">
+
+Plant biomass = β₀ + β₁ · [Soil nitrogen]{style="color: red; font-weight: bold;"} + ε
+
+</p>
+
+<p style="position: relative; left: 150px; margin-top: -20px;">
+
+↑ [Explanatory variable]{style="font-size: 0.8em;"}
+
+</p>
+
+## Linear models
+
+```{r, echo = FALSE, message = FALSE}
+n <- 100  
+soil_nitrogen <- rnorm(n, mean = 10, sd = 3)  
+beta_0 <- 5 
+beta_1 <- 2   
+epsilon <- rnorm(n, mean = 0, sd = 1)  
+plant_biomass <- beta_0 + beta_1 * soil_nitrogen + epsilon  
+
+data <- data.frame(SoilNitrogen = soil_nitrogen, PlantBiomass = plant_biomass)
+
+model <- lm(PlantBiomass ~ SoilNitrogen, data = data)
+
+intercept <- coef(model)[1]
+slope <- coef(model)[2]
+
+equation <- paste("y = ", round(intercept, 2), " + ", round(slope, 2), "x", sep = "")
+
+library(ggplot2)
+
+ggplot(data, aes(x = SoilNitrogen, y = PlantBiomass)) +
+  geom_point(color = "#374558", size = 2) + 
+  geom_smooth(method = "lm", color = "#A7B5C8", se = FALSE, linewidth = 1.5) +  
+  labs(title = "Relationship between Soil Nitrogen and Plant Biomass",
+       x = "Soil Nitrogen",
+       y = "Plant Biomass") +
+  theme_classic() +
+  annotate("text", x = 3, y = 35, label = equation, color = "black", size = 7, hjust = 0)
+
+
+```
+
+## Linear models
+
+Why do we use linear models in ecology?
+
+-   Ecological systems are *complex*, but linear models give us a *simplified* framework to ask and answer key ecological questions.
+
+    -   ✅ Simple and interpretable: Easy to understand and communicate.\
+    -   ✅ Flexible: Can be extended .\
+    -   ✅ Hypothesis testing: Relationships based on ecological theory.\
+    -   ✅ Help to test ecological hypotheses with real-world data.\
+    -   ✅ Foundation for advanced models
+
+## Data for this part of the session
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("https://static1.srcdn.com/wordpress/wp-content/uploads/2022/08/Illustrations-of-various-dragons-from-Dungeons-and-Dragons.jpg")
+```
+
+[Coding Club Mixed models](https://ourcodingclub.github.io/tutorials/mixed-models/)
+
+## Explore the data
 
 ```{r}
 #| output: true
 #| eval: true
-#| echo: false
+#| echo: true
 library(tidyverse)
-iris<-read_csv("Data/iris.csv")
+load("CC-Linear-mixed-models/dragons.RData")
+
+dragons_Bavarian <- dragons |> 
+  filter(mountainRange == "Bavarian")
+
 ```
 
-```{r echo=T}
-iris.m1 <- lm(Petal.Length ~ Petal.Width, data = iris)
-summary(iris.m1)
+## Explore the data
+
+```{r, echo = TRUE}
+head(dragons_Bavarian)
 ```
 
-The summary function gives you the output from the model. We can see that petal width significantly effects petal length (as you might have expected). Our model did *very* good, explaining about 93% of the variation in petal length.
+## Explore the data
 
-## Linear models
-
-Do we expect there to be a difference between species? Lets add species as an interaction to make it a bit more complicated.
-
-```{r echo=T}
-iris.m2 <- lm(Petal.Length ~ Petal.Width * Species, data = iris)
-summary(iris.m2)
+```{r, echo = TRUE}
+hist(dragons_Bavarian$testScore)
 ```
 
-## Linear models
+## Our question
 
-Now lets visualize the relationship using ggplot (notice how we only included stat`smooth to our original scatter plot).
+How does body size of dragons influence their intelligence?
+
+## Our question
+
+How does body size of dragons influence their intelligence?
+
+First we will plot our DAG:
+
+```{r, echo = FALSE, message = FALSE}
+#| message: false
+library(ggdag)
+library(tidyverse)
+
+# Define a DAG
+dag_data <- dagify(
+  IQ ~ Size,
+  exposure = "Size",
+  outcome = "IQ",
+  labels = c(
+    Size = "Dragon body length",
+    IQ = "IQ - Test score"
+  )
+)
+
+ggdag_parents(dag_data, .var = "IQ",text = FALSE,use_labels = "label") +
+  theme_dag() +
+  scale_fill_manual(values = c("#c0392b","#a569bd"))+
+  scale_color_manual(values = c("#a569bd","#c0392b"))+
+  theme(legend.position ="none")
+```
+
+## Our question
+
+How does body size of dragons influence their intelligence?
+
+Then our model:
+
+<p style="font-size: 1.2em;">
+
+Test score = β₀ + β₁ · Body length + ε
+
+</p>
+
+## Our question
+
+Now lets visualize the relationship using ggplot.
 
 ```{r echo=TRUE}
-p<-iris %>% 
+(p <- dragons_Bavarian %>% 
   ggplot(aes(
-    x = Petal.Length,
-    y = Petal.Width,
-    color = Species)) + # to assign a color to each group
+    x = bodyLength,
+    y = testScore)) + # to assign a color to each group
   geom_point() + 
-  stat_smooth(method = "lm", aes(fill = Species, colour = Species)) +    
+  stat_smooth(method = "lm") +    
+  theme_classic() +
   labs(
-    x = "Petal length (cm)",
-    y = "Petal width (cm)")
+    x = "Body length",
+    y = "Test score")
+)
 ```
 
-## Linear models
-```{r echo=FALSE}
-p
+<p style="font-size: 0.6em; font-style: italic;">
+  Note that putting your entire ggplot code in brackets (<code>()</code>) creates the graph and then shows it in the plot viewer. If you don’t have the brackets, you’ve only created the object, but haven’t visualized it. You would then have to call the object such that it will be displayed by just typing <code>p</code> after you’ve created the “p” object.
+</p>
+
+## Lets model it
+
+```{r, echo = TRUE}
+
+basic.lm <- lm(testScore ~ bodyLength, data = dragons_Bavarian)
+summary(basic.lm)
+
 ```
 
+<<<<<<< HEAD
 ## Linear models
 
 In the previous plot we just made we used the default ggplot settings. Although this is a great looking plot, we can make it even better since ggplot has a lot of power in customization, here is one example but feel free to play around with this, it can actually be quite satisfying when you get the hang of it.
@@ -212,29 +390,29 @@ ggplot(iris, aes(x = Species, y = Sepal.Length)) +
   theme_minimal()
 ```
 
+=======
+>>>>>>> main
 ## Generalize linear models
 
-Get familiar with different data distributions
-Here is a brief summary of the data distributions you might encounter most often.
+Get familiar with different data distributions Here is a brief summary of the data distributions you might encounter most often.
 
-- Gaussian - Continuous data (normal distribution and homoscedasticity assumed)
-- Poisson - Count abundance data (integer values, zero-inflated data, left-skewed data)
-- Binomial - Binary variables (TRUE/FALSE, 0/1, presence/absence data)
+-   Gaussian - Continuous data (normal distribution and homoscedasticity assumed)
+-   Poisson - Count abundance data (integer values, zero-inflated data, left-skewed data)
+-   Binomial - Binary variables (TRUE/FALSE, 0/1, presence/absence data)
 
 ::: fragment
 Choosing the right statistical test for your analysis is an important step about which you should think carefully.
-::: 
-
+:::
 
 ## Generalize linear models
 
-<div style="background-color:white; display:inline-block; padding: 10px;">
-
+::: {style="background-color:white; display:inline-block; padding: 10px;"}
 ![lm which](https://ourcodingclub.github.io/assets/img/tutorials/modelling/DL_intro_lm_which.png)
-    
-</div>
+:::
+
 ## Generalize linear models
-Syntax  for a model with poisson (count) distribution
+
+Syntax for a model with poisson (count) distribution
 
 ```{r}
 #| output: false
@@ -244,7 +422,8 @@ Syntax  for a model with poisson (count) distribution
 glm(y ~ x, family = poisson, data = df)
   
 ```
-Syntax  for a model with binomial distribution
+
+Syntax for a model with binomial distribution
 
 ```{r}
 #| output: false
@@ -339,6 +518,7 @@ The *random effects* structure will aid correct inference about *fixed effects*,
 -   `"I want to know how these factors (random effects) contribute to the overall variation in the outcome."`
 -   They are always categorical
 
+<<<<<<< HEAD
 - Examples: Site, Observer, Year
 
 ## When do we use them?
@@ -370,6 +550,18 @@ Questions:
 #| echo: false
 library(tidyverse)
 load("CC-Linear-mixed-models/dragons.RData")
+=======
+## Scaling the data
+
+It is good practice to standardize your explanatory variables before proceeding so that they have a mean of zero (“centering”) and standard deviation of one (“scaling”).
+
+If two variables in the same model have very different scales, the mixed model will likely return a `convergence error` when trying to compute the parameters.
+
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+>>>>>>> main
 
 dragons<- dragons |> 
   mutate(bodyLength2=scale(bodyLength,center = TRUE, scale = TRUE))
@@ -510,13 +702,80 @@ qqnorm(resid(mixed.lmer))
 qqline(resid(mixed.lmer))
 ```
 
+<<<<<<< HEAD
 ## Step 3: Model interpreation Dragons
 ```{r}
 summary(mixed.lmer)
+=======
+## Step 1: Model building Nesting
+
+Example:
+
+10 control \| 10 experimental
+
+-   3 years
+
+-   Each season
+
+-   20 beds
+
+-   50 seedlings
+
+-   5 leaves
+
+-   5 leaves x 50 seedlings x 20 beds x 4 seasons x 3 years = 60 000 measurements per treatment
+
+## Step 1: Model building Nesting
+
+Effect of treatment in leaf length
+
+::: fragment
+```{r}
+#| output: false
+#| eval: false
+#| echo: true
+leafLength ~ treatment 
+>>>>>>> main
 ```
 
+<<<<<<< HEAD
 ## Step 3: Model interpreation Dragons
 Mountain ranges are clearly important: they explain a lot of variation:
+=======
+::: fragment
+-   *Pseudoreplication*
+-   Massively increasing sampling size
+:::
+
+::: fragment
+Better model
+
+```{r}
+#| output: false
+#| eval: false
+#| echo: true
+
+leafLength ~ treatment + (1|Bed/Plant/Leaf)
+```
+:::
+
+::: fragment
+What about the crossed effects ?
+
+-   Crossed (or partially crossed) random factors that do not represent levels in a hierarchy.
+-   This account for the fact that all plants in the experiment, regardless of the fixed (treatment) effect, may have experienced a very hot summer in the second year.
+
+```{r}
+#| output: false
+#| eval: false
+#| echo: true
+
+leafLength ~ treatment + (1|Bed/Plant/Leaf) + (1|Season)
+```
+:::
+
+## Step 1: Model building Dragons Nesting
+>>>>>>> main
 
 ```{r}
 #| output: true
@@ -598,8 +857,8 @@ p<-
    theme_minimal()
 ```
 
-
 ## Step 4. Visualization
+
 ```{r}
 #| output: true
 #| eval: true
@@ -607,6 +866,7 @@ p<-
 p
 ```
 
+<<<<<<< HEAD
 
 ## Random slopes and Random intercept
 
@@ -726,17 +986,19 @@ leafLength ~ treatment + (1|Bed/Plant/Leaf) + (1|Season)
 :::
 
 
+=======
+>>>>>>> main
 ## Additional ressources
 
 Popular libraries for (G)LMMs:
 
-- Frequentist : `nlme`, `lme4`, `glmmTMB` 
-- Bayesian : `brms`, `rstan`, `rstanarm`, `MCMCglmm`
+-   Frequentist : `nlme`, `lme4`, `glmmTMB`
 
-- Nice visualization : [link](https://mfviz.com/hierarchical-models/)
+-   Bayesian : `brms`, `rstan`, `rstanarm`, `MCMCglmm`
 
-- Most of the material comes from : [Coding Club](https://ourcodingclub.github.io/)
+-   Nice visualization : [link](https://mfviz.com/hierarchical-models/)
 
+-   Most of the material comes from : [Coding Club](https://ourcodingclub.github.io/)
 
 ## BREAK
 
@@ -756,11 +1018,11 @@ Now let's practice ...
 
 We will be using a dataset from the ITEX network.
 
-- ITEX is a long-term warming experiment that uses standardized protocols to examine impacts of warming on Arctic ecosystems.
+-   ITEX is a long-term warming experiment that uses standardized protocols to examine impacts of warming on Arctic ecosystems.
 
-- Established in the 1990s - vegetation monitoring over three decades.
+-   Established in the 1990s - vegetation monitoring over three decades.
 
-- Uses a simple method that is easy to establish in the field - open top chambers
+-   Uses a simple method that is easy to establish in the field - open top chambers
 
 ::: fragment
 ```{r, echo=FALSE, out.width="20%"}
@@ -773,7 +1035,6 @@ knitr::include_graphics("Hierarchical_Linear_Models_files/Figures/otc.png")
 ```{r, echo=FALSE, out.width="100%"}
 knitr::include_graphics("Hierarchical_Linear_Models_files/Figures/audkuluheidi.JPG")
 ```
-
 
 ## Let's look at the data
 
@@ -804,7 +1065,12 @@ unique(itex$SITE) #you can also do this and then it gives you the name of all sa
 Modeling Diversity and Temperature
 Using the  **ITEX diversity dataset **, explore the relationship between **plant diversity** and **temperature** across different sites.
 
+<<<<<<< HEAD
 ### 👉 Your Tasks:
+=======
+-   Think about what will be the response variable, what to include as fixed effects and what to include as a random effect.
+-   Does the summary output correspond to the structure of the data? Think about how the data was sampled and how you structured your model.
+>>>>>>> main
 
 1. **Model Planning**:
    - What is your **response variable**?
@@ -824,6 +1090,7 @@ Using the  **ITEX diversity dataset **, explore the relationship between **plant
 What is the relationship between diversity and temperature **within sites**?
 :::
 
+<<<<<<< HEAD
 Now that you've explored overall patterns, focus your model on how **temperature affects diversity within each site**.
 
 #### 👉 Your Tasks:
@@ -836,6 +1103,9 @@ Now that you've explored overall patterns, focus your model on how **temperature
 3. **Fit a New Model (if needed)**:
    - Update your `lmer()` call to reflect this new focus.
    - Reinterpret the output
+=======
+-   Think about how to restructure your model based on the new question.
+>>>>>>> main
 
 ```{r eval=FALSE, echo=FALSE }
 renderthis::to_pdf("Hierarchical_Linear_Models.html")
