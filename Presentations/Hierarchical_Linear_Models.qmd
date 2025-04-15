@@ -271,49 +271,6 @@ summary(basic.lm)
 
 ```
 
-
-## Linear models
-
-In the previous plot we just made we used the default ggplot settings. Although this is a great looking plot, we can make it even better since ggplot has a lot of power in customization, here is one example but feel free to play around with this, it can actually be quite satisfying when you get the hang of it.
-
-```{r echo=t}
-p<-iris %>% 
-  ggplot(aes(
-    x = Petal.Length,
-    y = Petal.Width,
-    color = Species # to assign a color to each group
-  )) +
-  geom_point(size = 3) + # to plot a scatter plot
-  stat_smooth(method = "lm", aes(fill = Species, colour = Species), linewidth = 1.5) + #add a linear fit for each species
-  scale_color_manual(name = "Species", values = c("#023d79", "#faa307", "#3f5426")) + #add manually selected colors to the points of different species
-  scale_fill_manual(name = "Species", values = c("#023d79", "#faa307", "#3f5426")) + #add manually selected colors to the linear fit for each species
-  labs(
-    x = "Petal length (cm)", #x axis label
-    y = "Petal width (cm)" #y axis label 
-  ) +
-  theme_bw()+ #theme within the ggplot2 package (different themes available, f.ex. theme_classic, theme_minimal)
-  theme(axis.text.x = element_text(size = 10), #use the theme function to customize axis text, label test, legends etc.
-        axis.text.y = element_text(size = 10),
-        axis.title.x = element_text(size = 14, face = "plain"),             
-        axis.title.y = element_text(size = 14, face = "plain"),             
-        panel.grid.major.x = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.minor.y = element_blank(),
-        panel.grid.major.y = element_blank(),
-        plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), units = , "cm"),
-        plot.title = element_text(size = 20, vjust = 1, hjust = 0.5),
-        legend.text = element_text(size = 12, face = "italic"),          
-        legend.position = "right")
-```
-
-
-## Linear models
-
-```{r}
-p
-```
-
-
 ## Factorial ANOVA: It’s Just a Linear Model
 
 - *Factorial ANOVA* is a special kind of analysis used when you have two or more categorical predictors.
@@ -980,8 +937,6 @@ Using the  **ITEX diversity dataset **, explore the relationship between **plant
 ## Exercise 2
 
 What is the relationship between diversity and temperature **within sites**?
-:::
-
 
 Now that you've explored overall patterns, focus your model on how **temperature affects diversity within each site**.
 
@@ -995,7 +950,6 @@ Now that you've explored overall patterns, focus your model on how **temperature
 3. **Fit a New Model (if needed)**:
    - Update your `lmer()` call to reflect this new focus.
    - Reinterpret the output
-
 
 ```{r eval=FALSE, echo=FALSE }
 renderthis::to_pdf("Hierarchical_Linear_Models.html")
