@@ -46,7 +46,8 @@ Required packages
 ```
 install.packages(c("lme4",
                       "ggeffects",
-                      "stargazer"
+                      "MuMin",
+                      "emmmeans"
                       ))
 ```
 - Presentation [here](https://github.com/Lacapary/BIO503/blob/main/PDFs/Hierarchical_Linear_Models.pdf)
