@@ -10,7 +10,7 @@
 <link href="Hierarchical_Linear_Models_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <link href="Hierarchical_Linear_Models_files/libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
 <link href="Hierarchical_Linear_Models_files/libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.4.551">
+  <meta name="generator" content="quarto-1.4.553">
 
   <meta name="author" content="Camila Pacheco">
   <meta name="author" content="Katrín Björnsdóttir">
@@ -390,14 +390,6 @@
       margin-right: 0; 
     }
   </style>
-  <style>
-  .v-center-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 90%;
-  }
-  </style>
 </head>
 <body class="quarto-dark">
   <div class="reveal">
@@ -459,125 +451,169 @@ Do not hesitate to ask questions!
 </section>
 <section id="linear-models" class="slide level2">
 <h2>Linear models</h2>
+<p>What is a linear model?</p>
+<ul>
+<li class="fragment"><p>A mathematical tool used to describe the relationship between a <em>response variable</em> and an <em>explanatory variable</em>.</p></li>
+<li class="fragment"><p>In the simplest form is expressed as:<br>
+</p></li>
+<li class="fragment"><p><span class="math inline">\(Y = \beta_0 + \beta_1 X + \varepsilon\)</span>.</p></li>
+</ul>
 </section>
 <section id="linear-models-1" class="slide level2">
 <h2>Linear models</h2>
-<p>Now we want to test if there is a relationship between petal length and petal width. For that we run a simple linear model.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>iris.m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Petal.Length <span class="sc">~</span> Petal.Width, <span class="at">data =</span> iris)</span>
-<span id="cb2-2"><a href=""></a><span class="fu">summary</span>(iris.m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = Petal.Length ~ Petal.Width, data = iris)
-
-Residuals:
-     Min       1Q   Median       3Q      Max 
--1.33542 -0.30347 -0.02955  0.25776  1.39453 
-
-Coefficients:
-            Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  1.08356    0.07297   14.85   &lt;2e-16 ***
-Petal.Width  2.22994    0.05140   43.39   &lt;2e-16 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 0.4782 on 148 degrees of freedom
-Multiple R-squared:  0.9271,    Adjusted R-squared:  0.9266 
-F-statistic:  1882 on 1 and 148 DF,  p-value: &lt; 2.2e-16</code></pre>
-</div>
-</div>
-<p>The summary function gives you the output from the model. We can see that petal width significantly effects petal length (as you might have expected). Our model did <em>very</em> good, explaining about 93% of the variation in petal length.</p>
+<p>A simple example:</p>
+<p>Does soil nitrogen content influence plant productivity?</p>
+<p style="font-size: 1.2em;">
+</p><p>Plant biomass = β₀ + β₁ · Soil nitrogen + ε</p>
+<p></p>
 </section>
 <section id="linear-models-2" class="slide level2">
-<h2>Linear models</h2>
-<p>Do we expect there to be a difference between species? Lets add species as an interaction to make it a bit more complicated.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>iris.m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Petal.Length <span class="sc">~</span> Petal.Width <span class="sc">*</span> Species, <span class="at">data =</span> iris)</span>
-<span id="cb4-2"><a href=""></a><span class="fu">summary</span>(iris.m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = Petal.Length ~ Petal.Width * Species, data = iris)
-
-Residuals:
-     Min       1Q   Median       3Q      Max 
--0.84099 -0.19343 -0.03686  0.16314  1.17065 
-
-Coefficients:
-                              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)                     1.3276     0.1309  10.139  &lt; 2e-16 ***
-Petal.Width                     0.5465     0.4900   1.115   0.2666    
-Speciesversicolor               0.4537     0.3737   1.214   0.2267    
-Speciesvirginica                2.9131     0.4060   7.175 3.53e-11 ***
-Petal.Width:Speciesversicolor   1.3228     0.5552   2.382   0.0185 *  
-Petal.Width:Speciesvirginica    0.1008     0.5248   0.192   0.8480    
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 0.3615 on 144 degrees of freedom
-Multiple R-squared:  0.9595,    Adjusted R-squared:  0.9581 
-F-statistic: 681.9 on 5 and 144 DF,  p-value: &lt; 2.2e-16</code></pre>
-</div>
-</div>
+<h2>Linear Models</h2>
+<p>A simple example:</p>
+<p>Does soil nitrogen content influence plant productivity?</p>
+<p style="font-size: 1.2em;">
+</p><p><span style="color: red; font-weight: bold;">Plant biomass</span> = β₀ + β₁ · Soil nitrogen + ε</p>
+<p></p>
+<p style="margin-top: -10px;">
+</p><p>↑ <span style="font-size: 0.8em;">Response variable</span></p>
+<p></p>
 </section>
 <section id="linear-models-3" class="slide level2">
-<h2>Linear models</h2>
-<p>Now lets visualize the relationship using ggplot (notice how we only included stat`smooth to our original scatter plot).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>p<span class="ot">&lt;-</span>iris <span class="sc">%&gt;%</span> </span>
-<span id="cb6-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
-<span id="cb6-3"><a href=""></a>    <span class="at">x =</span> Petal.Length,</span>
-<span id="cb6-4"><a href=""></a>    <span class="at">y =</span> Petal.Width,</span>
-<span id="cb6-5"><a href=""></a>    <span class="at">color =</span> Species)) <span class="sc">+</span> <span class="co"># to assign a color to each group</span></span>
-<span id="cb6-6"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb6-7"><a href=""></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="fu">aes</span>(<span class="at">fill =</span> Species, <span class="at">colour =</span> Species)) <span class="sc">+</span>    </span>
-<span id="cb6-8"><a href=""></a>  <span class="fu">labs</span>(</span>
-<span id="cb6-9"><a href=""></a>    <span class="at">x =</span> <span class="st">"Petal length (cm)"</span>,</span>
-<span id="cb6-10"><a href=""></a>    <span class="at">y =</span> <span class="st">"Petal width (cm)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<h2>Linear Models</h2>
+<p>A simple example:</p>
+<p>Does soil nitrogen content influence plant productivity?</p>
+<p style="font-size: 1.2em;">
+</p><p>Plant biomass = β₀ + β₁ · <span style="color: red; font-weight: bold;">Soil nitrogen</span> + ε</p>
+<p></p>
+<p style="position: relative; left: 150px; margin-top: -20px;">
+</p><p>↑ <span style="font-size: 0.8em;">Explanatory variable</span></p>
+<p></p>
 </section>
 <section id="linear-models-4" class="slide level2">
 <h2>Linear models</h2>
 
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section>
 <section id="linear-models-5" class="slide level2">
 <h2>Linear models</h2>
-<p>In the previous plot we just made we used the default ggplot settings. Although this is a great looking plot, we can make it even better since ggplot has a lot of power in customization, here is one example but feel free to play around with this, it can actually be quite satisfying when you get the hang of it.</p>
+<p>Why do we use linear models in ecology?</p>
+<ul>
+<li class="fragment"><p>Ecological systems are <em>complex</em>, but linear models give us a <em>simplified</em> framework to ask and answer key ecological questions.</p>
+<ul>
+<li class="fragment">✅ Simple and interpretable: Easy to understand and communicate.<br>
+</li>
+<li class="fragment">✅ Flexible: Can be extended .<br>
+</li>
+<li class="fragment">✅ Hypothesis testing: Relationships based on ecological theory.<br>
+</li>
+<li class="fragment">✅ Help to test ecological hypotheses with real-world data.<br>
+</li>
+<li class="fragment">✅ Foundation for advanced models</li>
+</ul></li>
+</ul>
+</section>
+<section id="data-for-this-part-of-the-session" class="slide level2">
+<h2>Data for this part of the session</h2>
+
+<img data-src="https://static1.srcdn.com/wordpress/wp-content/uploads/2022/08/Illustrations-of-various-dragons-from-Dungeons-and-Dragons.jpg" style="width:80.0%" class="r-stretch"><p><a href="https://ourcodingclub.github.io/tutorials/mixed-models/">Coding Club Mixed models</a></p>
+</section>
+<section id="explore-the-data" class="slide level2">
+<h2>Explore the data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>p<span class="ot">&lt;-</span>iris <span class="sc">%&gt;%</span> </span>
-<span id="cb7-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
-<span id="cb7-3"><a href=""></a>    <span class="at">x =</span> Petal.Length,</span>
-<span id="cb7-4"><a href=""></a>    <span class="at">y =</span> Petal.Width,</span>
-<span id="cb7-5"><a href=""></a>    <span class="at">color =</span> Species <span class="co"># to assign a color to each group</span></span>
-<span id="cb7-6"><a href=""></a>  )) <span class="sc">+</span></span>
-<span id="cb7-7"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> <span class="co"># to plot a scatter plot</span></span>
-<span id="cb7-8"><a href=""></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="fu">aes</span>(<span class="at">fill =</span> Species, <span class="at">colour =</span> Species), <span class="at">linewidth =</span> <span class="fl">1.5</span>) <span class="sc">+</span> <span class="co">#add a linear fit for each species</span></span>
-<span id="cb7-9"><a href=""></a>  <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">"Species"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#023d79"</span>, <span class="st">"#faa307"</span>, <span class="st">"#3f5426"</span>)) <span class="sc">+</span> <span class="co">#add manually selected colors to the points of different species</span></span>
-<span id="cb7-10"><a href=""></a>  <span class="fu">scale_fill_manual</span>(<span class="at">name =</span> <span class="st">"Species"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#023d79"</span>, <span class="st">"#faa307"</span>, <span class="st">"#3f5426"</span>)) <span class="sc">+</span> <span class="co">#add manually selected colors to the linear fit for each species</span></span>
-<span id="cb7-11"><a href=""></a>  <span class="fu">labs</span>(</span>
-<span id="cb7-12"><a href=""></a>    <span class="at">x =</span> <span class="st">"Petal length (cm)"</span>, <span class="co">#x axis label</span></span>
-<span id="cb7-13"><a href=""></a>    <span class="at">y =</span> <span class="st">"Petal width (cm)"</span> <span class="co">#y axis label </span></span>
-<span id="cb7-14"><a href=""></a>  ) <span class="sc">+</span></span>
-<span id="cb7-15"><a href=""></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span> <span class="co">#theme within the ggplot2 package (different themes available, f.ex. theme_classic, theme_minimal)</span></span>
-<span id="cb7-16"><a href=""></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>), <span class="co">#use the theme function to customize axis text, label test, legends etc.</span></span>
-<span id="cb7-17"><a href=""></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
-<span id="cb7-18"><a href=""></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">"plain"</span>),             </span>
-<span id="cb7-19"><a href=""></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">"plain"</span>),             </span>
-<span id="cb7-20"><a href=""></a>        <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb7-21"><a href=""></a>        <span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb7-22"><a href=""></a>        <span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb7-23"><a href=""></a>        <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb7-24"><a href=""></a>        <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="at">units =</span> , <span class="st">"cm"</span>),</span>
-<span id="cb7-25"><a href=""></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
-<span id="cb7-26"><a href=""></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"italic"</span>),          </span>
-<span id="cb7-27"><a href=""></a>        <span class="at">legend.position =</span> <span class="st">"right"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href=""></a><span class="fu">load</span>(<span class="st">"CC-Linear-mixed-models/dragons.RData"</span>)</span>
+<span id="cb2-3"><a href=""></a></span>
+<span id="cb2-4"><a href=""></a>dragons_Bavarian <span class="ot">&lt;-</span> dragons <span class="sc">|&gt;</span> </span>
+<span id="cb2-5"><a href=""></a>  <span class="fu">filter</span>(mountainRange <span class="sc">==</span> <span class="st">"Bavarian"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="linear-models-6" class="slide level2">
-<h2>Linear models</h2>
+<section id="explore-the-data-1" class="slide level2">
+<h2>Explore the data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">head</span>(dragons_Bavarian)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  testScore bodyLength mountainRange site
+1 16.147309   165.5485      Bavarian    a
+2 33.886183   167.5593      Bavarian    a
+3  6.038333   165.8830      Bavarian    a
+4 18.838821   167.6855      Bavarian    a
+5 33.862328   169.9597      Bavarian    a
+6 47.043246   168.6887      Bavarian    a</code></pre>
+</div>
+</div>
+</section>
+<section id="explore-the-data-2" class="slide level2">
+<h2>Explore the data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">hist</span>(dragons_Bavarian<span class="sc">$</span>testScore)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
+</div>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
+<section id="our-question" class="slide level2">
+<h2>Our question</h2>
+<p>How does body size of dragons influence their intelligence?</p>
+</section>
+<section id="our-question-1" class="slide level2">
+<h2>Our question</h2>
+<p>How does body size of dragons influence their intelligence?</p>
+<p>First we will plot our DAG:</p>
+
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"></section>
+<section id="our-question-2" class="slide level2">
+<h2>Our question</h2>
+<p>How does body size of dragons influence their intelligence?</p>
+<p>Then our model:</p>
+<p style="font-size: 1.2em;">
+</p><p>Test score = β₀ + β₁ · Body length + ε</p>
+<p></p>
+</section>
+<section id="our-question-3" class="slide level2">
+<h2>Our question</h2>
+<p>Now lets visualize the relationship using ggplot.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>(p <span class="ot">&lt;-</span> dragons_Bavarian <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
+<span id="cb6-3"><a href=""></a>    <span class="at">x =</span> bodyLength,</span>
+<span id="cb6-4"><a href=""></a>    <span class="at">y =</span> testScore)) <span class="sc">+</span> <span class="co"># to assign a color to each group</span></span>
+<span id="cb6-5"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb6-6"><a href=""></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span>    </span>
+<span id="cb6-7"><a href=""></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb6-8"><a href=""></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-9"><a href=""></a>    <span class="at">x =</span> <span class="st">"Body length"</span>,</span>
+<span id="cb6-10"><a href=""></a>    <span class="at">y =</span> <span class="st">"Test score"</span>)</span>
+<span id="cb6-11"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"><p style="font-size: 0.6em; font-style: italic;">
+Note that putting your entire ggplot code in brackets (<code>()</code>) creates the graph and then shows it in the plot viewer. If you don’t have the brackets, you’ve only created the object, but haven’t visualized it. You would then have to call the object such that it will be displayed by just typing <code>p</code> after you’ve created the “p” object.
+</p>
+</section>
+<section id="lets-model-it" class="slide level2">
+<h2>Lets model it</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>basic.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(testScore <span class="sc">~</span> bodyLength, <span class="at">data =</span> dragons_Bavarian)</span>
+<span id="cb7-2"><a href=""></a><span class="fu">summary</span>(basic.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = testScore ~ bodyLength, data = dragons_Bavarian)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-26.433  -8.228  -0.594   6.893  31.637 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept) -44.8343    32.3344  -1.387   0.1709  
+bodyLength    0.3777     0.1795   2.104   0.0397 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 13.35 on 58 degrees of freedom
+Multiple R-squared:  0.07093,   Adjusted R-squared:  0.05491 
+F-statistic: 4.428 on 1 and 58 DF,  p-value: 0.0397</code></pre>
+</div>
+</div>
+</section>
 <section id="generalize-linear-models" class="slide level2">
 <h2>Generalize linear models</h2>
 <p>Get familiar with different data distributions Here is a brief summary of the data distributions you might encounter most often.</p>
@@ -605,11 +641,11 @@ F-statistic: 681.9 on 5 and 144 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h2>Generalize linear models</h2>
 <p>Syntax for a model with poisson (count) distribution</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="fu">glm</span>(y <span class="sc">~</span> x, <span class="at">family =</span> poisson, <span class="at">data =</span> df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">glm</span>(y <span class="sc">~</span> x, <span class="at">family =</span> poisson, <span class="at">data =</span> df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Syntax for a model with binomial distribution</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">glm</span>(y <span class="sc">~</span> x, <span class="at">family =</span> binomial, <span class="at">data =</span> df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">glm</span>(y <span class="sc">~</span> x, <span class="at">family =</span> binomial, <span class="at">data =</span> df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="hierarchical-linear-models" class="slide level2">
@@ -704,37 +740,13 @@ F-statistic: 681.9 on 5 and 144 DF,  p-value: &lt; 2.2e-16</code></pre>
 <li class="fragment">They are always categorical</li>
 </ul>
 </section>
-<section id="data-for-this-part-of-the-session" class="slide level2">
-<h2>Data for this part of the session</h2>
-
-<img data-src="https://static1.srcdn.com/wordpress/wp-content/uploads/2022/08/Illustrations-of-various-dragons-from-Dungeons-and-Dragons.jpg" style="width:80.0%" class="r-stretch"><p><a href="https://ourcodingclub.github.io/tutorials/mixed-models/">Coding Club Mixed models</a></p>
-</section>
-<section id="explore-the-data" class="slide level2">
-<h2>Explore the data</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb10-2"><a href=""></a><span class="fu">load</span>(<span class="st">"CC-Linear-mixed-models/dragons.RData"</span>)</span>
-<span id="cb10-3"><a href=""></a><span class="fu">head</span>(dragons)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  testScore bodyLength mountainRange site
-1 16.147309   165.5485      Bavarian    a
-2 33.886183   167.5593      Bavarian    a
-3  6.038333   165.8830      Bavarian    a
-4 18.838821   167.6855      Bavarian    a
-5 33.862328   169.9597      Bavarian    a
-6 47.043246   168.6887      Bavarian    a</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">hist</span>(dragons<span class="sc">$</span>testScore)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"></section>
 <section id="scaling-the-data" class="slide level2">
 <h2>Scaling the data</h2>
 <p>It is good practice to standardize your explanatory variables before proceeding so that they have a mean of zero (“centering”) and standard deviation of one (“scaling”).</p>
 <p>If two variables in the same model have very different scales, the mixed model will likely return a <code>convergence error</code> when trying to compute the parameters.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>dragons<span class="ot">&lt;-</span> dragons <span class="sc">|&gt;</span> </span>
-<span id="cb13-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">bodyLength2=</span><span class="fu">scale</span>(bodyLength,<span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>dragons<span class="ot">&lt;-</span> dragons <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">bodyLength2=</span><span class="fu">scale</span>(bodyLength,<span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="research-question" class="slide level2">
@@ -748,8 +760,8 @@ Is the test score affected by body length?
 <section id="linear-model" class="slide level2">
 <h2>Linear model</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>basic.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(testScore <span class="sc">~</span> bodyLength2, <span class="at">data =</span> dragons)</span>
-<span id="cb14-2"><a href=""></a><span class="fu">summary</span>(basic.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>basic.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(testScore <span class="sc">~</span> bodyLength2, <span class="at">data =</span> dragons)</span>
+<span id="cb12-2"><a href=""></a><span class="fu">summary</span>(basic.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -775,45 +787,45 @@ F-statistic: 86.25 on 1 and 478 DF,  p-value: &lt; 2.2e-16</code></pre>
 <section id="linear-model-1" class="slide level2">
 <h2>Linear model</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>(prelim_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dragons, <span class="fu">aes</span>(<span class="at">x =</span> bodyLength, <span class="at">y =</span> testScore)) <span class="sc">+</span></span>
-<span id="cb16-2"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb16-3"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>))<span class="sc">+</span></span>
-<span id="cb16-4"><a href=""></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>(prelim_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dragons, <span class="fu">aes</span>(<span class="at">x =</span> bodyLength, <span class="at">y =</span> testScore)) <span class="sc">+</span></span>
+<span id="cb14-2"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb14-3"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>))<span class="sc">+</span></span>
+<span id="cb14-4"><a href=""></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch"><ul>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-15-1.png" width="960" class="r-stretch"><ul>
 <li class="fragment">it seems like bigger dragons do better in our intelligence test. That seems a bit odd: size shouldn’t really affect the test scores.</li>
 </ul>
 </section>
 <section id="assumptions-check" class="slide level2">
 <h2>Assumptions check</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">plot</span>(basic.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">plot</span>(basic.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-17-1.png" width="960"></p>
+<p><img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-16-1.png" width="960"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-17-2.png" width="960"></p>
+<p><img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-16-2.png" width="960"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-17-3.png" width="960"></p>
+<p><img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-16-3.png" width="960"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-17-4.png" width="960"></p>
+<p><img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-16-4.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -838,13 +850,13 @@ Are our data independent?
 <section id="assumptions-check-3" class="slide level2">
 <h2>Assumptions check</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>(colour_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dragons, <span class="fu">aes</span>(<span class="at">x =</span> bodyLength, <span class="at">y =</span> testScore, <span class="at">colour =</span> mountainRange)) <span class="sc">+</span></span>
-<span id="cb18-2"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb18-3"><a href=""></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb18-4"><a href=""></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>(colour_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dragons, <span class="fu">aes</span>(<span class="at">x =</span> bodyLength, <span class="at">y =</span> testScore, <span class="at">colour =</span> mountainRange)) <span class="sc">+</span></span>
+<span id="cb16-2"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb16-3"><a href=""></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb16-4"><a href=""></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-18-1.png" width="960" class="r-stretch"></section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-17-1.png" width="960" class="r-stretch"></section>
 <section id="how-to-implement-mixed-models-in-r" class="slide level2">
 <h2>How to implement mixed models in R?</h2>
 <ul>
@@ -861,13 +873,13 @@ Are our data independent?
 <section id="step-1-model-building-dragons" class="slide level2">
 <h2>Step 1: Model building Dragons</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a>(colour_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dragons, <span class="fu">aes</span>(<span class="at">x =</span> bodyLength, <span class="at">y =</span> testScore, <span class="at">colour =</span> mountainRange)) <span class="sc">+</span></span>
-<span id="cb19-2"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb19-3"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>,<span class="at">se=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
-<span id="cb19-4"><a href=""></a>  <span class="fu">theme_classic</span>() )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>(colour_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dragons, <span class="fu">aes</span>(<span class="at">x =</span> bodyLength, <span class="at">y =</span> testScore, <span class="at">colour =</span> mountainRange)) <span class="sc">+</span></span>
+<span id="cb17-2"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb17-3"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>,<span class="at">se=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb17-4"><a href=""></a>  <span class="fu">theme_classic</span>() )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-19-1.png" width="960" class="r-stretch"></section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-18-1.png" width="960" class="r-stretch"></section>
 <section id="step-1-model-building-1" class="slide level2">
 <h2>Step 1: Model building</h2>
 <p>Hierarchical linear models do is they essentially fit a separate regression line for each and every cluster. And then estimates what we call the <em>Fixed slope</em>. Average slope between x and y across my clusters.</p>
@@ -878,13 +890,13 @@ Are our data independent?
 <section id="step-1-model-building-dragons-1" class="slide level2">
 <h2>Step 1: Model building Dragons</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20" data-code-line-numbers="|1|2|3|4|5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">library</span>(lme4) <span class="co">#"linear mixed model" function from lme4 package</span></span>
-<span id="cb20-2"><a href=""></a>mixed.lmer <span class="ot">&lt;-</span> <span class="fu">lmer</span>(testScore <span class="sc">~</span> bodyLength2 <span class="sc">+</span></span>
-<span id="cb20-3"><a href=""></a>                     (<span class="dv">1</span><span class="sc">|</span>mountainRange), <span class="co">#random effect</span></span>
-<span id="cb20-4"><a href=""></a>                   <span class="at">data =</span> dragons,</span>
-<span id="cb20-5"><a href=""></a>                   <span class="at">REML =</span> <span class="cn">TRUE</span> <span class="co">#estimation method other method ML but it has a bias</span></span>
-<span id="cb20-6"><a href=""></a>                   )</span>
-<span id="cb20-7"><a href=""></a><span class="fu">summary</span>(mixed.lmer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18" data-code-line-numbers="|1|2|3|4|5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">library</span>(lme4) <span class="co">#"linear mixed model" function from lme4 package</span></span>
+<span id="cb18-2"><a href=""></a>mixed.lmer <span class="ot">&lt;-</span> <span class="fu">lmer</span>(testScore <span class="sc">~</span> bodyLength2 <span class="sc">+</span></span>
+<span id="cb18-3"><a href=""></a>                     (<span class="dv">1</span><span class="sc">|</span>mountainRange), <span class="co">#random effect</span></span>
+<span id="cb18-4"><a href=""></a>                   <span class="at">data =</span> dragons,</span>
+<span id="cb18-5"><a href=""></a>                   <span class="at">REML =</span> <span class="cn">TRUE</span> <span class="co">#estimation method other method ML but it has a bias</span></span>
+<span id="cb18-6"><a href=""></a>                   )</span>
+<span id="cb18-7"><a href=""></a><span class="fu">summary</span>(mixed.lmer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML ['lmerMod']
 Formula: testScore ~ bodyLength2 + (1 | mountainRange)
@@ -939,7 +951,7 @@ bodyLength2 0.000 </code></pre>
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a>(<span class="fl">339.7</span><span class="sc">/</span>(<span class="fl">339.7</span> <span class="sc">+</span> <span class="fl">223.8</span>) )<span class="sc">*</span> <span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>(<span class="fl">339.7</span><span class="sc">/</span>(<span class="fl">339.7</span> <span class="sc">+</span> <span class="fl">223.8</span>) )<span class="sc">*</span> <span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 60.28394</code></pre>
 </div>
@@ -947,7 +959,7 @@ bodyLength2 0.000 </code></pre>
 <div class="fragment">
 <p>Variance Body length</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="dv">100</span><span class="fl">-60.28</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="dv">100</span><span class="fl">-60.28</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 39.72</code></pre>
 </div>
@@ -958,20 +970,20 @@ bodyLength2 0.000 </code></pre>
 <h2>Step 2: Model validation Dragons</h2>
 <p>Assumptions check</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">plot</span>(mixed.lmer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="fu">plot</span>(mixed.lmer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-23-1.png" width="960"></p>
+<p><img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-22-1.png" width="960"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">qqnorm</span>(<span class="fu">resid</span>(mixed.lmer))</span>
-<span id="cb27-2"><a href=""></a><span class="fu">qqline</span>(<span class="fu">resid</span>(mixed.lmer))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">qqnorm</span>(<span class="fu">resid</span>(mixed.lmer))</span>
+<span id="cb25-2"><a href=""></a><span class="fu">qqline</span>(<span class="fu">resid</span>(mixed.lmer))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-23-2.png" width="960"></p>
+<p><img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-22-2.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -995,7 +1007,7 @@ bodyLength2 0.000 </code></pre>
 <p>Effect of treatment in leaf length</p>
 <div class="fragment">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>leafLength <span class="sc">~</span> treatment </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a>leafLength <span class="sc">~</span> treatment </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="fragment">
@@ -1007,7 +1019,7 @@ bodyLength2 0.000 </code></pre>
 <div class="fragment">
 <p>Better model</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>leafLength <span class="sc">~</span> treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Bed<span class="sc">/</span>Plant<span class="sc">/</span>Leaf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a>leafLength <span class="sc">~</span> treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Bed<span class="sc">/</span>Plant<span class="sc">/</span>Leaf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="fragment">
@@ -1017,17 +1029,17 @@ bodyLength2 0.000 </code></pre>
 <li class="fragment">This account for the fact that all plants in the experiment, regardless of the fixed (treatment) effect, may have experienced a very hot summer in the second year.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a>leafLength <span class="sc">~</span> treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Bed<span class="sc">/</span>Plant<span class="sc">/</span>Leaf) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Season)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>leafLength <span class="sc">~</span> treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Bed<span class="sc">/</span>Plant<span class="sc">/</span>Leaf) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Season)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
 <section id="step-1-model-building-dragons-nesting" class="slide level2">
 <h2>Step 1: Model building Dragons Nesting</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31" data-code-line-numbers="|2|5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>mixed.lmer2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(testScore <span class="sc">~</span> bodyLength2<span class="sc">+</span></span>
-<span id="cb31-2"><a href=""></a>                      (<span class="dv">1</span><span class="sc">|</span>mountainRange<span class="sc">/</span>site),</span>
-<span id="cb31-3"><a href=""></a>                    <span class="at">data =</span> dragons)  </span>
-<span id="cb31-4"><a href=""></a><span class="fu">summary</span>(mixed.lmer2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29" data-code-line-numbers="|2|5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>mixed.lmer2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(testScore <span class="sc">~</span> bodyLength2<span class="sc">+</span></span>
+<span id="cb29-2"><a href=""></a>                      (<span class="dv">1</span><span class="sc">|</span>mountainRange<span class="sc">/</span>site),</span>
+<span id="cb29-3"><a href=""></a>                    <span class="at">data =</span> dragons)  </span>
+<span id="cb29-4"><a href=""></a><span class="fu">summary</span>(mixed.lmer2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML ['lmerMod']
 Formula: testScore ~ bodyLength2 + (1 | mountainRange/site)
@@ -1055,10 +1067,10 @@ Correlation of Fixed Effects:
             (Intr)
 bodyLength2 0.000 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb33" data-code-line-numbers="|2|5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>mixed.lmer3 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(testScore <span class="sc">~</span> bodyLength2</span>
-<span id="cb33-2"><a href=""></a>                    <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>mountainRange) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>mountainRange<span class="sc">:</span>site),</span>
-<span id="cb33-3"><a href=""></a>                    <span class="at">data =</span> dragons)</span>
-<span id="cb33-4"><a href=""></a><span class="fu">summary</span>(mixed.lmer3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31" data-code-line-numbers="|2|5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>mixed.lmer3 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(testScore <span class="sc">~</span> bodyLength2</span>
+<span id="cb31-2"><a href=""></a>                    <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>mountainRange) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>mountainRange<span class="sc">:</span>site),</span>
+<span id="cb31-3"><a href=""></a>                    <span class="at">data =</span> dragons)</span>
+<span id="cb31-4"><a href=""></a><span class="fu">summary</span>(mixed.lmer3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML ['lmerMod']
 Formula: 
@@ -1092,7 +1104,7 @@ bodyLength2 0.000 </code></pre>
 <section id="step-1-model-building-dragons-nesting-1" class="slide level2">
 <h2>Step 1: Model building Dragons Nesting</h2>
 
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-28-1.png" width="960" class="r-stretch"></section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-27-1.png" width="960" class="r-stretch"></section>
 <section id="random-slopes-and-random-intercept" class="slide level2">
 <h2>Random slopes and Random intercept</h2>
 <div class="fragment fade-in">
@@ -1106,11 +1118,11 @@ bodyLength2 0.000 </code></pre>
 <h2>Random slopes and Random intercept</h2>
 <p>We only need to make one change to our model to allow for random slopes as well as intercept, and that’s adding the fixed variable into the random effect brackets:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35" data-code-line-numbers="|2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>mixed.ranslope <span class="ot">&lt;-</span> <span class="fu">lmer</span>(testScore <span class="sc">~</span> bodyLength2 <span class="sc">+</span></span>
-<span id="cb35-2"><a href=""></a>                         (<span class="dv">1</span> <span class="sc">+</span> bodyLength2<span class="sc">|</span>mountainRange<span class="sc">/</span>site), </span>
-<span id="cb35-3"><a href=""></a>                       <span class="at">data =</span> dragons) </span>
-<span id="cb35-4"><a href=""></a></span>
-<span id="cb35-5"><a href=""></a><span class="fu">summary</span>(mixed.ranslope)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33" data-code-line-numbers="|2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>mixed.ranslope <span class="ot">&lt;-</span> <span class="fu">lmer</span>(testScore <span class="sc">~</span> bodyLength2 <span class="sc">+</span></span>
+<span id="cb33-2"><a href=""></a>                         (<span class="dv">1</span> <span class="sc">+</span> bodyLength2<span class="sc">|</span>mountainRange<span class="sc">/</span>site), </span>
+<span id="cb33-3"><a href=""></a>                       <span class="at">data =</span> dragons) </span>
+<span id="cb33-4"><a href=""></a></span>
+<span id="cb33-5"><a href=""></a><span class="fu">summary</span>(mixed.ranslope)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML ['lmerMod']
 Formula: testScore ~ bodyLength2 + (1 + bodyLength2 | mountainRange/site)
@@ -1147,16 +1159,16 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <section id="random-slopes-and-random-intercept-2" class="slide level2">
 <h2>Random slopes and Random intercept</h2>
 
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-30-1.png" width="960" class="r-stretch"></section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-29-1.png" width="960" class="r-stretch"></section>
 <section id="step-3-model-interpretation" class="slide level2">
 <h2>Step 3: Model interpretation</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">library</span>(stargazer)</span>
-<span id="cb37-2"><a href=""></a><span class="fu">stargazer</span>(mixed.lmer2,</span>
-<span id="cb37-3"><a href=""></a>          <span class="at">digits =</span> <span class="dv">3</span>,</span>
-<span id="cb37-4"><a href=""></a>          <span class="at">type=</span><span class="st">"text"</span>,</span>
-<span id="cb37-5"><a href=""></a>          <span class="at">star.cutoffs =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.01</span>, <span class="fl">0.001</span>),</span>
-<span id="cb37-6"><a href=""></a>          <span class="at">digit.separator =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fu">library</span>(stargazer)</span>
+<span id="cb35-2"><a href=""></a><span class="fu">stargazer</span>(mixed.lmer2,</span>
+<span id="cb35-3"><a href=""></a>          <span class="at">digits =</span> <span class="dv">3</span>,</span>
+<span id="cb35-4"><a href=""></a>          <span class="at">type=</span><span class="st">"text"</span>,</span>
+<span id="cb35-5"><a href=""></a>          <span class="at">star.cutoffs =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.01</span>, <span class="fl">0.001</span>),</span>
+<span id="cb35-6"><a href=""></a>          <span class="at">digit.separator =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 =================================================
@@ -1183,11 +1195,11 @@ Note:               *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</code></pre>
 <section id="step-4.-visualization" class="slide level2">
 <h2>Step 4. Visualization</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39" data-code-line-numbers="1|3-4|6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">library</span>(ggeffects)</span>
-<span id="cb39-2"><a href=""></a></span>
-<span id="cb39-3"><a href=""></a><span class="co"># Extract the prediction data frame</span></span>
-<span id="cb39-4"><a href=""></a>pred.mm <span class="ot">&lt;-</span> <span class="fu">ggpredict</span>(mixed.lmer2, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"bodyLength2"</span>))  <span class="co"># this gives overall predictions for the model</span></span>
-<span id="cb39-5"><a href=""></a><span class="fu">head</span>(pred.mm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37" data-code-line-numbers="1|3-4|6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">library</span>(ggeffects)</span>
+<span id="cb37-2"><a href=""></a></span>
+<span id="cb37-3"><a href=""></a><span class="co"># Extract the prediction data frame</span></span>
+<span id="cb37-4"><a href=""></a>pred.mm <span class="ot">&lt;-</span> <span class="fu">ggpredict</span>(mixed.lmer2, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"bodyLength2"</span>))  <span class="co"># this gives overall predictions for the model</span></span>
+<span id="cb37-5"><a href=""></a><span class="fu">head</span>(pred.mm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Predicted values of testScore
 
@@ -1209,49 +1221,49 @@ Adjusted for:
 <section id="step-4.-visualization-1" class="slide level2">
 <h2>Step 4. Visualization</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41" data-code-line-numbers="|3-4|5-13|13-17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="co"># Plot the predictions </span></span>
-<span id="cb41-2"><a href=""></a>p<span class="ot">&lt;-</span><span class="fu">ggplot</span>(pred.mm) <span class="sc">+</span></span>
-<span id="cb41-3"><a href=""></a>    <span class="co"># slope</span></span>
-<span id="cb41-4"><a href=""></a>    <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> predicted)) <span class="sc">+</span></span>
-<span id="cb41-5"><a href=""></a>    <span class="co"># error band</span></span>
-<span id="cb41-6"><a href=""></a>    <span class="fu">geom_ribbon</span>(</span>
-<span id="cb41-7"><a href=""></a>      <span class="fu">aes</span>(</span>
-<span id="cb41-8"><a href=""></a>        <span class="at">x =</span> x,</span>
-<span id="cb41-9"><a href=""></a>        <span class="at">ymin =</span> predicted <span class="sc">-</span> std.error,</span>
-<span id="cb41-10"><a href=""></a>        <span class="at">ymax =</span> predicted <span class="sc">+</span> std.error</span>
-<span id="cb41-11"><a href=""></a>      ),</span>
-<span id="cb41-12"><a href=""></a>      <span class="at">fill =</span> <span class="st">"lightgrey"</span>,</span>
-<span id="cb41-13"><a href=""></a>      <span class="at">alpha =</span> <span class="fl">0.5</span></span>
-<span id="cb41-14"><a href=""></a>    ) <span class="sc">+</span></span>
-<span id="cb41-15"><a href=""></a>    <span class="co"># adding the raw data (scaled values)</span></span>
-<span id="cb41-16"><a href=""></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> dragons,                      </span>
-<span id="cb41-17"><a href=""></a>               <span class="fu">aes</span>(<span class="at">x =</span> bodyLength2, <span class="at">y =</span> testScore, <span class="at">colour =</span> mountainRange)) <span class="sc">+</span></span>
-<span id="cb41-18"><a href=""></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Body Length (indexed)"</span>,</span>
-<span id="cb41-19"><a href=""></a>         <span class="at">y =</span> <span class="st">"Test Score"</span>,</span>
-<span id="cb41-20"><a href=""></a>         <span class="at">title =</span> <span class="st">"Body length does not affect intelligence in dragons"</span>) <span class="sc">+</span></span>
-<span id="cb41-21"><a href=""></a>    <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39" data-code-line-numbers="|3-4|5-13|13-17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="co"># Plot the predictions </span></span>
+<span id="cb39-2"><a href=""></a>p<span class="ot">&lt;-</span><span class="fu">ggplot</span>(pred.mm) <span class="sc">+</span></span>
+<span id="cb39-3"><a href=""></a>    <span class="co"># slope</span></span>
+<span id="cb39-4"><a href=""></a>    <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> predicted)) <span class="sc">+</span></span>
+<span id="cb39-5"><a href=""></a>    <span class="co"># error band</span></span>
+<span id="cb39-6"><a href=""></a>    <span class="fu">geom_ribbon</span>(</span>
+<span id="cb39-7"><a href=""></a>      <span class="fu">aes</span>(</span>
+<span id="cb39-8"><a href=""></a>        <span class="at">x =</span> x,</span>
+<span id="cb39-9"><a href=""></a>        <span class="at">ymin =</span> predicted <span class="sc">-</span> std.error,</span>
+<span id="cb39-10"><a href=""></a>        <span class="at">ymax =</span> predicted <span class="sc">+</span> std.error</span>
+<span id="cb39-11"><a href=""></a>      ),</span>
+<span id="cb39-12"><a href=""></a>      <span class="at">fill =</span> <span class="st">"lightgrey"</span>,</span>
+<span id="cb39-13"><a href=""></a>      <span class="at">alpha =</span> <span class="fl">0.5</span></span>
+<span id="cb39-14"><a href=""></a>    ) <span class="sc">+</span></span>
+<span id="cb39-15"><a href=""></a>    <span class="co"># adding the raw data (scaled values)</span></span>
+<span id="cb39-16"><a href=""></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> dragons,                      </span>
+<span id="cb39-17"><a href=""></a>               <span class="fu">aes</span>(<span class="at">x =</span> bodyLength2, <span class="at">y =</span> testScore, <span class="at">colour =</span> mountainRange)) <span class="sc">+</span></span>
+<span id="cb39-18"><a href=""></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Body Length (indexed)"</span>,</span>
+<span id="cb39-19"><a href=""></a>         <span class="at">y =</span> <span class="st">"Test Score"</span>,</span>
+<span id="cb39-20"><a href=""></a>         <span class="at">title =</span> <span class="st">"Body length does not affect intelligence in dragons"</span>) <span class="sc">+</span></span>
+<span id="cb39-21"><a href=""></a>    <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="step-4.-visualization-2" class="slide level2">
 <h2>Step 4. Visualization</h2>
 
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-34-1.png" width="960" class="r-stretch"></section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-33-1.png" width="960" class="r-stretch"></section>
 <section id="step-4.-visualization-3" class="slide level2">
 <h2>Step 4. Visualization</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42" data-code-line-numbers="|3|4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a>p<span class="ot">&lt;-</span></span>
-<span id="cb42-2"><a href=""></a>  <span class="fu">ggpredict</span>(mixed.lmer2, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"bodyLength2"</span>, <span class="st">"mountainRange"</span>),</span>
-<span id="cb42-3"><a href=""></a>            <span class="at">type =</span> <span class="st">"random"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb42-4"><a href=""></a>   <span class="fu">plot</span>(<span class="at">show_ci =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb42-5"><a href=""></a>   <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Body Length"</span>, <span class="at">y =</span> <span class="st">"Test Score"</span>, </span>
-<span id="cb42-6"><a href=""></a>        <span class="at">title =</span> <span class="st">"Effect of body size on intelligence in dragons"</span>) <span class="sc">+</span> </span>
-<span id="cb42-7"><a href=""></a>   <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40" data-code-line-numbers="|3|4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a>p<span class="ot">&lt;-</span></span>
+<span id="cb40-2"><a href=""></a>  <span class="fu">ggpredict</span>(mixed.lmer2, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"bodyLength2"</span>, <span class="st">"mountainRange"</span>),</span>
+<span id="cb40-3"><a href=""></a>            <span class="at">type =</span> <span class="st">"random"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb40-4"><a href=""></a>   <span class="fu">plot</span>(<span class="at">show_ci =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb40-5"><a href=""></a>   <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Body Length"</span>, <span class="at">y =</span> <span class="st">"Test Score"</span>, </span>
+<span id="cb40-6"><a href=""></a>        <span class="at">title =</span> <span class="st">"Effect of body size on intelligence in dragons"</span>) <span class="sc">+</span> </span>
+<span id="cb40-7"><a href=""></a>   <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="step-4.-visualization-4" class="slide level2">
 <h2>Step 4. Visualization</h2>
 
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-36-1.png" width="960" class="r-stretch"></section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-35-1.png" width="960" class="r-stretch"></section>
 <section id="additional-ressources" class="slide level2">
 <h2>Additional ressources</h2>
 <p>Popular libraries for (G)LMMs:</p>
@@ -1300,11 +1312,11 @@ Adjusted for:
 <section id="lets-look-at-the-data" class="slide level2">
 <h2>Let’s look at the data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a>itex <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/ITEX_diversity_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a>itex <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/ITEX_diversity_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a><span class="fu">head</span>(itex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a><span class="fu">head</span>(itex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 11
    ...1 SITE      SUBSITE     PLOT   YEAR TRTMT Latitude WarmQuarterTemp SppRich
@@ -1321,7 +1333,7 @@ Adjusted for:
 </div>
 <div class="fragment">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a><span class="fu">length</span>(<span class="fu">unique</span>(itex<span class="sc">$</span>SITE)) <span class="co">#this code tells you how many different samples we have within the SITE column</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a><span class="fu">length</span>(<span class="fu">unique</span>(itex<span class="sc">$</span>SITE)) <span class="co">#this code tells you how many different samples we have within the SITE column</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 24</code></pre>
 </div>
@@ -1329,7 +1341,7 @@ Adjusted for:
 </div>
 <div class="fragment">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href=""></a><span class="fu">unique</span>(itex<span class="sc">$</span>SITE) <span class="co">#you can also do this and then it gives you the name of all samples within the SITE column</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a><span class="fu">unique</span>(itex<span class="sc">$</span>SITE) <span class="co">#you can also do this and then it gives you the name of all samples within the SITE column</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "ALEXFIORD"    "ANWR"         "ATQASUK"      "AUDKULUHEIDI" "BARROW"      
  [6] "BROOKS"       "BYLOT"        "DOVRE"        "ENDALEN"      "FAROE"       
