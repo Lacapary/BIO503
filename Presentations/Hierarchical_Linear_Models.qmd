@@ -48,7 +48,8 @@ You are required to have downloaded and installed
 
 install.packages(c("lme4",
                       "ggeffects",
-                      "stargazer"
+                      "MuMin",
+                      "emmmeans"
                       ))
 ```
 
@@ -92,11 +93,6 @@ Does soil nitrogen content influence plant productivity?
 
 </p>
 
-<p style="margin-top: -10px;">
-
-↑ [Response variable]{style="font-size: 0.8em;"}
-
-</p>
 
 ## Linear Models
 
@@ -110,11 +106,6 @@ Plant biomass = β₀ + β₁ · [Soil nitrogen]{style="color: red; font-weight:
 
 </p>
 
-<p style="position: relative; left: 150px; margin-top: -20px;">
-
-↑ [Explanatory variable]{style="font-size: 0.8em;"}
-
-</p>
 
 ## Linear models
 
@@ -156,10 +147,10 @@ Why do we use linear models in ecology?
 -   Ecological systems are *complex*, but linear models give us a *simplified* framework to ask and answer key ecological questions.
 
     -   ✅ Simple and interpretable: Easy to understand and communicate.\
-    -   ✅ Flexible: Can be extended .\
+    -   ✅ Flexible: Can be extended, multiple predictors, interactions etc.\
     -   ✅ Hypothesis testing: Relationships based on ecological theory.\
-    -   ✅ Help to test ecological hypotheses with real-world data.\
-    -   ✅ Foundation for advanced models
+    -   ✅ Data-driveen: Test ecological hypotheses with real-world data.\
+    -   ✅ Foundation for advanced models.
 
 ## Data for this part of the session
 
@@ -258,9 +249,23 @@ Now lets visualize the relationship using ggplot.
 )
 ```
 
-<p style="font-size: 0.6em; font-style: italic;">
-  Note that putting your entire ggplot code in brackets (<code>()</code>) creates the graph and then shows it in the plot viewer. If you don’t have the brackets, you’ve only created the object, but haven’t visualized it. You would then have to call the object such that it will be displayed by just typing <code>p</code> after you’ve created the “p” object.
-</p>
+## Our question
+
+Now lets visualize the relationship using ggplot.
+
+```{r echo=FALSE}
+(p <- dragons_Bavarian %>% 
+  ggplot(aes(
+    x = bodyLength,
+    y = testScore)) + # to assign a color to each group
+  geom_point() + 
+  stat_smooth(method = "lm") +    
+  theme_classic() +
+  labs(
+    x = "Body length",
+    y = "Test score")
+)
+```
 
 ## Lets model it
 
@@ -297,6 +302,7 @@ When we run the ANOVA, we're checking if the average sepal length is about the s
 ```{r echo=TRUE}
 anova(model)
 ```
+
 ## Factorial ANOVA: Post-Hoc Analysis
 
 - Let’s say we run an ANOVA and find a significant result. 

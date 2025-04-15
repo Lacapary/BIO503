@@ -10,7 +10,7 @@
 <link href="Hierarchical_Linear_Models_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <link href="Hierarchical_Linear_Models_files/libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
 <link href="Hierarchical_Linear_Models_files/libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.4.551">
+  <meta name="generator" content="quarto-1.4.553">
 
   <meta name="author" content="Camila Pacheco">
   <meta name="author" content="Katrín Björnsdóttir">
@@ -437,8 +437,9 @@ Katrín Björnsdóttir
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"lme4"</span>,</span>
 <span id="cb1-2"><a href=""></a>                      <span class="st">"ggeffects"</span>,</span>
-<span id="cb1-3"><a href=""></a>                      <span class="st">"stargazer"</span></span>
-<span id="cb1-4"><a href=""></a>                      ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href=""></a>                      <span class="st">"MuMin"</span>,</span>
+<span id="cb1-4"><a href=""></a>                      <span class="st">"emmmeans"</span></span>
+<span id="cb1-5"><a href=""></a>                      ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="required-material-2" class="slide level2">
@@ -474,9 +475,6 @@ Do not hesitate to ask questions!
 <p style="font-size: 1.2em;">
 </p><p><span style="color: red; font-weight: bold;">Plant biomass</span> = β₀ + β₁ · Soil nitrogen + ε</p>
 <p></p>
-<p style="margin-top: -10px;">
-</p><p>↑ <span style="font-size: 0.8em;">Response variable</span></p>
-<p></p>
 </section>
 <section id="linear-models-3" class="slide level2">
 <h2>Linear Models</h2>
@@ -484,9 +482,6 @@ Do not hesitate to ask questions!
 <p>Does soil nitrogen content influence plant productivity?</p>
 <p style="font-size: 1.2em;">
 </p><p>Plant biomass = β₀ + β₁ · <span style="color: red; font-weight: bold;">Soil nitrogen</span> + ε</p>
-<p></p>
-<p style="position: relative; left: 150px; margin-top: -20px;">
-</p><p>↑ <span style="font-size: 0.8em;">Explanatory variable</span></p>
 <p></p>
 </section>
 <section id="linear-models-4" class="slide level2">
@@ -501,13 +496,13 @@ Do not hesitate to ask questions!
 <ul>
 <li class="fragment">✅ Simple and interpretable: Easy to understand and communicate.<br>
 </li>
-<li class="fragment">✅ Flexible: Can be extended .<br>
+<li class="fragment">✅ Flexible: Can be extended, multiple predictors, interactions etc.<br>
 </li>
 <li class="fragment">✅ Hypothesis testing: Relationships based on ecological theory.<br>
 </li>
-<li class="fragment">✅ Help to test ecological hypotheses with real-world data.<br>
+<li class="fragment">✅ Data-driveen: Test ecological hypotheses with real-world data.<br>
 </li>
-<li class="fragment">✅ Foundation for advanced models</li>
+<li class="fragment">✅ Foundation for advanced models.</li>
 </ul></li>
 </ul>
 </section>
@@ -583,10 +578,12 @@ Do not hesitate to ask questions!
 <span id="cb6-11"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"><p style="font-size: 0.6em; font-style: italic;">
-Note that putting your entire ggplot code in brackets (<code>()</code>) creates the graph and then shows it in the plot viewer. If you don’t have the brackets, you’ve only created the object, but haven’t visualized it. You would then have to call the object such that it will be displayed by just typing <code>p</code> after you’ve created the “p” object.
-</p>
-</section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
+<section id="our-question-4" class="slide level2">
+<h2>Our question</h2>
+<p>Now lets visualize the relationship using ggplot.</p>
+
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-9-1.png" width="960" class="r-stretch"></section>
 <section id="lets-model-it" class="slide level2">
 <h2>Lets model it</h2>
 <div class="cell">
@@ -709,7 +706,7 @@ P value adjustment: tukey method for comparing a family of 3 estimates </code></
 </div>
 </div>
 
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"></section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"></section>
 <section id="generalize-linear-models" class="slide level2">
 <h2>Generalize linear models</h2>
 <p>Get familiar with different data distributions Here is a brief summary of the data distributions you might encounter most often.</p>
@@ -912,14 +909,14 @@ F-statistic: 86.25 on 1 and 478 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb20-4"><a href=""></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-21-1.png" width="960" class="r-stretch"></section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-22-1.png" width="960" class="r-stretch"></section>
 <section id="assumptions-check" class="slide level2">
 <h2>Assumptions check</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">qqnorm</span>(<span class="fu">resid</span>(model)); <span class="fu">qqline</span>(<span class="fu">resid</span>(model))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-22-1.png" width="960" class="r-stretch"></section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-23-1.png" width="960" class="r-stretch"></section>
 <section id="assumptions-check-1" class="slide level2">
 <h2>Assumptions check</h2>
 <div class="v-center-container">
@@ -928,7 +925,7 @@ Are our data independent?
 </h4>
 </div>
 
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-23-1.png" width="960" class="r-stretch"><ul>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-24-1.png" width="960" class="r-stretch"><ul>
 <li class="fragment">They are Hierarchical!</li>
 <li class="fragment">Our research question:
 <ul>
@@ -945,7 +942,7 @@ Are our data independent?
 <span id="cb22-4"><a href=""></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-24-1.png" width="960" class="r-stretch"></section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-25-1.png" width="960" class="r-stretch"></section>
 <section id="how-to-implement-mixed-models-in-r" class="slide level2">
 <h2>How to implement mixed models in R?</h2>
 <ul>
@@ -978,7 +975,7 @@ Are our data independent?
 <span id="cb24-2"><a href=""></a><span class="fu">qqline</span>(<span class="fu">resid</span>(mixed.lmer))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-26-1.png" width="960" class="r-stretch"></section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-27-1.png" width="960" class="r-stretch"></section>
 <section id="step-3-model-interpreation-dragons" class="slide level2">
 <h2>Step 3: Model interpreation Dragons</h2>
 <div class="cell">
@@ -1074,7 +1071,7 @@ Adjusted for:
 <section id="step-4.-visualization-2" class="slide level2">
 <h2>Step 4. Visualization</h2>
 
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-31-1.png" width="960" class="r-stretch"></section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-32-1.png" width="960" class="r-stretch"></section>
 <section id="step-4.-visualization-3" class="slide level2">
 <h2>Step 4. Visualization</h2>
 <div class="cell">
@@ -1090,7 +1087,7 @@ Adjusted for:
 <section id="step-4.-visualization-4" class="slide level2">
 <h2>Step 4. Visualization</h2>
 
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-33-1.png" width="960" class="r-stretch"></section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-34-1.png" width="960" class="r-stretch"></section>
 <section id="random-slopes-and-random-intercept" class="slide level2">
 <h2>Random slopes and Random intercept</h2>
 <div class="fragment fade-in">
@@ -1145,7 +1142,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <section id="random-slopes" class="slide level2">
 <h2>Random slopes</h2>
 
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-35-1.png" width="960" class="r-stretch"></section>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-36-1.png" width="960" class="r-stretch"></section>
 <section id="crossed-effects" class="slide level2">
 <h2>Crossed effects</h2>
 <p>Example:</p>
@@ -1163,7 +1160,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <section id="crossed-effects-1" class="slide level2">
 <h2>Crossed effects</h2>
 
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-36-1.png" width="960" class="r-stretch"><div class="cell">
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-37-1.png" width="960" class="r-stretch"><div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a>leafLength <span class="sc">~</span> treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Bed<span class="sc">/</span>Plant<span class="sc">/</span>Leaf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>What about the crossed effects ?</p>
