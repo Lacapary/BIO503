@@ -46,7 +46,7 @@ Required packages
 ```
 install.packages(c("lme4",
                       "ggeffects",
-                      "MuMin",
+                      "MuMIn",
                       "emmmeans"
                       ))
 ```
