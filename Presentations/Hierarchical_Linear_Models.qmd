@@ -48,7 +48,7 @@ You are required to have downloaded and installed
 
 install.packages(c("lme4",
                       "ggeffects",
-                      "MuMin",
+                      "MuMIn",
                       "emmmeans"
                       ))
 ```
