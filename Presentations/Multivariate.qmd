@@ -4,32 +4,20 @@ author:
   - Camila Pacheco    
   - Katrín Björnsdóttir
 format:
-  revealjs:
-     theme: blood
-     fontsize: 2.1em
-     incremental: true
-     css: styles.css
-     aspectratio: 169
-     scrollable: true
-     include-in-header:
-      text: |
-        <style>
-        .v-center-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 90%;
-        }
-        </style>
-  # html:
-  #   toc: true
-  #   html-math-method: katex
-  #   code-line-numbers: false
+   revealjs:
+    theme: blood
+    fontsize: 2.1em
+    incremental: true
+    css: styles.css
+    aspectratio: 169
+    scrollable: true
+    transition: fade
+    highlight-style: monokai
 ---
 
 ## Today
 
--   Learn the basics of multivariate analysis to reveal patterns
+-   Explore how **ordination methods can generate hypotheses** about ecological gradients and species interactions
 -   Use `R` to perform Unconstrained ordinations
 -   Learn the following methods:
     -   Clustering analysis
@@ -68,72 +56,6 @@ install.packages(c("vegan",
 <h4>Do not hesitate to ask questions!</h4>
 :::
 
-## Recap: Linear models
-
--   We learned some models to study at ecological data.
--   These models allowed us to ask questions such as:
-    -   What are the effects of precipitation and temperature on species richness? or
-    -   How does the abundance of species change between habitats?
-
-## Multivariate statistics
-
-Sometimes, we want to figure out things from ecological data that has more than one main outcome or dependent variable.
-
-our research question might be:
-
--   How does the plants composition change along an elevation gradient?
--   What is the composition dissimilarity of plants communities?
--   How closely-related are local vegetation communities in terms of their composition ?
-
-::: fragment
-In all these questions, the outcome is composed of several variables, e.g. usually a list of samples and the types of species in them, or a list of samples and the environment they're in.
-:::
-
-## Multivariate statistics
-
-Matrix Species
-
-| Site | Species 1   | Species 2   | ... | Species n   |
-|------|-------------|-------------|-----|-------------|
-| 1    | abundance 1 | abundance 2 | ... | abundance n |
-| 2    | abundance 1 | abundance 2 | ... | abundance n |
-| m    | ...         | ...         | ... | ...         |
-
-Matrix locations
-
-| Site | Temperature   | Precipitation   | ... | Driver n |
-|------|---------------|-----------------|-----|----------|
-| 1    | Temperature 1 | Precipitation 2 | ... | Driver n |
-| 2    | Temperature 1 | Precipitation 2 | ... | Driver n |
-| m    | ...           | ...             | ... | ...      |
-
-## Multivariate statistics
-
-Matrix algebra
-
-<img src="https://i.gifer.com/NvL.gif"/>
-
-## Multivariate statistics
-
-Matrix algebra
-
-<img src="https://upload.wikimedia.org/wikipedia/commons/b/bf/Matris.png?w=144"/>
-
-## Multivariate statistics
-
-Association matrices
-
--   Q-mode : analysis for objects or sites
--   R-mode : analysis for descriptors or species
-
-## What is ordination?
-
-> Ordination is a collective term for multivariate techniques which summarize a multidimensional dataset in such a way that when it is projected onto a low dimensional space, any intrinsic pattern the data may possess becomes apparent upon visual inspection (Pielou, 1984).
-
--   In ecological terms, ordination helps us understand community data.
--   Like how many species are in different locations. It does this by creating a simple space where similar species and samples are near each other, and different ones are far apart.
--   Ideally, this space shows important environmental differences clearly.
-
 ## The data for this session?
 
 The data originates from the research of Batterink & Wijffels (1983), published as a report in Dutch.
@@ -161,29 +83,88 @@ head(dune2_env)
 
 ```
 
-## What is ordination?
+## Recap: Linear models
 
-![](https://www.quantitative-biology.ca/_main_files/figure-html/pactwo-1.png)
+-   We learned some models to study at ecological data.
+-   These models allowed us to ask questions such as:
+    -   What are the effects of precipitation and temperature on species richness? or
+    -   How does the abundance of species change between habitats?
+    
 
-## Type of ordinations?
+## Why Multivariate? 🌱
 
--   Unconstrained Ordination: we're basically letting the data *speak for itself.* We don't impose any specific relationships or constraints between the variables.
+Let's compare **univariate** vs **multivariate** approaches.
 
--   Constrained Ordination: we impose some restrictions or *constraints* on the analysis based on what we already know or suspect about the data.
+---
 
--   In simple terms, unconstrained ordination lets the data tell its story without interference, while constrained ordination guides the analysis based on what we already know or suspect.
+### Univariate Example
 
--   We are going to focus in Unconstrained Ordinations
+> You study how **soil pH** affects the **abundance of one species** (*Species A*):
 
-## Ordination vs. Clustering
+```r
+# Univariate linear regression
+model <- lm(species_A_abundance ~ soil_pH, data = your_data)
+summary(model)
+```
 
--   Ordination and clustering are the two main classes of multivariate methods that community ecologists employ.
+This tells you:  
+👉 *How soil pH affects the abundance of one species.*
 
--   To some degree, these two approaches are complementary.
+---
+
+## Why That's Limiting in Ecology
+
+In real ecosystems:
+- You usually have **many species** per site.
+- Environmental variables may affect **multiple species simultaneously**.
+- Species may interact (e.g., competition, facilitation).
+
+## Moving to Multivariate
+
+> "What if I want to know how **soil pH, moisture, and light** influence the **whole plant community**?"
+
+That’s where **ordination methods (e.g., PCA, NMDS)** and **clustering** shine.
+
+They summarize patterns across multiple species simultaneously.
+
+## Examples of Questions in Multivariate statistics
+
+Our research question might be:
+
+-   How does the plants composition change along an elevation gradient?
+-   What is the composition dissimilarity of plants communities?
+-   How closely-related are local vegetation communities in terms of their composition ?
+
+
+## How does the data look?
+
+Matrix Species
+
+| Site | Species 1   | Species 2   | ... | Species n   |
+|------|-------------|-------------|-----|-------------|
+| 1    | abundance 1 | abundance 2 | ... | abundance n |
+| 2    | abundance 1 | abundance 2 | ... | abundance n |
+| m    | ...         | ...         | ... | ...         |
+
+Matrix locations
+
+| Site | Temperature   | Precipitation   | ... | Driver n |
+|------|---------------|-----------------|-----|----------|
+| 1    | Temperature 1 | Precipitation 2 | ... | Driver n |
+| 2    | Temperature 1 | Precipitation 2 | ... | Driver n |
+| m    | ...           | ...             | ... | ...      |
+
+
+## Multivariate methods
+
+-   *Ordination* and *clustering* are the two main classes of multivariate methods that community ecologists employ.
+
+-   To some degree, these two approaches are *complementary*.
 
 -   Hierarchical data clustering allows you to explore your data and look for discontinuities (e.g. gaps in your data), gradients and meaningful ecological units (e.g. groups or subgroups of species).
 
--   Given the continuous nature of communities, ordination can be considered a more natural approach. Ordination aims at arranging samples or species continuously along gradients.
+-   Given the continuous nature of communities, ordination can be considered a more natural approach. 
+
 
 ## Clustering
 
@@ -215,6 +196,7 @@ head(dune2_env)
 #| echo: true
 
 library(dendextend)
+
 
 dis_data<-dune2_spe %>% 
   vegdist(method = "bray",upper=FALSE)
@@ -266,12 +248,48 @@ fviz_nbclust(varespec_m, kmeans, method = "wss") +
 fviz_cluster(kmeans(varespec_m, centers = 2), geom = "point", data = dune2_spe)+ theme_minimal()
 ```
 
-## Ordinations
+## From Clusters to Gradients
 
--   Assess relationships within a set of variables (species or environmental variables)
+- Clustering tells us **who is similar**
+- Ordinations help explain **why they are similar**
+- Gradients (like pH, moisture, disturbance) may underlie these groupings
+
+
+## Ordinations 
+
+> Ordination is a collective term for multivariate techniques which summarize a multidimensional dataset in such a way that when it is projected onto a low dimensional space, any intrinsic pattern the data may possess becomes apparent upon visual inspection (Pielou, 1984).
+
+-   In ecological terms, ordination helps us understand community data.
 -   Find key components of variation among samples, sites, species
--   Reduce the number of dimensions in multivariate data while limiting substantial loss of information
--   Create new variables for use in subsequent analyses
+-   Reduce the number of dimensions in multivariate data while limiting substantial loss of information.
+-   Create new variables for use in subsequent analyses.
+
+## What is ordination?
+
+![](https://www.quantitative-biology.ca/_main_files/figure-html/pactwo-1.png)
+
+## Data
+Matrix algebra
+
+<img src="https://i.gifer.com/NvL.gif"/>
+
+## Multivariate statistics
+
+Matrix algebra
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/b/bf/Matris.png?w=144"/>
+
+## Type of ordinations?
+
+-   Unconstrained Ordination: we're basically letting the data *speak for itself.* We don't impose any specific relationships or constraints between the variables.
+
+-   Constrained Ordination: we impose some restrictions or *constraints* on the analysis based on what we already know or suspect about the data.
+
+-   In simple terms, unconstrained ordination lets the data tell its story without interference, while constrained ordination guides the analysis based on what we already know or suspect.
+
+-   We are going to focus in Unconstrained Ordinations
+tion aims at arranging samples or species continuously along gradients.
+
 
 ## Doing an ordination
 
@@ -286,11 +304,25 @@ This ordination goes in two steps:
 -   *D*etrended *C*orrespondence *A*nalysis (DCA)
 -   *N*on-metric *M*ulti*d*imensional *S*caling (NMDS)
 -   And *MORE*.....
+-   Why so many ordination methods?
+  - Different ordination methods = different assumptions + different strengths.
+
+
+## Comparing Ordination Methods
+
+| Method   | Type        | Best For                                      | Assumes                                 |
+|----------|-------------|-----------------------------------------------|------------------------------------------|
+| PCA      | Linear      | Species respond linearly to gradients         | Normality, Euclidean distances           |
+| DCA      | Unimodal    | Species have peak abundances along gradients  | Long gradients, curved structure         |
+| NMDS     | Non-metric  | Preserving ranked distances                   | No assumptions, works with Bray-Curtis   |
+| CCA/RDA  | Constrained | Link communities to environmental variables   | Explaining structure via predictors      |
+
 
 ## *P*rincipal *C*omponent *A*nalysis (PCA)
 
--   It is a linear dimensionality-reduction technique, i.e. it reduces strongly correlated data.
--   In a nutshell, the PCA linearly transforms the feature from the original space to a new feature space, containing principal components that explain most of the variance in the dataset
+- PCA is a linear method that helps us make sense of complex data by reducing its dimensions.  
+
+-   In a nutshell, the PCA linearly transforms the feature from the original space to a new feature space, containing principal components that explain most of the variance in the dataset.
 
 ## Principal Component Analysis (PCA)
 
@@ -386,10 +418,11 @@ plot(fit, p.max = 0.05, col = "red")
 
 **chi-square distance metric among samples**
 
-Correspondence analysis(*CA*) is an ordination method.
+*DCA* is an ordination method built on *Correspondence Analysis* (CA), which arranges samples and species in the same space to explore their relationships.
 
-- It can calculate and display correspondence between samples and species in the same ordination space.
-- It has a problem :suffers from creating often strong arch artefact in ordination diagrams. Which is caused by a non-linear correlation between first and higher axes
+It is especially useful when species show unimodal responses along environmental gradients (i.e., they peak at some optimal conditions).
+
+- It has a problem with *CA* :suffers from creating often strong arch artefact in ordination diagrams. Which is caused by a non-linear correlation between first and higher axes
 
 ::: fragment
 ![](https://ordination.okstate.edu/boomca.jpg)
@@ -399,6 +432,7 @@ Correspondence analysis(*CA*) is an ordination method.
 
 Arch can be removed by detrending(*smooths out the data to make it easier to see the main patterns*), which is the base of the detrended correspondence analysis (DCA).
 
+Think of DCA as a corrected version of CA—more reliable for real ecological gradients.
 ![source: davidzeleny](https://www.davidzeleny.net/anadat-r/lib/exe/fetch.php/obrazky:ca_to_dca.jpg)
 
 ## Detrended correspondence analysis (DCA)
@@ -436,17 +470,34 @@ plot(fit, p.max = 0.05, col = "red")
 
 ## *N*on-metric *M*ulti*d*imensional *S*caling (NMDS)
 
--   It uses an iterative optimization algorithm to find the best representation of distances in reduced space.
--   NMDS is not an eigenanalysis. This has three important consequences:
-    -   There is no unique ordination result
-    -   The axes of the ordination are not ordered according to the variance they explain
-    -   The number of dimensions of the low-dimensional space must be specified before running the analysis
+-  NMDS is a flexible, non-linear ordination method that shows how similar or different samples are—based on a chosen distance metric (e.g., Bray-Curtis).
+It tries to preserve the rank order of distances between samples—not the exact values.
 
+- It minimizes "stress", which measures how well the distances in the reduced space reflect the original data.
 
 ## Non-metric Multidimensional Scaling (NMDS)
+
+
 -   The lower the stress value (a measure of goodness-of-fit), the better the representation of objects in the ordination-space is.
 -   `distance` specifies the distance metric to use
--   `k` specifies the number of dimensions.
+-   `k` specifies the number of dimensions.You decide how many dimensions `k` to use.
+
+NMDS does not use eigenanalysis like PCA or DCA.
+
+So there's no unique solution (you might get slightly different results each time).
+
+Axes are not ranked by explained variance.
+
+You must choose the number of dimensions in advance.
+## Important Things to Know
+
+- NMDS does not use eigenanalysis like PCA or DCA.
+
+- So there's no unique solution (you might get slightly different results each time).
+
+- Axes are not ranked by explained variance.
+
+- You must choose the number of dimensions in advance.
 
 ## Non-metric Multidimensional Scaling (NMDS)
 
@@ -454,9 +505,9 @@ Methodology of NMDS:
 
 Step 1: Perform NMDS with 1 to 10 dimensions Step
 2: Check the stress vs dimension plot Step 
-3: Choose optimal number of dimensions Step 
-4: Perform final NMDS with that number of dimensions Step 
-5: Check for convergent solution and final stress
+3: Choose the lowest number of dimensions with acceptably low stress (typically < 0.2). 
+4: Re-run NMDS with that number of dimensions.
+5: Check for convergence and interpret the final result.
 
 ## Non-metric Multidimensional Scaling (NMDS)
 
@@ -574,6 +625,17 @@ with(dune2_env, ordihull(NMDS1, Management,
                          label = TRUE,col = group_colors ))
 ```
 
+## Summary
+
+🌳  In short: Ordination helps ecologists **see the big picture**.
+
+- Use **PCA** when gradients are short and responses are simple.
+- Use **DCA** when you suspect **distinct ecological zones** or turnover.
+- Use **NMDS** for flexible, non-linear ecological data—common in field studies.
+- Use **CCA/RDA** when you want to test specific **hypotheses about drivers**.
+
+> 🧠 Think: *What ecological pattern am I trying to uncover or explain?*
+
 ## Material
 
 Most of the material comes from :
@@ -587,6 +649,21 @@ Visit [Coding club](https://ourcodingclub.github.io/) for more examples
 ```{r, echo=FALSE, out.width="100%"}
 knitr::include_graphics("https://assets-global.website-files.com/647888ca92d03e3fca3f1ea0/647888ca92d03e3fca3f2376_shutterstock_792140977.jpg")
 ```
+
+## Exercise
+
+In this exercise, you will explore community composition using NMDS (Non-metric Multidimensional Scaling) based on a subset of the ITEX dataset.
+
+1. Load the dataset `itex.long.csv` and take a moment to familiarize yourself with its structure.
+
+2. Prepare the data for ordination. Consider how to reshape it for NMDS.
+
+3. Calculate a dissimilarity matrix and run the NMDS.
+
+4. Visualize the NMDS results.
+
+5. Interpret the results: What patterns do you see? Do sub-sites cluster together? What might explain the gradients in the ordination space?
+
 
 ```{r eval=FALSE, echo=FALSE }
 renderthis::to_pdf("Multivariate.html")
