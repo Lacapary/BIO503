@@ -47,3 +47,6 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+#Exe
+Presentations/multivariate_exercise.R
