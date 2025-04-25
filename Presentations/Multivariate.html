@@ -10,7 +10,7 @@
 <link href="Multivariate_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <link href="Multivariate_files/libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
 <link href="Multivariate_files/libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.4.551">
+  <meta name="generator" content="quarto-1.4.553">
 
   <meta name="author" content="Camila Pacheco">
   <meta name="author" content="Katrín Björnsdóttir">
@@ -447,11 +447,7 @@ Katrín Björnsdóttir
 </section>
 <section id="required-material-2" class="slide level2">
 <h2>Required Material</h2>
-<div class="v-center-container">
-<h4>
-Do not hesitate to ask questions!
-</h4>
-</div>
+<p><strong>Do not hesitate to ask questions!</strong></p>
 </section>
 <section id="the-data-for-this-session" class="slide level2">
 <h2>The data for this session?</h2>
@@ -542,6 +538,25 @@ Do not hesitate to ask questions!
 <p>They summarize patterns across multiple species simultaneously.</p>
 </section>
 <section id="examples-of-questions-in-multivariate-statistics" class="slide level2">
+<h2>Examples of Questions in Multivariate statistics</h2>
+<p>Our research question might be:</p>
+<ul>
+<li class="fragment">What are the global patterns of how vascular plants grow and function?</li>
+</ul>
+<div class="fragment">
+<p>Remember this:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="sources/Diaz_etal.png" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="examples-of-questions-in-multivariate-statistics-1" class="slide level2">
 <h2>Examples of Questions in Multivariate statistics</h2>
 <p>Our research question might be:</p>
 <ul>
@@ -697,7 +712,7 @@ Do not hesitate to ask questions!
 <span id="cb9-6"><a href=""></a><span class="fu">plot</span>(dend.plot, <span class="at">ylab =</span> <span class="st">"Bray-Curtis Distance"</span>, <span class="at">main =</span> <span class="st">"why would clusters be different?"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch"></section>
+<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
 <section id="clustering-4" class="slide level2">
 <h2>Clustering</h2>
 <p>What is the ideal number of clusters?</p>
@@ -710,14 +725,14 @@ Do not hesitate to ask questions!
 <span id="cb10-6"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">2</span>, <span class="at">linetype =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
+<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
 <section id="clustering-5" class="slide level2">
 <h2>Clustering</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">fviz_cluster</span>(<span class="fu">kmeans</span>(varespec_m, <span class="at">centers =</span> <span class="dv">2</span>), <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">data =</span> dune2_spe)<span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
+<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"></section>
 <section id="from-clusters-to-gradients" class="slide level2">
 <h2>From Clusters to Gradients</h2>
 <ul>
@@ -726,6 +741,10 @@ Do not hesitate to ask questions!
 <li class="fragment">Gradients (like pH, moisture, disturbance) may underlie these groupings</li>
 </ul>
 </section>
+<section id="break" class="slide level2">
+<h2>BREAK</h2>
+
+<img data-src="https://assets-global.website-files.com/647888ca92d03e3fca3f1ea0/647888ca92d03e3fca3f2376_shutterstock_792140977.jpg" style="width:100.0%" class="r-stretch"></section>
 <section id="ordinations" class="slide level2">
 <h2>Ordinations</h2>
 <blockquote>
@@ -782,12 +801,12 @@ Do not hesitate to ask questions!
 </section>
 <section id="comparing-ordination-methods" class="slide level2">
 <h2>Comparing Ordination Methods</h2>
-<table>
+<table style="width:100%;">
 <colgroup>
-<col style="width: 8%">
-<col style="width: 11%">
-<col style="width: 41%">
-<col style="width: 37%">
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 26%">
+<col style="width: 24%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -903,7 +922,7 @@ Eigenvalues for unconstrained axes:
 <pre><code>[1] 0.5300765</code></pre>
 </div>
 </div>
-<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
+<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-10-1.png" width="960" class="r-stretch"></section>
 <section id="principal-component-analysis-pca-6" class="slide level2">
 <h2>Principal Component Analysis (PCA)</h2>
 <div class="cell">
@@ -911,7 +930,7 @@ Eigenvalues for unconstrained axes:
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-9-1.png" width="960"></p>
+<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-11-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -919,7 +938,7 @@ Eigenvalues for unconstrained axes:
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-9-2.png" width="960"></p>
+<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-11-2.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -927,7 +946,7 @@ Eigenvalues for unconstrained axes:
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-9-3.png" width="960"></p>
+<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-11-3.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -941,7 +960,7 @@ Eigenvalues for unconstrained axes:
 <span id="cb20-3"><a href=""></a><span class="fu">biplot</span>(PCA, <span class="at">choices =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">type =</span> <span class="fu">c</span>(<span class="st">"text"</span>, <span class="st">"points"</span>), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>)) <span class="co"># biplot of axis 1 vs 2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-10-1.png" width="960" class="r-stretch"></section>
+<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch"></section>
 <section id="principal-component-analysis-pca-8" class="slide level2">
 <h2>Principal Component Analysis (PCA)</h2>
 <ul>
@@ -966,7 +985,7 @@ Manure    0.1718683  0.75960897</code></pre>
 <span id="cb23-2"><a href=""></a><span class="fu">plot</span>(fit, <span class="at">p.max =</span> <span class="fl">0.05</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"></section>
+<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"></section>
 <section id="detrended-correspondence-analysis-dca" class="slide level2">
 <h2><em>D</em>etrended <em>c</em>orrespondence <em>a</em>nalysis (DCA)</h2>
 <p><strong>chi-square distance metric among samples</strong></p>
@@ -1013,7 +1032,7 @@ Axis lengths         3.8264 2.8444 2.03949 2.17577</code></pre>
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-13-1.png" width="960"></p>
+<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-15-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1021,7 +1040,7 @@ Axis lengths         3.8264 2.8444 2.03949 2.17577</code></pre>
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-13-2.png" width="960"></p>
+<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-15-2.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1042,7 +1061,7 @@ Manure   0.1388042 -0.55260255</code></pre>
 <span id="cb30-2"><a href=""></a><span class="fu">plot</span>(fit, <span class="at">p.max =</span> <span class="fl">0.05</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"></section>
+<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch"></section>
 <section id="non-metric-multidimensional-scaling-nmds" class="slide level2">
 <h2><em>N</em>on-metric <em>M</em>ulti<em>d</em>imensional <em>S</em>caling (NMDS)</h2>
 <ul>
@@ -1057,10 +1076,9 @@ Manure   0.1388042 -0.55260255</code></pre>
 <li class="fragment"><code>distance</code> specifies the distance metric to use</li>
 <li class="fragment"><code>k</code> specifies the number of dimensions.You decide how many dimensions <code>k</code> to use.</li>
 </ul>
-<p>NMDS does not use eigenanalysis like PCA or DCA.</p>
-<p>So there’s no unique solution (you might get slightly different results each time).</p>
-<p>Axes are not ranked by explained variance.</p>
-<p>You must choose the number of dimensions in advance. ## Important Things to Know</p>
+</section>
+<section id="important-things-to-know" class="slide level2">
+<h2>Important Things to Know</h2>
 <ul>
 <li class="fragment"><p>NMDS does not use eigenanalysis like PCA or DCA.</p></li>
 <li class="fragment"><p>So there’s no unique solution (you might get slightly different results each time).</p></li>
@@ -1155,7 +1173,7 @@ Species: expanded scores based on 'dune2_spe' </code></pre>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a><span class="fu">stressplot</span>(NMDS1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-18-1.png" width="960" class="r-stretch"></section>
+<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-20-1.png" width="960" class="r-stretch"></section>
 <section id="non-metric-multidimensional-scaling-nmds-7" class="slide level2">
 <h2>Non-metric Multidimensional Scaling (NMDS)</h2>
 <div class="cell">
@@ -1163,7 +1181,7 @@ Species: expanded scores based on 'dune2_spe' </code></pre>
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-19-1.png" width="960"></p>
+<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-21-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1183,7 +1201,7 @@ Manure   -0.1197459 -0.8307617</code></pre>
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-20-1.png" width="960"></p>
+<p><img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-22-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1208,7 +1226,7 @@ Manure   -0.1197459 -0.8307617</code></pre>
 <section id="ordihull-1" class="slide level2">
 <h2>Ordihull</h2>
 
-<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-22-1.png" width="960" class="r-stretch"></section>
+<img data-src="Multivariate_files/figure-revealjs/unnamed-chunk-24-1.png" width="960" class="r-stretch"></section>
 <section id="summary" class="slide level2">
 <h2>Summary</h2>
 <p>🌳 In short: Ordination helps ecologists <strong>see the big picture</strong>.</p>
@@ -1228,13 +1246,78 @@ Manure   -0.1197459 -0.8307617</code></pre>
 <p><a href="https://ourcodingclub.github.io/tutorials/ordination/">Introduction to ordinations</a></p>
 <p>Visit <a href="https://ourcodingclub.github.io/">Coding club</a> for more examples</p>
 </section>
-<section id="break" class="slide level2">
+<section id="break-1" class="slide level2">
 <h2>BREAK</h2>
 
 <img data-src="https://assets-global.website-files.com/647888ca92d03e3fca3f1ea0/647888ca92d03e3fca3f2376_shutterstock_792140977.jpg" style="width:100.0%" class="r-stretch"></section>
-<section id="exercise" class="slide level2 scrollable">
+<section id="exercise" class="slide level2">
 <h2>Exercise</h2>
 <p>In this exercise, you will explore community composition using NMDS (Non-metric Multidimensional Scaling) based on a subset of the ITEX dataset.</p>
+</section>
+<section id="itex" class="slide level2">
+<h2>ITEX</h2>
+<p>We will be using a subset of the ITEX network dataset we used last time.</p>
+<ul>
+<li class="fragment"><p>ITEX is a long-term warming experiment that uses standardized protocols to examine impacts of warming on Arctic ecosystems.</p></li>
+<li class="fragment"><p>Established in the 1990s - vegetation monitoring over three decades.</p></li>
+<li class="fragment"><p>Uses a simple method that is easy to establish in the field - open top chambers</p></li>
+</ul>
+<div class="fragment">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Hierarchical_Linear_Models_files/Figures/otc.png" style="width:20.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="itex-1" class="slide level2">
+<h2>ITEX</h2>
+
+<img data-src="Hierarchical_Linear_Models_files/Figures/audkuluheidi.JPG" style="width:100.0%" class="r-stretch"></section>
+<section id="lets-look-at-the-data" class="slide level2">
+<h2>Let’s look at the data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a>itex.long <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"C:/Users/katbj/OneDrive - University of Gothenburg/Dokument/Biology/GU PhD/Git repos/BIO503/Data/itex.long.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="fu">head</span>(itex.long)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 6
+   ...1 SITE    SUBSITE PLOT  SPECIES_NAME         SumAbund
+  &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;                   &lt;dbl&gt;
+1     1 ATQASUK AD      ADC01 Alectoria nigricans         5
+2     2 ATQASUK AD      ADC01 Cassiope tetragona          5
+3     3 ATQASUK AD      ADC01 Cetraria cucullata          6
+4     4 ATQASUK AD      ADC01 Diapensia lapponica         6
+5     5 ATQASUK AD      ADC01 Dicranum acutifolium        1
+6     6 ATQASUK AD      ADC01 Ledum palustre              6</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a><span class="fu">length</span>(<span class="fu">unique</span>(itex.long<span class="sc">$</span>SITE)) <span class="co">#this code tells you how many different samples we have within the SITE column</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">unique</span>(itex.long<span class="sc">$</span>SITE) <span class="co">#you can also do this and then it gives you the name of all samples within the SITE column</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "ATQASUK" "BARROW" </code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1" class="slide level2 scrollable">
+<h2>Exercise</h2>
 <ol type="1">
 <li class="fragment"><p>Load the dataset <code>itex.long.csv</code> and take a moment to familiarize yourself with its structure.</p></li>
 <li class="fragment"><p>Prepare the data for ordination. Consider how to reshape it for NMDS.</p></li>

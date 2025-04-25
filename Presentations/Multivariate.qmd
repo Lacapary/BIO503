@@ -13,6 +13,9 @@ format:
     scrollable: true
     transition: fade
     highlight-style: monokai
+editor: 
+  markdown: 
+    wrap: sentence
 ---
 
 ## Today
@@ -52,9 +55,7 @@ install.packages(c("vegan",
 
 ## Required Material
 
-::: v-center-container
-<h4>Do not hesitate to ask questions!</h4>
-:::
+**Do not hesitate to ask questions!**
 
 ## The data for this session?
 
@@ -89,33 +90,31 @@ head(dune2_env)
 -   These models allowed us to ask questions such as:
     -   What are the effects of precipitation and temperature on species richness? or
     -   How does the abundance of species change between habitats?
-    
 
 ## Why Multivariate? 🌱
 
 Let's compare **univariate** vs **multivariate** approaches.
 
----
+------------------------------------------------------------------------
 
 ### Univariate Example
 
 > You study how **soil pH** affects the **abundance of one species** (*Species A*):
 
-```r
+``` r
 # Univariate linear regression
 model <- lm(species_A_abundance ~ soil_pH, data = your_data)
 summary(model)
 ```
 
-This tells you:  
+This tells you:\
 👉 *How soil pH affects the abundance of one species.*
 
----
+------------------------------------------------------------------------
 
 ## Why That's Limiting in Ecology
 
-In real ecosystems:
-- You usually have **many species** per site.
+In real ecosystems: - You usually have **many species** per site.
 - Environmental variables may affect **multiple species simultaneously**.
 - Species may interact (e.g., competition, facilitation).
 
@@ -131,10 +130,23 @@ They summarize patterns across multiple species simultaneously.
 
 Our research question might be:
 
+-   What are the global patterns of how vascular plants grow and function?
+
+::: fragment
+Remember this:
+
+```{r, echo=FALSE, out.width="60%"}
+knitr::include_graphics("C:/Users/katbj/OneDrive - University of Gothenburg/Dokument/Biology/GU PhD/Git repos/BIO503/Presentations/sources/Diaz_etal.png")
+```
+:::
+
+## Examples of Questions in Multivariate statistics
+
+Our research question might be:
+
 -   How does the plants composition change along an elevation gradient?
 -   What is the composition dissimilarity of plants communities?
 -   How closely-related are local vegetation communities in terms of their composition ?
-
 
 ## How does the data look?
 
@@ -154,7 +166,6 @@ Matrix locations
 | 2    | Temperature 1 | Precipitation 2 | ... | Driver n |
 | m    | ...           | ...             | ... | ...      |
 
-
 ## Multivariate methods
 
 -   *Ordination* and *clustering* are the two main classes of multivariate methods that community ecologists employ.
@@ -163,8 +174,7 @@ Matrix locations
 
 -   Hierarchical data clustering allows you to explore your data and look for discontinuities (e.g. gaps in your data), gradients and meaningful ecological units (e.g. groups or subgroups of species).
 
--   Given the continuous nature of communities, ordination can be considered a more natural approach. 
-
+-   Given the continuous nature of communities, ordination can be considered a more natural approach.
 
 ## Clustering
 
@@ -250,12 +260,17 @@ fviz_cluster(kmeans(varespec_m, centers = 2), geom = "point", data = dune2_spe)+
 
 ## From Clusters to Gradients
 
-- Clustering tells us **who is similar**
-- Ordinations help explain **why they are similar**
-- Gradients (like pH, moisture, disturbance) may underlie these groupings
+-   Clustering tells us **who is similar**
+-   Ordinations help explain **why they are similar**
+-   Gradients (like pH, moisture, disturbance) may underlie these groupings
 
+## BREAK
 
-## Ordinations 
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("https://assets-global.website-files.com/647888ca92d03e3fca3f1ea0/647888ca92d03e3fca3f2376_shutterstock_792140977.jpg")
+```
+
+## Ordinations
 
 > Ordination is a collective term for multivariate techniques which summarize a multidimensional dataset in such a way that when it is projected onto a low dimensional space, any intrinsic pattern the data may possess becomes apparent upon visual inspection (Pielou, 1984).
 
@@ -269,6 +284,7 @@ fviz_cluster(kmeans(varespec_m, centers = 2), geom = "point", data = dune2_spe)+
 ![](https://www.quantitative-biology.ca/_main_files/figure-html/pactwo-1.png)
 
 ## Data
+
 Matrix algebra
 
 <img src="https://i.gifer.com/NvL.gif"/>
@@ -287,9 +303,7 @@ Matrix algebra
 
 -   In simple terms, unconstrained ordination lets the data tell its story without interference, while constrained ordination guides the analysis based on what we already know or suspect.
 
--   We are going to focus in Unconstrained Ordinations
-tion aims at arranging samples or species continuously along gradients.
-
+-   We are going to focus in Unconstrained Ordinations tion aims at arranging samples or species continuously along gradients.
 
 ## Doing an ordination
 
@@ -305,22 +319,20 @@ This ordination goes in two steps:
 -   *N*on-metric *M*ulti*d*imensional *S*caling (NMDS)
 -   And *MORE*.....
 -   Why so many ordination methods?
-  - Different ordination methods = different assumptions + different strengths.
-
+-   Different ordination methods = different assumptions + different strengths.
 
 ## Comparing Ordination Methods
 
-| Method   | Type        | Best For                                      | Assumes                                 |
-|----------|-------------|-----------------------------------------------|------------------------------------------|
-| PCA      | Linear      | Species respond linearly to gradients         | Normality, Euclidean distances           |
-| DCA      | Unimodal    | Species have peak abundances along gradients  | Long gradients, curved structure         |
-| NMDS     | Non-metric  | Preserving ranked distances                   | No assumptions, works with Bray-Curtis   |
-| CCA/RDA  | Constrained | Link communities to environmental variables   | Explaining structure via predictors      |
-
+| Method  | Type        | Best For                                     | Assumes                                |
+|------------------|------------------|-------------------|------------------|
+| PCA     | Linear      | Species respond linearly to gradients        | Normality, Euclidean distances         |
+| DCA     | Unimodal    | Species have peak abundances along gradients | Long gradients, curved structure       |
+| NMDS    | Non-metric  | Preserving ranked distances                  | No assumptions, works with Bray-Curtis |
+| CCA/RDA | Constrained | Link communities to environmental variables  | Explaining structure via predictors    |
 
 ## *P*rincipal *C*omponent *A*nalysis (PCA)
 
-- PCA is a linear method that helps us make sense of complex data by reducing its dimensions.  
+-   PCA is a linear method that helps us make sense of complex data by reducing its dimensions.
 
 -   In a nutshell, the PCA linearly transforms the feature from the original space to a new feature space, containing principal components that explain most of the variance in the dataset.
 
@@ -422,7 +434,7 @@ plot(fit, p.max = 0.05, col = "red")
 
 It is especially useful when species show unimodal responses along environmental gradients (i.e., they peak at some optimal conditions).
 
-- It has a problem with *CA* :suffers from creating often strong arch artefact in ordination diagrams. Which is caused by a non-linear correlation between first and higher axes
+-   It has a problem with *CA* :suffers from creating often strong arch artefact in ordination diagrams. Which is caused by a non-linear correlation between first and higher axes
 
 ::: fragment
 ![](https://ordination.okstate.edu/boomca.jpg)
@@ -470,42 +482,32 @@ plot(fit, p.max = 0.05, col = "red")
 
 ## *N*on-metric *M*ulti*d*imensional *S*caling (NMDS)
 
--  NMDS is a flexible, non-linear ordination method that shows how similar or different samples are—based on a chosen distance metric (e.g., Bray-Curtis).
-It tries to preserve the rank order of distances between samples—not the exact values.
+-   NMDS is a flexible, non-linear ordination method that shows how similar or different samples are—based on a chosen distance metric (e.g., Bray-Curtis).
+    It tries to preserve the rank order of distances between samples—not the exact values.
 
-- It minimizes "stress", which measures how well the distances in the reduced space reflect the original data.
+-   It minimizes "stress", which measures how well the distances in the reduced space reflect the original data.
 
 ## Non-metric Multidimensional Scaling (NMDS)
-
 
 -   The lower the stress value (a measure of goodness-of-fit), the better the representation of objects in the ordination-space is.
 -   `distance` specifies the distance metric to use
 -   `k` specifies the number of dimensions.You decide how many dimensions `k` to use.
 
-NMDS does not use eigenanalysis like PCA or DCA.
-
-So there's no unique solution (you might get slightly different results each time).
-
-Axes are not ranked by explained variance.
-
-You must choose the number of dimensions in advance.
 ## Important Things to Know
 
-- NMDS does not use eigenanalysis like PCA or DCA.
+-   NMDS does not use eigenanalysis like PCA or DCA.
 
-- So there's no unique solution (you might get slightly different results each time).
+-   So there's no unique solution (you might get slightly different results each time).
 
-- Axes are not ranked by explained variance.
+-   Axes are not ranked by explained variance.
 
-- You must choose the number of dimensions in advance.
+-   You must choose the number of dimensions in advance.
 
 ## Non-metric Multidimensional Scaling (NMDS)
 
 Methodology of NMDS:
 
-Step 1: Perform NMDS with 1 to 10 dimensions Step
-2: Check the stress vs dimension plot Step 
-3: Choose the lowest number of dimensions with acceptably low stress (typically < 0.2). 
+Step 1: Perform NMDS with 1 to 10 dimensions Step 2: Check the stress vs dimension plot Step 3: Choose the lowest number of dimensions with acceptably low stress (typically \< 0.2).
 4: Re-run NMDS with that number of dimensions.
 5: Check for convergence and interpret the final result.
 
@@ -536,6 +538,7 @@ NMDS.scree(dist)
 knitr::include_graphics("Data/ndms.png")
 
 ```
+
 ## Non-metric Multidimensional Scaling (NMDS)
 
 ```{r}
@@ -608,6 +611,7 @@ with(dune2_env, ordihull(NMDS1, Management,
 ```
 
 ## Ordihull
+
 ```{r}
 #| output: true
 #| eval: true
@@ -627,12 +631,12 @@ with(dune2_env, ordihull(NMDS1, Management,
 
 ## Summary
 
-🌳  In short: Ordination helps ecologists **see the big picture**.
+🌳 In short: Ordination helps ecologists **see the big picture**.
 
-- Use **PCA** when gradients are short and responses are simple.
-- Use **DCA** when you suspect **distinct ecological zones** or turnover.
-- Use **NMDS** for flexible, non-linear ecological data—common in field studies.
-- Use **CCA/RDA** when you want to test specific **hypotheses about drivers**.
+-   Use **PCA** when gradients are short and responses are simple.
+-   Use **DCA** when you suspect **distinct ecological zones** or turnover.
+-   Use **NMDS** for flexible, non-linear ecological data—common in field studies.
+-   Use **CCA/RDA** when you want to test specific **hypotheses about drivers**.
 
 > 🧠 Think: *What ecological pattern am I trying to uncover or explain?*
 
@@ -653,17 +657,67 @@ knitr::include_graphics("https://assets-global.website-files.com/647888ca92d03e3
 ## Exercise
 
 In this exercise, you will explore community composition using NMDS (Non-metric Multidimensional Scaling) based on a subset of the ITEX dataset.
+    
+## ITEX
 
-1. Load the dataset `itex.long.csv` and take a moment to familiarize yourself with its structure.
+We will be using a subset of the ITEX network dataset we used last time.
 
-2. Prepare the data for ordination. Consider how to reshape it for NMDS.
+-   ITEX is a long-term warming experiment that uses standardized protocols to examine impacts of warming on Arctic ecosystems.
 
-3. Calculate a dissimilarity matrix and run the NMDS.
+-   Established in the 1990s - vegetation monitoring over three decades.
 
-4. Visualize the NMDS results.
+-   Uses a simple method that is easy to establish in the field - open top chambers
 
-5. Interpret the results: What patterns do you see? Do sub-sites cluster together? What might explain the gradients in the ordination space?
+::: fragment
+```{r, echo=FALSE, out.width="20%"}
+knitr::include_graphics("Hierarchical_Linear_Models_files/Figures/otc.png")
+```
+:::
 
+## ITEX
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("Hierarchical_Linear_Models_files/Figures/audkuluheidi.JPG")
+```
+
+## Let's look at the data
+
+```{r, echo=TRUE}
+itex.long <- read_csv("C:/Users/katbj/OneDrive - University of Gothenburg/Dokument/Biology/GU PhD/Git repos/BIO503/Data/itex.long.csv")
+```
+
+::: fragment
+```{r, echo=TRUE}
+head(itex.long)
+```
+:::
+
+::: fragment
+```{r, echo=TRUE}
+length(unique(itex.long$SITE)) #this code tells you how many different samples we have within the SITE column
+```
+:::
+
+::: fragment
+```{r, echo=TRUE}
+unique(itex.long$SITE) #you can also do this and then it gives you the name of all samples within the SITE column
+```
+:::
+
+## Exercise
+
+1.  Load the dataset `itex.long.csv` and take a moment to familiarize yourself with its structure.
+
+2.  Prepare the data for ordination.
+    Consider how to reshape it for NMDS.
+
+3.  Calculate a dissimilarity matrix and run the NMDS.
+
+4.  Visualize the NMDS results.
+
+5.  Interpret the results: What patterns do you see?
+    Do sub-sites cluster together?
+    What might explain the gradients in the ordination space?
 
 ```{r eval=FALSE, echo=FALSE }
 renderthis::to_pdf("Multivariate.html")
