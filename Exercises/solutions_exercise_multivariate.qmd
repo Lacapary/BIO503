@@ -1,0 +1,238 @@
+---
+title: "solutions_exercise_multivariate"
+author: "Katrín Björnsdóttir & Camila Pacheco Riaño"
+format: html
+editor: visual
+execute:
+  working-directory: project
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 2. Multivatriate analysis exercise
+
+## Libraries
+
+*Remember that you have to load the packages each time you start a new R session*
+
+```{r, warning = FALSE, meassage = FALSE}
+library(vegan)
+library(tidyverse)
+```
+
+## Load the data
+
+```{r, message = FALSE}
+
+itex.long <- read_csv("Data/itex.long.csv")
+
+```
+
+Lets look at the data to make sure it looks okay
+
+```{r}
+head(itex.long)
+
+view(itex.long)
+```
+
+Here we have another ITEX dataset where we have information on species composition and species abundance within two different ITEX sites
+
+```{r}
+unique(itex.long$SITE) # two sites
+unique(itex.long$SUBSITE) # four subsites, two within each site
+```
+
+This is what the different habitats name represent: AD = ATQASUK dry AW = ATQASUK wet BD = Barrow dry BW = Barrow wet
+
+## Exercise
+
+Using the ITEX dataset (itex.long.csv), plot the species composition from two sites and four sub-sites in an NMDS ordination space and group them based on their location.
+
+Lets first think about how we should restructure our data to be able to fit an ordination. We need to convert our data from a long format to a wide format.
+
+```{r, message=FALSE}
+itex.wide <- itex.long %>% 
+  group_by(SITE, SUBSITE, PLOT) |> 
+  pivot_wider(names_from  = SPECIES_NAME, values_from  = SumAbund, id_cols = c(SITE, SUBSITE, PLOT), values_fill = 0) |> 
+  ungroup()
+```
+
+Take a look at the dataset to see how this turned out
+
+```{r}
+view(itex.wide)
+```
+
+It looks good, our species are now columns and the species abundance within each plot is now rows
+
+Now remember how ordinations only take in numerical values (!), so we need to remove all columns that are not numerical.
+
+Lets take a look at the structure of out dataset.
+
+```{r}
+str(itex.wide)
+```
+
+We have 101 columns (or variables) but the three first ones are characters. Lets remove them.
+
+```{r}
+itex.nmds <- itex.wide %>% 
+  dplyr::select(-SITE, -SUBSITE, -PLOT)
+```
+
+Did that work?
+
+```{r}
+view(itex.nmds)
+str(itex.nmds)
+```
+
+Yes that seemed to work, make sure that you make a new dataframe (in our case itex.nmds) instead of overwiting the old one, because we need information on the sites and subsites later on.
+
+Now we can start making our NMDS
+
+Here we are assigning a distance matrix to "dist" using Bray-Curtis index (remember how that index was suitable for species abundance data).
+
+```{r}
+dist <- vegdist(itex.nmds,  method = "bray")
+```
+
+Notice -- if you get an error saying "Error in vegdist: (itex.nmds, method = "bray") : could not find function "vegdist" -- you need to load the vegan package !!
+
+Here is a way to estimate how many dimensions we need for our analysis
+
+Functions are used in R to perform a certain tasks. First you define the function (in our case NMDS.scree) and then later on you can call that function to perform a task
+
+```{r}
+NMDS.scree <- function(x) { # where x is the name of the data frame variable
+  plot(rep(1, 5), replicate(5, metaMDS(x, autotransform = F, k = 1)$stress), xlim = c(1, 5),ylim = c(0, 0.30), xlab = "# of Dimensions", ylab = "Stress", main = "NMDS stress plot")
+  for (i in 1:10) {
+    points(rep(i + 1,5),replicate(5, metaMDS(x, autotransform = F, k = i + 1)$stress))
+  }
+}
+```
+
+Here we are calling our function to perform a NMDS for 1-5 dimensions and then plotting the nr. of dimensions vs the stress.
+
+We perform this to evaluate the optimal number of dimensions we will use in our analysis. Remember that we want our analysis to have as low stress as possible but also if we can get away with low number of dimentions that is good. So we will choose the number of dimention depedning on the difference in stress level between dimentions.
+
+```{r, eval=FALSE}
+NMDS.scree(dist)
+```
+
+This could take a while...
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("sources/nmds_stress_plot.png")
+```
+
+Here we can see that between 2 and 3 dimensions, there isn't much difference - so we can go with 2 dimensions.
+
+```{r}
+set.seed(2)
+# set.seed() allows you to control the randomness in your code, making your results reproducible. It doesn't really matter what number you put in the brackets, you just have to put some number
+
+```
+
+Here, we perform the final analysis and check the result
+
+```{r, eval= FALSE, message = FALSE}
+NMDS1 <- metaMDS(dist, k = 2, trymax = 100, trace = F)
+```
+
+k = 2 defines the number of dimensions we want to use, in our case 2, trymax determines the number of fits the ordination will perform to find the best fit, in our case 100 fits
+
+Lets check the results - check if the stress looks good.
+
+```{r, eval = FALSE, message = FALSE}
+NMDS1
+
+stressplot(NMDS1)
+
+```
+
+From the summary of the ordination you can see that the stress is pretty good - around 0.06
+
+Now we can plot our ordination
+
+```{r, eval = FALSE, message = FALSE}
+plot(NMDS1,)
+```
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("sources/nmds.png")
+```
+
+This function only presents the plots in our analysis (so each row in our dataset). If we want to include species as well we can add the species scores by giving the metaMDS the original community matrix as input and specifying the distance measure.
+
+So essentially we are performing a new ordination analysis and instead of using vegsdist we define the distance within the ordination.
+
+```{r, eval = FALSE, message = FALSE}
+NMDS2 <- metaMDS(itex.nmds, k = 2, trymax = 100, trace = F, autotransform = FALSE, distance = "bray")
+plot(NMDS2)
+plot(NMDS2, display = "sites", type = "n")
+text(NMDS2, display ="species")
+points(NMDS2, display = "sites", col = "red", cex = 1.25)
+
+```
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("sources/nmds2.png")
+```
+
+Alternatively, you can use the functions ordiplot and orditorp
+
+```{r, eval = FALSE, message = FALSE}
+ordiplot(NMDS2, type = "n")
+orditorp(NMDS2, display = "species", col = "red", air = 0.01)
+orditorp(NMDS2, display = "sites", cex = 1.1, air = 0.01)
+```
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("sources/nmds_ordiplot.png")
+```
+
+Now this is a nice plot - we can see how the plots are really separated in space (represented as numbers) and each one of our four habitats (or subsites) associated with different plant species. But we don't know which group belongs to which subsite.
+
+First we need to define our subsites in a vector.
+
+```{r}
+subsites <- itex.wide$SUBSITE  #remember how I told you not to overwrite this dataset, now we are going to use the SUBSITE column to define our groups
+colors <- c(rep("#ff0000", 24), rep("#590004", 24), rep("#606c38", 24), rep("#283618", 24)) #make a vector of different colors that you think are nice
+
+```
+
+```{r, eval = FALSE}
+# Plot convex hulls with colors based on the group identity
+ordiplot(NMDS2, type = "n")
+#orditorp(NMDS2, display = "sites", type = "n", air = 0.01, cex = 1.25)
+orditorp(NMDS2, display = "species", col = "#444444", air = 0.01)
+for(i in unique(subsites)) {
+  ordihull(NMDS2$points[subsites == i, ], 
+           draw = "polygon",
+           groups = subsites[subsites == i],
+           col = colors[subsites == i][1],  # Use a single color per group
+           label = TRUE)
+}
+```
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("sources/nmds_ordiplot_final.png")
+```
+
+You can skip plotting in the species or the plot numbers since it makes it a bit complicated
+
+Okay there we have it, notice how the habitats (the two dry habitats and the two wet habitats) are closer together in space than the two sites - why could that be?
+
+Remember to check out the Coding Club's INTRODUCTION TO ORDINATION, find it here: <https://ourcodingclub.github.io/tutorials/ordination/>
+
+Don't hesitate to contact us if you are having problems with running the script.
+
+[katrin.bjornsdottir\@bioenv.gu.se](mailto:katrin.bjornsdottir@bioenv.gu.se){.email}
+
+[camila.pacheco.riano\@bioenv.gu.se](mailto:camila.pacheco.riano@bioenv.gu.se){.email}
+
+Good luck :-)

@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Katrín Björnsdóttir &amp; Camila Pacheco Riaño">
+
+<title>solutions_exercise_multivariate</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="solutions_exercise_multivariate_files/libs/clipboard/clipboard.min.js"></script>
+<script src="solutions_exercise_multivariate_files/libs/quarto-html/quarto.js"></script>
+<script src="solutions_exercise_multivariate_files/libs/quarto-html/popper.min.js"></script>
+<script src="solutions_exercise_multivariate_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="solutions_exercise_multivariate_files/libs/quarto-html/anchor.min.js"></script>
+<link href="solutions_exercise_multivariate_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="solutions_exercise_multivariate_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="solutions_exercise_multivariate_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="solutions_exercise_multivariate_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="solutions_exercise_multivariate_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">solutions_exercise_multivariate</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Katrín Björnsdóttir &amp; Camila Pacheco Riaño </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="multivatriate-analysis-exercise" class="level1">
+<h1>2. Multivatriate analysis exercise</h1>
+<section id="libraries" class="level2">
+<h2 class="anchored" data-anchor-id="libraries">Libraries</h2>
+<p><em>Remember that you have to load the packages each time you start a new R session</em></p>
+<div class="cell" data-meassage="false">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vegan)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: permute</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: lattice</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>This is vegan 2.6-8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+✔ purrr     1.0.2     </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+</div>
+</section>
+<section id="load-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-the-data">Load the data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>itex.long <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/itex.long.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Lets look at the data to make sure it looks okay</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(itex.long)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 6
+   ...1 SITE    SUBSITE PLOT  SPECIES_NAME         SumAbund
+  &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;                   &lt;dbl&gt;
+1     1 ATQASUK AD      ADC01 Alectoria nigricans         5
+2     2 ATQASUK AD      ADC01 Cassiope tetragona          5
+3     3 ATQASUK AD      ADC01 Cetraria cucullata          6
+4     4 ATQASUK AD      ADC01 Diapensia lapponica         6
+5     5 ATQASUK AD      ADC01 Dicranum acutifolium        1
+6     6 ATQASUK AD      ADC01 Ledum palustre              6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span>(itex.long)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here we have another ITEX dataset where we have information on species composition and species abundance within two different ITEX sites</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(itex.long<span class="sc">$</span>SITE) <span class="co"># two sites</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "ATQASUK" "BARROW" </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(itex.long<span class="sc">$</span>SUBSITE) <span class="co"># four subsites, two within each site</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "AD" "AW" "BD" "BW"</code></pre>
+</div>
+</div>
+<p>This is what the different habitats name represent: AD = ATQASUK dry AW = ATQASUK wet BD = Barrow dry BW = Barrow wet</p>
+</section>
+<section id="exercise" class="level2">
+<h2 class="anchored" data-anchor-id="exercise">Exercise</h2>
+<p>Using the ITEX dataset (itex.long.csv), plot the species composition from two sites and four sub-sites in an NMDS ordination space and group them based on their location.</p>
+<p>Lets first think about how we should restructure our data to be able to fit an ordination. We need to convert our data from a long format to a wide format.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>itex.wide <span class="ot">&lt;-</span> itex.long <span class="sc">%&gt;%</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(SITE, SUBSITE, PLOT) <span class="sc">|&gt;</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from  =</span> SPECIES_NAME, <span class="at">values_from  =</span> SumAbund, <span class="at">id_cols =</span> <span class="fu">c</span>(SITE, SUBSITE, PLOT), <span class="at">values_fill =</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Take a look at the dataset to see how this turned out</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span>(itex.wide)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>It looks good, our species are now columns and the species abundance within each plot is now rows</p>
+<p>Now remember how ordinations only take in numerical values (!), so we need to remove all columns that are not numerical.</p>
+<p>Lets take a look at the structure of out dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(itex.wide)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [96 × 101] (S3: tbl_df/tbl/data.frame)
+ $ SITE                                        : chr [1:96] "ATQASUK" "ATQASUK" "ATQASUK" "ATQASUK" ...
+ $ SUBSITE                                     : chr [1:96] "AD" "AD" "AD" "AD" ...
+ $ PLOT                                        : chr [1:96] "ADC01" "ADC02" "ADC03" "ADC04" ...
+ $ Alectoria nigricans                         : num [1:96] 5 4 7 1 6 3 7 5 7 1 ...
+ $ Cassiope tetragona                          : num [1:96] 5 4 2 1 4 1 3 8 5 1 ...
+ $ Cetraria cucullata                          : num [1:96] 6 4 4 3 10 4 8 7 5 3 ...
+ $ Diapensia lapponica                         : num [1:96] 6 5 2 0 3 0 3 1 7 1 ...
+ $ Dicranum acutifolium                        : num [1:96] 1 2 6 3 3 0 0 0 0 0 ...
+ $ Ledum palustre                              : num [1:96] 6 11 1 5 8 4 13 21 9 16 ...
+ $ Luzula confusa                              : num [1:96] 4 2 6 3 13 6 21 12 2 2 ...
+ $ Salix phlebophylla                          : num [1:96] 5 6 3 0 0 1 0 2 0 7 ...
+ $ Vaccinium vitis-idaea                       : num [1:96] 17 19 28 8 12 9 9 11 3 4 ...
+ $ Alectoria ochroleuca                        : num [1:96] 0 1 0 0 0 0 1 0 0 0 ...
+ $ Carex bigelowii                             : num [1:96] 0 6 29 0 9 0 9 10 0 1 ...
+ $ Persicaria bistorta                         : num [1:96] 0 1 1 0 0 0 0 0 0 2 ...
+ $ Sphaerophorus globosus                      : num [1:96] 0 2 1 1 4 5 10 1 5 9 ...
+ $ Cetraria laevigata                          : num [1:96] 0 0 3 1 3 2 0 1 1 1 ...
+ $ Dactylina arctica                           : num [1:96] 0 0 1 0 3 0 0 1 0 0 ...
+ $ Trisetum spicatum                           : num [1:96] 0 0 5 8 3 3 4 8 0 0 ...
+ $ Hierochloe alpina                           : num [1:96] 0 0 0 9 0 4 0 1 11 4 ...
+ $ Cetraria nivalis                            : num [1:96] 0 0 0 0 2 2 1 0 3 1 ...
+ $ Dicranum elongatum                          : num [1:96] 0 0 0 0 2 0 0 0 0 0 ...
+ $ Dicranum spadiceum                          : num [1:96] 0 0 0 0 0 0 0 2 1 1 ...
+ $ Cladonia crustose                           : num [1:96] 0 0 0 0 0 0 0 0 1 2 ...
+ $ Cladonia uncialis                           : num [1:96] 0 0 0 0 0 0 0 0 0 1 ...
+ $ Cladonia gracilis                           : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cornicularia divergens                      : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Antennaria friesiana                        : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cladina mitis                               : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Minuartia obtusiloba                        : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cetraria delisei                            : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cladina rangiferina                         : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cladonia pyxidata                           : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Aulacomnium turgidum                        : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Racomitrium lanuginosum                     : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cetraria islandica                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cladonia coccifera                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cladonia squasmosa                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Luzula nivalis                              : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Betula nana                                 : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Carex aquatilis                             : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Carex rariflora                             : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Eriophorum angustifolium                    : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Eriophorum scheuchzeri/chamissonis          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Oncophorus wahlenbergii                     : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Pedicularis sudetica                        : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Salix polaris                               : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Salix pulchra                               : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Aulacomnium palustre                        : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Persicaria vivipara                         : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Dupontia fisheri                            : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Gymnocolea inflata                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Ptychostomum capillare                      : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Rhytidium rugosum                           : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Loeskypnum badium                           : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Luzula wahlenbergii                         : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Ptilidium ciliare                           : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Carex rotundata                             : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Salix rotundifolia                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Arctagrostis latifolia                      : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Hylocomium splendens                        : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Peltigera canina                            : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Poa arctica                                 : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Potentilla hyparctica                       : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Alopecurus alpinus                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Carex aquatilis var. minor                  : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Peltigera aphthosa                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Saxifraga cernua                            : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Saxifraga punctata                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Stellaria longipes                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Tomentypnum nitens                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Peltigera rufescens                         : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Peltigera leucophlebia                      : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Tephroseris integrifolia subsp. atropurpurea: num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cetraria ericetorum                         : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Pedicularis lanata                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Papaver lapponicum                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cetraria richardsonii                       : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Peltigera malacea                           : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Pohlia cruda                                : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Lobaria linita                              : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Campylium stellatum                         : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cochlearia officinalis                      : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Draba lactea                                : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Eriophorum angustifolium subsp. triste      : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Hierochloe pauciflora                       : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Meesia triquetra                            : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Saxifraga foliolosa                         : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Saxifraga hieraciifolia                     : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cardamine pratensis                         : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Petasites frigidus                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Saxifraga hirculus                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Calamagrostis holmii                        : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cerastium beeringianum                      : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Chrysosplenium tetrandrum                   : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Ranunculus nivalis                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Aneura pinguis                              : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Silene uralensis subsp. apetala             : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Brachythecium turgidum                      : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+  [list output truncated]</code></pre>
+</div>
+</div>
+<p>We have 101 columns (or variables) but the three first ones are characters. Lets remove them.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>itex.nmds <span class="ot">&lt;-</span> itex.wide <span class="sc">%&gt;%</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>SITE, <span class="sc">-</span>SUBSITE, <span class="sc">-</span>PLOT)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Did that work?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span>(itex.nmds)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(itex.nmds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [96 × 98] (S3: tbl_df/tbl/data.frame)
+ $ Alectoria nigricans                         : num [1:96] 5 4 7 1 6 3 7 5 7 1 ...
+ $ Cassiope tetragona                          : num [1:96] 5 4 2 1 4 1 3 8 5 1 ...
+ $ Cetraria cucullata                          : num [1:96] 6 4 4 3 10 4 8 7 5 3 ...
+ $ Diapensia lapponica                         : num [1:96] 6 5 2 0 3 0 3 1 7 1 ...
+ $ Dicranum acutifolium                        : num [1:96] 1 2 6 3 3 0 0 0 0 0 ...
+ $ Ledum palustre                              : num [1:96] 6 11 1 5 8 4 13 21 9 16 ...
+ $ Luzula confusa                              : num [1:96] 4 2 6 3 13 6 21 12 2 2 ...
+ $ Salix phlebophylla                          : num [1:96] 5 6 3 0 0 1 0 2 0 7 ...
+ $ Vaccinium vitis-idaea                       : num [1:96] 17 19 28 8 12 9 9 11 3 4 ...
+ $ Alectoria ochroleuca                        : num [1:96] 0 1 0 0 0 0 1 0 0 0 ...
+ $ Carex bigelowii                             : num [1:96] 0 6 29 0 9 0 9 10 0 1 ...
+ $ Persicaria bistorta                         : num [1:96] 0 1 1 0 0 0 0 0 0 2 ...
+ $ Sphaerophorus globosus                      : num [1:96] 0 2 1 1 4 5 10 1 5 9 ...
+ $ Cetraria laevigata                          : num [1:96] 0 0 3 1 3 2 0 1 1 1 ...
+ $ Dactylina arctica                           : num [1:96] 0 0 1 0 3 0 0 1 0 0 ...
+ $ Trisetum spicatum                           : num [1:96] 0 0 5 8 3 3 4 8 0 0 ...
+ $ Hierochloe alpina                           : num [1:96] 0 0 0 9 0 4 0 1 11 4 ...
+ $ Cetraria nivalis                            : num [1:96] 0 0 0 0 2 2 1 0 3 1 ...
+ $ Dicranum elongatum                          : num [1:96] 0 0 0 0 2 0 0 0 0 0 ...
+ $ Dicranum spadiceum                          : num [1:96] 0 0 0 0 0 0 0 2 1 1 ...
+ $ Cladonia crustose                           : num [1:96] 0 0 0 0 0 0 0 0 1 2 ...
+ $ Cladonia uncialis                           : num [1:96] 0 0 0 0 0 0 0 0 0 1 ...
+ $ Cladonia gracilis                           : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cornicularia divergens                      : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Antennaria friesiana                        : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cladina mitis                               : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Minuartia obtusiloba                        : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cetraria delisei                            : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cladina rangiferina                         : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cladonia pyxidata                           : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Aulacomnium turgidum                        : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Racomitrium lanuginosum                     : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cetraria islandica                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cladonia coccifera                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cladonia squasmosa                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Luzula nivalis                              : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Betula nana                                 : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Carex aquatilis                             : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Carex rariflora                             : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Eriophorum angustifolium                    : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Eriophorum scheuchzeri/chamissonis          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Oncophorus wahlenbergii                     : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Pedicularis sudetica                        : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Salix polaris                               : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Salix pulchra                               : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Aulacomnium palustre                        : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Persicaria vivipara                         : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Dupontia fisheri                            : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Gymnocolea inflata                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Ptychostomum capillare                      : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Rhytidium rugosum                           : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Loeskypnum badium                           : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Luzula wahlenbergii                         : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Ptilidium ciliare                           : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Carex rotundata                             : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Salix rotundifolia                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Arctagrostis latifolia                      : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Hylocomium splendens                        : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Peltigera canina                            : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Poa arctica                                 : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Potentilla hyparctica                       : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Alopecurus alpinus                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Carex aquatilis var. minor                  : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Peltigera aphthosa                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Saxifraga cernua                            : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Saxifraga punctata                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Stellaria longipes                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Tomentypnum nitens                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Peltigera rufescens                         : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Peltigera leucophlebia                      : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Tephroseris integrifolia subsp. atropurpurea: num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cetraria ericetorum                         : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Pedicularis lanata                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Papaver lapponicum                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cetraria richardsonii                       : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Peltigera malacea                           : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Pohlia cruda                                : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Lobaria linita                              : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Campylium stellatum                         : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cochlearia officinalis                      : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Draba lactea                                : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Eriophorum angustifolium subsp. triste      : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Hierochloe pauciflora                       : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Meesia triquetra                            : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Saxifraga foliolosa                         : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Saxifraga hieraciifolia                     : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cardamine pratensis                         : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Petasites frigidus                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Saxifraga hirculus                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Calamagrostis holmii                        : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cerastium beeringianum                      : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Chrysosplenium tetrandrum                   : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Ranunculus nivalis                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Aneura pinguis                              : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Silene uralensis subsp. apetala             : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Brachythecium turgidum                      : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Cladonia cornuta                            : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...
+ $ Carex subspathacea                          : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...</code></pre>
+</div>
+</div>
+<p>Yes that seemed to work, make sure that you make a new dataframe (in our case itex.nmds) instead of overwiting the old one, because we need information on the sites and subsites later on.</p>
+<p>Now we can start making our NMDS</p>
+<p>Here we are assigning a distance matrix to “dist” using Bray-Curtis index (remember how that index was suitable for species abundance data).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>dist <span class="ot">&lt;-</span> <span class="fu">vegdist</span>(itex.nmds,  <span class="at">method =</span> <span class="st">"bray"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice – if you get an error saying “Error in vegdist: (itex.nmds, method =”bray”) : could not find function “vegdist” – you need to load the vegan package !!</p>
+<p>Here is a way to estimate how many dimensions we need for our analysis</p>
+<p>Functions are used in R to perform a certain tasks. First you define the function (in our case NMDS.scree) and then later on you can call that function to perform a task</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>NMDS.scree <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { <span class="co"># where x is the name of the data frame variable</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">5</span>), <span class="fu">replicate</span>(<span class="dv">5</span>, <span class="fu">metaMDS</span>(x, <span class="at">autotransform =</span> F, <span class="at">k =</span> <span class="dv">1</span>)<span class="sc">$</span>stress), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>),<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.30</span>), <span class="at">xlab =</span> <span class="st">"# of Dimensions"</span>, <span class="at">ylab =</span> <span class="st">"Stress"</span>, <span class="at">main =</span> <span class="st">"NMDS stress plot"</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">points</span>(<span class="fu">rep</span>(i <span class="sc">+</span> <span class="dv">1</span>,<span class="dv">5</span>),<span class="fu">replicate</span>(<span class="dv">5</span>, <span class="fu">metaMDS</span>(x, <span class="at">autotransform =</span> F, <span class="at">k =</span> i <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">$</span>stress))</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here we are calling our function to perform a NMDS for 1-5 dimensions and then plotting the nr. of dimensions vs the stress.</p>
+<p>We perform this to evaluate the optimal number of dimensions we will use in our analysis. Remember that we want our analysis to have as low stress as possible but also if we can get away with low number of dimentions that is good. So we will choose the number of dimention depedning on the difference in stress level between dimentions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">NMDS.scree</span>(dist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This could take a while…</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="sources/nmds_stress_plot.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here we can see that between 2 and 3 dimensions, there isn’t much difference - so we can go with 2 dimensions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># set.seed() allows you to control the randomness in your code, making your results reproducible. It doesn't really matter what number you put in the brackets, you just have to put some number</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here, we perform the final analysis and check the result</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>NMDS1 <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(dist, <span class="at">k =</span> <span class="dv">2</span>, <span class="at">trymax =</span> <span class="dv">100</span>, <span class="at">trace =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>k = 2 defines the number of dimensions we want to use, in our case 2, trymax determines the number of fits the ordination will perform to find the best fit, in our case 100 fits</p>
+<p>Lets check the results - check if the stress looks good.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>NMDS1</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">stressplot</span>(NMDS1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>From the summary of the ordination you can see that the stress is pretty good - around 0.06</p>
+<p>Now we can plot our ordination</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(NMDS1,)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="sources/nmds.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This function only presents the plots in our analysis (so each row in our dataset). If we want to include species as well we can add the species scores by giving the metaMDS the original community matrix as input and specifying the distance measure.</p>
+<p>So essentially we are performing a new ordination analysis and instead of using vegsdist we define the distance within the ordination.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>NMDS2 <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(itex.nmds, <span class="at">k =</span> <span class="dv">2</span>, <span class="at">trymax =</span> <span class="dv">100</span>, <span class="at">trace =</span> F, <span class="at">autotransform =</span> <span class="cn">FALSE</span>, <span class="at">distance =</span> <span class="st">"bray"</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(NMDS2)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(NMDS2, <span class="at">display =</span> <span class="st">"sites"</span>, <span class="at">type =</span> <span class="st">"n"</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(NMDS2, <span class="at">display =</span><span class="st">"species"</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(NMDS2, <span class="at">display =</span> <span class="st">"sites"</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">cex =</span> <span class="fl">1.25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="sources/nmds2.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Alternatively, you can use the functions ordiplot and orditorp</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ordiplot</span>(NMDS2, <span class="at">type =</span> <span class="st">"n"</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">orditorp</span>(NMDS2, <span class="at">display =</span> <span class="st">"species"</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">air =</span> <span class="fl">0.01</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">orditorp</span>(NMDS2, <span class="at">display =</span> <span class="st">"sites"</span>, <span class="at">cex =</span> <span class="fl">1.1</span>, <span class="at">air =</span> <span class="fl">0.01</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="sources/nmds_ordiplot.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now this is a nice plot - we can see how the plots are really separated in space (represented as numbers) and each one of our four habitats (or subsites) associated with different plant species. But we don’t know which group belongs to which subsite.</p>
+<p>First we need to define our subsites in a vector.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>subsites <span class="ot">&lt;-</span> itex.wide<span class="sc">$</span>SUBSITE  <span class="co">#remember how I told you not to overwrite this dataset, now we are going to use the SUBSITE column to define our groups</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"#ff0000"</span>, <span class="dv">24</span>), <span class="fu">rep</span>(<span class="st">"#590004"</span>, <span class="dv">24</span>), <span class="fu">rep</span>(<span class="st">"#606c38"</span>, <span class="dv">24</span>), <span class="fu">rep</span>(<span class="st">"#283618"</span>, <span class="dv">24</span>)) <span class="co">#make a vector of different colors that you think are nice</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot convex hulls with colors based on the group identity</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ordiplot</span>(NMDS2, <span class="at">type =</span> <span class="st">"n"</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co">#orditorp(NMDS2, display = "sites", type = "n", air = 0.01, cex = 1.25)</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">orditorp</span>(NMDS2, <span class="at">display =</span> <span class="st">"species"</span>, <span class="at">col =</span> <span class="st">"#444444"</span>, <span class="at">air =</span> <span class="fl">0.01</span>)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">unique</span>(subsites)) {</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ordihull</span>(NMDS2<span class="sc">$</span>points[subsites <span class="sc">==</span> i, ], </span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">draw =</span> <span class="st">"polygon"</span>,</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">groups =</span> subsites[subsites <span class="sc">==</span> i],</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">col =</span> colors[subsites <span class="sc">==</span> i][<span class="dv">1</span>],  <span class="co"># Use a single color per group</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="sources/nmds_ordiplot_final.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>You can skip plotting in the species or the plot numbers since it makes it a bit complicated</p>
+<p>Okay there we have it, notice how the habitats (the two dry habitats and the two wet habitats) are closer together in space than the two sites - why could that be?</p>
+<p>Remember to check out the Coding Club’s INTRODUCTION TO ORDINATION, find it here: <a href="https://ourcodingclub.github.io/tutorials/ordination/" class="uri">https://ourcodingclub.github.io/tutorials/ordination/</a></p>
+<p>Don’t hesitate to contact us if you are having problems with running the script.</p>
+<p><a href="mailto:katrin.bjornsdottir@bioenv.gu.se" class="email">katrin.bjornsdottir@bioenv.gu.se</a></p>
+<p><a href="mailto:camila.pacheco.riano@bioenv.gu.se" class="email">camila.pacheco.riano@bioenv.gu.se</a></p>
+<p>Good luck :-)</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
