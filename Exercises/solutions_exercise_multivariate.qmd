@@ -236,3 +236,8 @@ Don't hesitate to contact us if you are having problems with running the script.
 [camila.pacheco.riano\@bioenv.gu.se](mailto:camila.pacheco.riano@bioenv.gu.se){.email}
 
 Good luck :-)
+
+```{r eval=FALSE, echo=FALSE }
+renderthis::to_pdf("solutions_exercise_multivariate.html")
+```
+
