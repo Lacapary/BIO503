@@ -1,6 +1,7 @@
 ---
-title: "solutions_exercise_multivariate"
+title: "Quantitative methods - solutions to multivariate exercises"
 author: "Katrín Björnsdóttir & Camila Pacheco Riaño"
+date: "2025-05-08"
 format: html
 editor: visual
 execute:
@@ -56,7 +57,8 @@ Lets first think about how we should restructure our data to be able to fit an o
 ```{r, message=FALSE}
 itex.wide <- itex.long %>% 
   group_by(SITE, SUBSITE, PLOT) |> 
-  pivot_wider(names_from  = SPECIES_NAME, values_from  = SumAbund, id_cols = c(SITE, SUBSITE, PLOT), values_fill = 0) |> 
+  pivot_wider(names_from  = SPECIES_NAME, values_from  = SumAbund, 
+              id_cols = c(SITE, SUBSITE, PLOT), values_fill = 0) |> 
   ungroup()
 ```
 
@@ -108,7 +110,12 @@ Functions are used in R to perform a certain tasks. First you define the functio
 
 ```{r}
 NMDS.scree <- function(x) { # where x is the name of the data frame variable
-  plot(rep(1, 5), replicate(5, metaMDS(x, autotransform = F, k = 1)$stress), xlim = c(1, 5),ylim = c(0, 0.30), xlab = "# of Dimensions", ylab = "Stress", main = "NMDS stress plot")
+  plot(rep(1, 5), replicate(5, metaMDS(x, autotransform = F, k = 1)$stress), 
+       xlim = c(1, 5),
+       ylim = c(0, 0.30), 
+       xlab = "# of Dimensions",
+       ylab = "Stress", 
+       main = "NMDS stress plot")
   for (i in 1:10) {
     points(rep(i + 1,5),replicate(5, metaMDS(x, autotransform = F, k = i + 1)$stress))
   }
@@ -133,9 +140,10 @@ Here we can see that between 2 and 3 dimensions, there isn't much difference - s
 
 ```{r}
 set.seed(2)
-# set.seed() allows you to control the randomness in your code, making your results reproducible. It doesn't really matter what number you put in the brackets, you just have to put some number
 
 ```
+
+note: set.seed() allows you to control the randomness in your code, making your results reproducible. It doesn't really matter what number you put in the brackets, you just have to put some number
 
 Here, we perform the final analysis and check the result
 
@@ -171,7 +179,8 @@ This function only presents the plots in our analysis (so each row in our datase
 So essentially we are performing a new ordination analysis and instead of using vegsdist we define the distance within the ordination.
 
 ```{r, eval = FALSE, message = FALSE}
-NMDS2 <- metaMDS(itex.nmds, k = 2, trymax = 100, trace = F, autotransform = FALSE, distance = "bray")
+NMDS2 <- metaMDS(itex.nmds, k = 2, trymax = 100, trace = F, autotransform = FALSE, 
+                 distance = "bray")
 plot(NMDS2)
 plot(NMDS2, display = "sites", type = "n")
 text(NMDS2, display ="species")
@@ -200,8 +209,15 @@ Now this is a nice plot - we can see how the plots are really separated in space
 First we need to define our subsites in a vector.
 
 ```{r}
-subsites <- itex.wide$SUBSITE  #remember how I told you not to overwrite this dataset, now we are going to use the SUBSITE column to define our groups
-colors <- c(rep("#ff0000", 24), rep("#590004", 24), rep("#606c38", 24), rep("#283618", 24)) #make a vector of different colors that you think are nice
+subsites <- itex.wide$SUBSITE  
+#remember how I told you not to overwrite this dataset, 
+#now we are going to use the SUBSITE column to define our groups
+
+#make a vector of different colors that you think are nice
+colors <- c(rep("#ff0000", 24), 
+            rep("#590004", 24), 
+            rep("#606c38", 24), 
+            rep("#283618", 24)) 
 
 ```
 
