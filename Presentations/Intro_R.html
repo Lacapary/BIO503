@@ -419,21 +419,110 @@ Katrín Björnsdóttir
 <h2>Session goals</h2>
 <p>By the end of this session, you’ll be able to:</p>
 <ul>
-<li class="fragment">✅ Navigate the RStudio IDE<br>
-</li>
-<li class="fragment">✅ Import and clean datasets using <code>tidyverse</code><br>
-</li>
+<li class="fragment">✅ Explain why ecological systems required multivariate approaches</li>
+<li class="fragment">✅ Distinguish correlation from causation and identify potential confounding</li>
+<li class="fragment">✅ Use R and RStudio to explore ecological data</li>
 <li class="fragment">✅ Create simple plots using <code>ggplot2</code><br>
 </li>
 <li class="fragment">✅ Understand the basics of tidy data</li>
-<li class="fragment">✅ Introduced to causal inference</li>
+</ul>
+</section>
+<section id="ecological-and-biological-data-can-be-complex" class="slide level2">
+<h2>Ecological and biological data can be complex!</h2>
+<ul>
+<li class="fragment"><p>Generalizing require numerical estimation of difference association.</p></li>
+<li class="fragment"><p>Hierarchical structure in the data</p></li>
+<li class="fragment"><p>Many covariates and grouping factors</p></li>
+<li class="fragment"><p>Unbalanced study/experimental design</p></li>
+</ul>
+</section>
+<section id="bluebells" class="slide level2">
+<h2>Bluebells</h2>
+
+<img data-src="sources/Blue_bells.jpg" style="width:100.0%" class="r-stretch"></section>
+<section id="bluebells-1" class="slide level2">
+<h2>Bluebells</h2>
+
+<img data-src="sources/Blue_bells_copy.png" style="width:100.0%" class="r-stretch"></section></section>
+<section>
+<section id="section" class="title-slide slide level1 center">
+<h1></h1>
+<div style="text-align: center;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="sources/causal_inference.png" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="what-is-causal-inference" class="slide level2">
+<h2>What is Causal Inference? 🤔</h2>
+<p>It’s the process of determining cause-and-effect relationship.</p>
+<div class="fragment">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="sources/ice_cream_sharks.png" style="width:30.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li class="fragment">Moving beyond <strong>correlation</strong> to understand <strong>causal relationships</strong></li>
+<li class="fragment">Causal inference is about answering questions like: <strong>“Does X cause Y?”</strong></li>
+</ul>
+</section>
+<section id="why-is-this-important-in-ecology" class="slide level2">
+<h2>Why is This Important in Ecology?</h2>
+<ul>
+<li class="fragment">Ecological systems are complex</li>
+<li class="fragment">Many things can affect each other at the same time</li>
+<li class="fragment">We need tools to figure out which relationships are <strong>real causes</strong>, not just coincidences</li>
+</ul>
+</section>
+<section id="a-simple-tool-dags" class="slide level2">
+<h2>A Simple Tool: DAGs</h2>
+<p>A <strong>DAG</strong> (Directed Acyclic Graph) is a simple diagram to help us think clearly about cause and effect.</p>
+<ul>
+<li class="fragment">Circles = variables (things we measure)</li>
+<li class="fragment">Arrows = “causes”</li>
+</ul>
+<div class="fragment">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-5-1.png" class="quarto-figure quarto-figure-center" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="dag-example" class="slide level2">
+<h2>DAG Example</h2>
+<p>Fragmentation affects pollinators <strong>directly</strong> and <strong>indirectly</strong> (by reducing flowers).</p>
+
+<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
+<section id="how-dags-help" class="slide level2">
+<h2>How DAGs Help</h2>
+<ul>
+<li class="fragment">They help us ask better research questions</li>
+<li class="fragment">They show us what to measure and control for</li>
+<li class="fragment">They help us avoid confusing correlation with causation</li>
 </ul>
 </section>
 <section id="what-is-r" class="slide level2">
 <h2>What is R ?</h2>
 <div class="columns">
 <div class="column" style="width:40%;">
-<p><img data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/1086px-R_logo.svg.png?20240131042527" class="absolute" style="top: 200px; left: 0px; width: 350px; height: 300px; "></p>
+<p><img data-src="https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg" class="absolute" style="top: 200px; left: 0px; width: 350px; height: 300px; "></p>
 </div><div class="column" style="width:60%;">
 <ul>
 <li class="fragment">Originally developed for statistical computing and graphics<br>
@@ -451,11 +540,11 @@ Katrín Björnsdóttir
 <li class="fragment">RStudio is a user-friendly interface (IDE) for R that makes your work more efficient.</li>
 </ul>
 <div class="fragment">
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="sources/RStudio_IDE_screenshot.png" style="width:60.0%"></p>
+<p><img data-src="sources/RStudio_IDE_screenshot.png" class="quarto-figure quarto-figure-center" style="width:60.0%"></p>
 </figure>
 </div>
 </div>
@@ -582,7 +671,7 @@ Katrín Björnsdóttir
 </div>
 </div>
 </div>
-</div><div class="column" style="width:50%;">
+</div><div class="column" style="width:40%;">
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -635,6 +724,7 @@ Katrín Björnsdóttir
 <li class="fragment">Each observation forms a row</li>
 <li class="fragment">Each type of observational unit forms a table</li>
 </ul>
+<div class="fragment">
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -644,10 +734,9 @@ Katrín Björnsdóttir
 </div>
 </div>
 </div>
-
-<aside><div>
 <p>Source: R for Data Science. Grolemund and Wickham.</p>
-</div></aside></section>
+</div>
+</section>
 <section id="using-the-iris-dataset" class="slide level2">
 <h2>Using the <code>iris</code> Dataset</h2>
 <div class="columns">
@@ -863,7 +952,7 @@ Katrín Björnsdóttir
 <section id="plotting-iris-1" class="slide level2">
 <h2>Plotting Iris</h2>
 
-<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-22-1.png" width="960" class="r-stretch"><p><code>ggplot</code> offers many plotting possibilities which we will go further into later. If you are eager, you can learn more <a href="https://ggplot2-book.org/">here</a> or <a href="https://ourcodingclub.github.io/tutorials/datavis/">here</a>.</p>
+<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-28-1.png" width="960" class="r-stretch"><p><code>ggplot</code> offers many plotting possibilities which we will go further into later. If you are eager, you can learn more <a href="https://ggplot2-book.org/">here</a> or <a href="https://ourcodingclub.github.io/tutorials/datavis/">here</a>.</p>
 </section>
 <section id="saving-plots" class="slide level2">
 <h2>Saving plots</h2>
@@ -874,58 +963,6 @@ Katrín Björnsdóttir
 </div>
 </section></section>
 <section>
-<section id="section" class="title-slide slide level1 center">
-<h1></h1>
-<div style="text-align: center;">
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="sources/causal_inference.png" style="width:60.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="what-is-causal-inference" class="slide level2">
-<h2>What is Causal Inference? 🤔</h2>
-<p>It’s the process of determining cause-and-effect relationship.</p>
-
-<img data-src="sources/ice_cream_sharks.png" style="width:40.0%" class="r-stretch"><p>Moving beyond <strong>correlation</strong> to understand <strong>causal relationships</strong></p>
-<p>Causal inference is about answering questions like: <strong>“Does X cause Y?”</strong></p>
-</section>
-<section id="why-is-this-important-in-ecology" class="slide level2">
-<h2>Why is This Important in Ecology?</h2>
-<ul>
-<li class="fragment">Ecological systems are complex</li>
-<li class="fragment">Many things can affect each other at the same time</li>
-<li class="fragment">We need tools to figure out which relationships are <strong>real causes</strong>, not just coincidences</li>
-</ul>
-</section>
-<section id="a-simple-tool-dags" class="slide level2">
-<h2>A Simple Tool: DAGs</h2>
-<p>A <strong>DAG</strong> (Directed Acyclic Graph) is a simple diagram to help us think clearly about cause and effect.</p>
-<ul>
-<li class="fragment">Circles = variables (things we measure)</li>
-<li class="fragment">Arrows = “causes”</li>
-</ul>
-
-<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-26-1.png" width="960" class="r-stretch"></section>
-<section id="dag-example" class="slide level2">
-<h2>DAG Example</h2>
-<p>Fragmentation affects pollinators <strong>directly</strong> and <strong>indirectly</strong> (by reducing flowers).</p>
-
-<img data-src="Intro_R_files/figure-revealjs/unnamed-chunk-27-1.png" width="960" class="r-stretch"></section>
-<section id="how-dags-help" class="slide level2">
-<h2>How DAGs Help</h2>
-<ul>
-<li class="fragment">They help us ask better research questions</li>
-<li class="fragment">They show us what to measure and control for</li>
-<li class="fragment">They help us avoid confusing correlation with causation</li>
-</ul>
-</section></section>
-<section>
 <section id="any-questions" class="title-slide slide level1 center">
 <h1>💬 Any questions</h1>
 
@@ -934,14 +971,14 @@ Katrín Björnsdóttir
 <h2>To go further</h2>
 <ul>
 <li class="fragment"><p>Visit: <a href="https://ourcodingclub.github.io/">Coding Club</a></p></li>
-<li class="fragment"><p>EDGE coding club: Every 15 days, we have a coding club on Thursdays at 1:00 pm in the 5405 Rosshavet room (Natrium)</p></li>
+<li class="fragment"><p>EDGE coding club: Every 14 days, we have a coding club on Thursdays at 1:00 pm in the 5405 Rosshavet room (Natrium)</p></li>
 </ul>
 </section>
 <section id="what-is-next" class="slide level2">
 <h2>What is next</h2>
 <ul>
-<li class="fragment"><p>15 of April 8:15am -12m <em>2125 Marelden</em> <img src="https://i.pinimg.com/736x/00/f9/ea/00f9ea007dcd6fb7c7d25e6b164a0812.jpg" style="width: 100px;"></p></li>
-<li class="fragment"><p>Practice using R (self-study)</p>
+<li class="fragment">28 of April 13:15am -17m <em>3401 Coral Reef</em> <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExNjQwajh5am9uemJlZmw2Zm5jZWw0bWt6NzRsbjFnZDAwaW9vbmR5bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Sm9AfJRiZofjlrkAAl/giphy.gif" style="width: 100px;"></li>
+<li class="fragment">Practice using R (self-study)
 <ul>
 <li class="fragment">Reviewing and practicing the material we covered in <a href="https://github.com/Lacapary/BIO503">today’s lecture</a></li>
 <li class="fragment"><a href="https://ourcodingclub.github.io/tutorials/modelling/">Linear models</a></li>

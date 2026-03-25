@@ -38,4 +38,3 @@ Now that you've explored overall patterns, focus your model on how **temperature
 
     -   Update your `lmer()` call to reflect this new focus.
     -   Reinterpret the output
-
