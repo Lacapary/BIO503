@@ -3,6 +3,7 @@ title: "An Intro to R, RStudio & Causal Inference"
 author:   
   - Camila Pacheco    
   - Katrín Björnsdóttir
+  - Blandine Lyonnard
 format:
   revealjs:
     theme: blood
@@ -25,9 +26,9 @@ format:
 
 By the end of this session, you'll be able to:
 
--   ✅ Explain  why ecological systems  required  multivariate approaches
+-   ✅ Explain why ecological systems required multivariate approaches
 -   ✅ Distinguish correlation from causation and identify potential confounding
--   ✅ Use R and RStudio to explore ecological data 
+-   ✅ Use R and RStudio to explore ecological data
 -   ✅ Create simple plots using `ggplot2`\
 -   ✅ Understand the basics of tidy data
 
@@ -42,11 +43,13 @@ By the end of this session, you'll be able to:
 -   Unbalanced study/experimental design
 
 ## Bluebells
+
 ```{r, echo=FALSE, out.width="100%"}
 knitr::include_graphics("sources/Blue_bells.jpg")
 ```
 
 ## Bluebells
+
 ```{r, echo=FALSE, out.width="100%"}
 knitr::include_graphics("sources/Blue_bells_copy.png")
 ```
@@ -115,7 +118,6 @@ ggdag(simple_dag) +
 
 Fragmentation affects pollinators **directly** and **indirectly** (by reducing flowers).
 
-
 ```{r}
 #| message: false
 library(ggdag)
@@ -142,49 +144,45 @@ ggdag_parents(dag_data, .var = "pollinators",text = FALSE,use_labels = "label") 
   theme(legend.position ="none")
 ```
 
-
 ## How DAGs Help
 
 -   They help us ask better research questions
 -   They show us what to measure and control for
 -   They help us avoid confusing correlation with causation
 
-
-## What is R ?
+## What is R and RStudio?
 
 ::: columns
-::: {.column width="40%"}
-![](https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg){.absolute top="200" left="0" width="350" height="300"}
+::: {.column width="20%"}
+![](https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg){.absolute top="100" left="0" width="128" height="109"}
 :::
 
-::: {.column width="60%"}
--   Originally developed for statistical computing and graphics\
--   Evolved into a full-featured programming language for data science\
+::: {.column width="80%"}
+-   Full-featured programming language for data science
 -   Especially powerful in ecological and environmental science 🐛🌍
+-   Remember: R is prone to errors!
 :::
 :::
 
-## What is RStudio?
-
+::: columns
+::: {.column width="50%"}
 -   RStudio is a user-friendly interface (IDE) for R that makes your work more efficient.
 
+::: callout-tip
+Use `Ctrl + Enter` to run code in RStudio
+:::
+:::
+
+::: {.column width="50%"}
 ::: fragment
-```{r, echo=FALSE, out.width="60%"}
+```{r, echo=FALSE, out.width="100%"}
 #| echo: False
 #| fig-align: center
 knitr::include_graphics("sources/RStudio_IDE_screenshot.png")
 ```
 :::
-
-## R is Prone to Errors ⚠️
-
-::: callout-tip
-Use `Ctrl + Enter` to run code in RStudio
 :::
-
--   💥 Typos, wrong letter case, missing commas or brackets = broken code
--   🧠 These are common—don’t panic!
--   🔍 Double-check syntax, use the error message as a clue
+:::
 
 ## R studio Projects 📂
 
@@ -196,7 +194,7 @@ Use `Ctrl + Enter` to run code in RStudio
 
 ::: fragment
 ::: callout-tip
-Use projects to avoid broken file paths and messy folders.
+Use projects to avoid broken file paths and messy folders!
 :::
 :::
 
@@ -206,10 +204,9 @@ Use projects to avoid broken file paths and messy folders.
 <https://github.com/Lacapary/BIO503>
 :::
 
-
 ## Coding etiquette
 
-## Use Comments to Organize Your Script
+## Use Comments to Organize Your Script & for others!
 
 ```{r}
 #| echo: true
@@ -218,18 +215,6 @@ Use projects to avoid broken file paths and messy folders.
 #Some code---- 
 
 #Example----
-```
-
-## Comments for yourself and for others
-
-There are two types of lines: those that start with the symbol `#`, and those that do not.
-
-```{r}
-#| echo: true
-#| code-line-numbers: "|1|4"
-# This is a comment in R
-# Comments are used to provide explanations or annotate the code
-
 x <- 9  # Assigning the value to the variable x
 ```
 
@@ -306,6 +291,7 @@ get("coffee_groundS","23")  |>
 knitr::include_graphics("https://biostats-r.github.io/biostats/workingInR/figures/tidy1.png")
 
 ```
+
 Source: R for Data Science. Grolemund and Wickham.
 :::
 
@@ -332,8 +318,7 @@ R can import data from files in many different formats.
 -   csv files with the `readr` package
 -   excel files with the `readxl` package
 -   xlm files with the `xml2` package
--   netcdf files with the `ncdf4` package
--   shapefiles with the `sf` package
+-   and more...
 
 ## Reading data
 
@@ -471,7 +456,6 @@ Save your plots as `.svg` if your text editor supports it and if you are not lim
 p |> ggsave("plot.png")
 ```
 
-
 # 💬 Any questions
 
 ## To go further
@@ -482,10 +466,10 @@ p |> ggsave("plot.png")
 
 ## What is next
 
--   28 of April 13:15am -17m *3401 Coral Reef*  <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExNjQwajh5am9uemJlZmw2Zm5jZWw0bWt6NzRsbjFnZDAwaW9vbmR5bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Sm9AfJRiZofjlrkAAl/giphy.gif" style="width: 100px;"/>
-- Practice using R (self-study)
-  -   Reviewing and practicing the material we covered in [today’s lecture](https://github.com/Lacapary/BIO503)
-  -   [Linear models](https://ourcodingclub.github.io/tutorials/modelling/)
+-   16th of April 13:15am -17m *2122 Iapetus ALC* <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExNjQwajh5am9uemJlZmw2Zm5jZWw0bWt6NzRsbjFnZDAwaW9vbmR5bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Sm9AfJRiZofjlrkAAl/giphy.gif" style="width: 100px;"/>
+-   Practice using R (self-study)
+    -   Reviewing and practicing the material we covered in [today’s lecture](https://github.com/Lacapary/BIO503)
+    -   [Linear models](https://ourcodingclub.github.io/tutorials/modelling/)
 
 ```{r eval=FALSE, echo=FALSE }
 renderthis::to_pdf("Intro_R.html")

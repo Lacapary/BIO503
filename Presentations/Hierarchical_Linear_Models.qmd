@@ -4,6 +4,7 @@ subtitle: "Mixed Models, and Multilevel Models, GLMMs, etc..."
 author:   
   - Camila Pacheco    
   - Katrín Björnsdóttir
+  - Blandine Lyonnard
 format:
   revealjs:
     theme: blood
@@ -93,7 +94,6 @@ Does soil nitrogen content influence plant productivity?
 
 </p>
 
-
 ## Linear Models
 
 A simple example:
@@ -105,7 +105,6 @@ Does soil nitrogen content influence plant productivity?
 Plant biomass = β₀ + β₁ · [Soil nitrogen]{style="color: red; font-weight: bold;"} + ε
 
 </p>
-
 
 ## Linear models
 
@@ -278,11 +277,11 @@ summary(basic.lm)
 
 ## Factorial ANOVA: It’s Just a Linear Model
 
-- *Factorial ANOVA* is a special kind of analysis used when you have two or more categorical predictors.
+-   *Factorial ANOVA* is a special kind of analysis used when you have two or more categorical predictors.
 
-- But in R, you don’t need a special ANOVA function. You can just use the  `lm()` function.
+-   But in R, you don’t need a special ANOVA function. You can just use the `lm()` function.
 
-- That’s because factorial ANOVA is just a *linear model* with categorical predictors.
+-   That’s because factorial ANOVA is just a *linear model* with categorical predictors.
 
 ## Factorial ANOVA: Example
 
@@ -305,10 +304,11 @@ anova(model)
 
 ## Factorial ANOVA: Post-Hoc Analysis
 
-- Let’s say we run an ANOVA and find a significant result. 
+-   Let’s say we run an ANOVA and find a significant result.
 
-- The test: "There’s a difference somewhere"
-- The post-hoc test: "Who’s different from who"
+-   The test: "There’s a difference somewhere"
+
+-   The post-hoc test: "Who’s different from who"
 
 ::: fragment
 ```{r echo=TRUE}
@@ -320,10 +320,11 @@ em <- emmeans(model, ~ Species)
 pairs(em, adjust = "tukey")
 ```
 :::
+
 ## Factorial ANOVA: Post-Hoc Analysis
 
 ::: callout-important
- Use post-hoc tests only if your ANOVA result is significant. 
+Use post-hoc tests only if your ANOVA result is significant.
 :::
 
 ```{r}
@@ -336,7 +337,6 @@ ggplot(iris, aes(x = Species, y = Sepal.Length)) +
   ) +
   theme_minimal()
 ```
-
 
 ## Generalize linear models
 
@@ -379,7 +379,6 @@ glm(y ~ x, family = binomial, data = df)
   
 ```
 
-
 ## BREAK
 
 ```{r, echo=FALSE, out.width="100%"}
@@ -412,9 +411,9 @@ In basic statistical models, we assume each observation gives us **new, independ
 
 ## Hierarchical structres in ecology
 
-- Measurements from the **same plot or site** are often more similar.
-- Observations from the **same species** might behave similarly.
-- Samples collected **close in time or space** can be correlated.
+-   Measurements from the **same plot or site** are often more similar.
+-   Observations from the **same species** might behave similarly.
+-   Samples collected **close in time or space** can be correlated.
 
 ::: fragment
 ### Analogy 💡
@@ -424,7 +423,8 @@ In basic statistical models, we assume each observation gives us **new, independ
 ::: fragment
 We call this **dependence** — and we need special models to handle it!
 :::
-::: 
+:::
+
 ## Diagnosing dependence
 
 Ask yourself:
@@ -437,7 +437,7 @@ Are data points grouped by site, species, individual, or time?
 
 We need to account for correlation in the data.
 
-- LINEAR MIXED MODELS 
+-   LINEAR MIXED MODELS
 
 ::: fragment
 The *random effects* structure will aid correct inference about *fixed effects*, depending on which level of the system’s hierarchy is being manipulated.
@@ -458,21 +458,26 @@ The *random effects* structure will aid correct inference about *fixed effects*,
 ## Random effects : stochastic processes
 
 -   Name random doesn’t have much to do with mathematical randomness
+
 -   Grouping variables you want to control for
+
 -   You're not interested in each level individually
+
 -   but we know that they might be influencing the patterns we see
+
 -   `"I want to know how these factors (random effects) contribute to the overall variation in the outcome."`
+
 -   They are always categorical
 
-- Examples: Site, Observer, Year
+-   Examples: Site, Observer, Year
 
 ## When do we use them?
 
-- Whenever your data has hierarchical structure.
+-   Whenever your data has hierarchical structure.
 
-- The choice depends on the research question
+-   The choice depends on the research question
 
-- Is the variable a source of variation or the target of inference?
+-   Is the variable a source of variation or the target of inference?
 
 ## Active break 💡
 
@@ -480,12 +485,11 @@ Scenario: You measured plant height across 6 sites, with different treatments at
 
 Questions:
 
-- What could be a fixed effect?
+-   What could be a fixed effect?
 
-- What could be a random effect?
+-   What could be a random effect?
 
-- What would happen if you ignored site?
-
+-   What would happen if you ignored site?
 
 ## Dragon data
 
@@ -500,8 +504,7 @@ dragons<- dragons |>
   mutate(bodyLength2=scale(bodyLength,center = TRUE, scale = TRUE))
 ```
 
-
-We went to the field and sampled more mountains with dragons. 
+We went to the field and sampled more mountains with dragons.
 
 ```{r}
 #| output: true
@@ -511,10 +514,12 @@ dragons |> group_by(mountainRange,site) |>
   summarise(samples=n())
 ```
 
-### Research question 
+### Research question
+
 ::: v-center-container
 <h4>Is the test score affected by body length?</h4>
 :::
+
 ## Dragons Linear model
 
 ```{r}
@@ -536,7 +541,6 @@ summary(basic.lm)
   geom_smooth(method = "lm"))+
   theme_classic()
 ```
-
 
 ## Assumptions check
 
@@ -580,9 +584,9 @@ ggdag_parents(dag_data, .var = "testScore", text = FALSE, use_labels = "label") 
   theme(legend.position = "none")
 ```
 
-- They are Hierarchical!
-- Our research question:
-  - Does a dragon's body length predict its test score, after accounting for variation across mountain ranges?
+-   They are Hierarchical!
+-   Our research question:
+    -   Does a dragon's body length predict its test score, after accounting for variation across mountain ranges?
 
 ## Assumptions check
 
@@ -608,7 +612,6 @@ ggdag_parents(dag_data, .var = "testScore", text = FALSE, use_labels = "label") 
 
 Hierarchical linear models do is they essentially fit a separate regression line for each and every cluster. And then estimates what we call the *Fixed slope*. Average slope between x and y across my clusters.
 
-
 ## Step 1: Model building Dragons
 
 ```{r}
@@ -623,6 +626,7 @@ mixed.lmer <- lmer(testScore ~ bodyLength2 +
                    REML = TRUE #estimation method other method ML but it has a bias
                    )
 ```
+
 ## Step 2: Model validation Dragons
 
 Assumptions check
@@ -635,8 +639,8 @@ qqnorm(resid(mixed.lmer))
 qqline(resid(mixed.lmer))
 ```
 
-
 ## Step 3: Model interpreation Dragons
+
 ```{r}
 summary(mixed.lmer)
 
@@ -649,7 +653,6 @@ summary(mixed.lmer)
 library(MuMIn)
 r.squaredGLMM(mixed.lmer)
 ```
-
 
 ## Step 4. Visualization
 
@@ -731,7 +734,6 @@ p<-
 p
 ```
 
-
 ## Random slopes and Random intercept
 
 ::: {.fragment .fade-in}
@@ -774,7 +776,6 @@ summary(mixed.ranslope)
 )
 ```
 
-
 ## Crossed effects
 
 Example:
@@ -793,9 +794,10 @@ Example:
 
 -   5 leaves x 50 seedlings x 20 beds x 4 seasons x 3 years = 60 000 measurements per treatment
 
-- *Very hot summer in the second year*
+-   *Very hot summer in the second year*
 
 ## Crossed effects
+
 ```{r}
 library(ggdag)
 dag_data <- dagify(
@@ -826,7 +828,7 @@ ggdag_parents(dag_data, .var = "leafLength", text = FALSE, use_labels = "label")
   theme(legend.position = "none")
 ```
 
-```{r} 
+```{r}
 #| output: false
 #| eval: false
 #| echo: true
@@ -834,13 +836,12 @@ ggdag_parents(dag_data, .var = "leafLength", text = FALSE, use_labels = "label")
 leafLength ~ treatment + (1|Bed/Plant/Leaf)
 ```
 
-
 What about the crossed effects ?
 
 ::: fragment
 Crossed (or partially crossed) random factors that do not represent levels in a hierarchy.
 
-```{r}   
+```{r}
 #| output: false
 #| eval: false
 #| echo: true
@@ -921,39 +922,51 @@ unique(itex$SITE) #you can also do this and then it gives you the name of all sa
 ```
 :::
 
-## Exercise 1 Modeling Diversity and Temperature
+## Exercise 1 Modeling the impact of climate change
 
-Using the  **ITEX diversity dataset **, explore the relationship between **plant diversity** and **temperature** across different sites.
+Using the **ITEX diversity dataset** , think about a research question you could ask regarding the impact of one aspect of climate change on a variable of interest across different sites.
+
+## Exercise 1 - Your tasks
 
 👉 Your Tasks:
 
-1. **Model Planning**:
-   - What is your **response variable**?
-   - Which variables make sense as **fixed effects**?
-   - Which variable(s) should be treated as **random effects** (e.g., site, year)?
-
-2. **Fit the Model**:
-   - Use `lmer()` to fit a model to the data and look at the output with `summary()`.
-
-3. **Reflect**:
-   - Does the model structure reflect **how the data was collected**?
+1.  **Model Planning**:
+    -   What is your **response variable**?
+    -   Which variables make sense as **fixed effects**?
+    -   Which variable(s) should be treated as **random effects** (e.g., site, year)?
+2.  **Fit the Model**:
+    -   Use `lmer()` to fit a model to the data and look at the output with `summary()`.
+3.  **Reflect**:
+    -   Does the model structure reflect **how the data was collected**?
 
 ## Exercise 2 (optional)
 
-What is the relationship between diversity and temperature **within sites**?
+Explore your research question **within sites**, as opposed as across sites as before.
 
-Now that you've explored overall patterns, focus your model on how **temperature affects diversity within each site**.
+Now that you've explored overall patterns, focus your model on how **climate change impacts your variable of interest, within each site**.
+
+## Exercise 2 (optional) - Your tasks
 
 👉 Your Tasks:
 
-1. - What changes when we ask about relationships *within sites* instead of *across* them?
-   - Should you adjust the way `site` is treated in your model?
+1.  
 
-2. **Model Check**:
+    -   What changes when we ask about relationships *within sites* instead of *across* them?
+    -   Should you adjust the way `site` is treated in your model?
 
-3. **Fit a New Model (if needed)**:
-   - Update your `lmer()` call to reflect this new focus.
-   - Reinterpret the output
+2.  **Model Check**:
+
+3.  **Fit a New Model (if needed)**:
+
+    -   Update your `lmer()` call to reflect this new focus.
+    -   Reinterpret the output
+
+## What is next
+
+-   28th of April 13:15am -17m *3401 Korallrevet* <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExNjQwajh5am9uemJlZmw2Zm5jZWw0bWt6NzRsbjFnZDAwaW9vbmR5bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Sm9AfJRiZofjlrkAAl/giphy.gif" style="width: 100px;"/>
+-   Practice using R (self-study)
+    -   Reviewing and practicing the material we covered in [today’s lecture](https://github.com/Lacapary/BIO503)
+    -   [Linear models](https://ourcodingclub.github.io/tutorials/modelling/)
 
 ```{r eval=FALSE, echo=FALSE }
 renderthis::to_pdf("Hierarchical_Linear_Models.html")

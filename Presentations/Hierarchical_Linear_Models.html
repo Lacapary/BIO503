@@ -8,10 +8,11 @@
 <link href="Hierarchical_Linear_Models_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="Hierarchical_Linear_Models_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="Hierarchical_Linear_Models_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.4.551">
+  <meta name="generator" content="quarto-1.4.555">
 
   <meta name="author" content="Camila Pacheco">
   <meta name="author" content="Katrín Björnsdóttir">
+  <meta name="author" content="Blandine Lyonnard">
   <title>Linear and Hierarchical Linear Models</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -408,6 +409,11 @@ Camila Pacheco
 Katrín Björnsdóttir 
 </div>
 </div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Blandine Lyonnard 
+</div>
+</div>
 </div>
 
 </section>
@@ -679,9 +685,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb13-6"><a href=""></a><span class="fu">pairs</span>(em, <span class="at">adjust =</span> <span class="st">"tukey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> contrast               estimate    SE  df t.ratio p.value
- setosa - versicolor      -0.930 0.103 147  -9.033  &lt;.0001
- setosa - virginica       -1.582 0.103 147 -15.366  &lt;.0001
- versicolor - virginica   -0.652 0.103 147  -6.333  &lt;.0001
+ setosa - versicolor      -0.930 0.103 147  -9.033 &lt;0.0001
+ setosa - virginica       -1.582 0.103 147 -15.366 &lt;0.0001
+ versicolor - virginica   -0.652 0.103 147  -6.333 &lt;0.0001
 
 P value adjustment: tukey method for comparing a family of 3 estimates </code></pre>
 </div>
@@ -1257,9 +1263,12 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 </div>
 </section>
-<section id="exercise-1-modeling-diversity-and-temperature" class="slide level2 scrollable">
-<h2>Exercise 1 Modeling Diversity and Temperature</h2>
-<p>Using the <strong>ITEX diversity dataset </strong>, explore the relationship between <strong>plant diversity</strong> and <strong>temperature</strong> across different sites.</p>
+<section id="exercise-1-modeling-the-impact-of-climate-change" class="slide level2">
+<h2>Exercise 1 Modeling the impact of climate change</h2>
+<p>Using the <strong>ITEX diversity dataset</strong> , think about a research question you could ask regarding the impact of one aspect of climate change on a variable of interest across different sites.</p>
+</section>
+<section id="exercise-1---your-tasks" class="slide level2 scrollable">
+<h2>Exercise 1 - Your tasks</h2>
 <p>👉 Your Tasks:</p>
 <ol type="1">
 <li class="fragment"><strong>Model Planning</strong>:
@@ -1278,10 +1287,13 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 </ul></li>
 </ol>
 </section>
-<section id="exercise-2-optional" class="slide level2 scrollable">
+<section id="exercise-2-optional" class="slide level2">
 <h2>Exercise 2 (optional)</h2>
-<p>What is the relationship between diversity and temperature <strong>within sites</strong>?</p>
-<p>Now that you’ve explored overall patterns, focus your model on how <strong>temperature affects diversity within each site</strong>.</p>
+<p>Explore your research question <strong>within sites</strong>, as opposed as across sites as before.</p>
+<p>Now that you’ve explored overall patterns, focus your model on how <strong>the impact of climate change on your variable of interest, within each site</strong>.</p>
+</section>
+<section id="exercise-2-optional---your-tasks" class="slide level2 scrollable">
+<h2>Exercise 2 (optional) - Your tasks</h2>
 <p>👉 Your Tasks:</p>
 <ol type="1">
 <li class="fragment"><ul>
@@ -1295,6 +1307,17 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <li class="fragment">Reinterpret the output</li>
 </ul></li>
 </ol>
+</section>
+<section id="what-is-next" class="slide level2">
+<h2>What is next</h2>
+<ul>
+<li class="fragment">28th of April 13:15am -17m <em>3401 Korallrevet</em> <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExNjQwajh5am9uemJlZmw2Zm5jZWw0bWt6NzRsbjFnZDAwaW9vbmR5bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Sm9AfJRiZofjlrkAAl/giphy.gif" style="width: 100px;"></li>
+<li class="fragment">Practice using R (self-study)
+<ul>
+<li class="fragment">Reviewing and practicing the material we covered in <a href="https://github.com/Lacapary/BIO503">today’s lecture</a></li>
+<li class="fragment"><a href="https://ourcodingclub.github.io/tutorials/modelling/">Linear models</a></li>
+</ul></li>
+</ul>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
