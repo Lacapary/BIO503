@@ -765,7 +765,7 @@ Blandine Lyonnard
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="co"># R basic function</span></span>
-<span id="cb5-2"><a href=""></a>iris <span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"Data/iris.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-2"><a href=""></a>iris <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Data/iris.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exploring-the-data" class="slide level2">
@@ -868,23 +868,27 @@ Blandine Lyonnard
 <section id="filter---subset-rows" class="slide level2">
 <h2>Filter - subset rows</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>iris_versicolor <span class="ot">&lt;-</span> iris <span class="sc">|&gt;</span>  <span class="fu">filter</span>( Species <span class="sc">==</span> <span class="st">"versicolor"</span>)</span>
-<span id="cb16-2"><a href=""></a></span>
-<span id="cb16-3"><a href=""></a>iris_pl<span class="ot">&lt;-</span>iris <span class="sc">|&gt;</span>  <span class="fu">filter</span>(Petal.Length <span class="sc">&gt;</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>iris_versicolor <span class="ot">&lt;-</span> iris <span class="sc">|&gt;</span>  </span>
+<span id="cb16-2"><a href=""></a>  <span class="fu">filter</span>(Species <span class="sc">==</span> <span class="st">"versicolor"</span>)</span>
+<span id="cb16-3"><a href=""></a></span>
+<span id="cb16-4"><a href=""></a>iris_pl <span class="ot">&lt;-</span> iris <span class="sc">|&gt;</span>  </span>
+<span id="cb16-5"><a href=""></a>  <span class="fu">filter</span>(Petal.Length <span class="sc">&gt;</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="select---subset-columns" class="slide level2">
 <h2>Select - subset columns</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>iris_subset<span class="ot">&lt;-</span>iris <span class="sc">|&gt;</span> <span class="fu">select</span>(Species, Petal.Width, Petal.Length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>iris_subset <span class="ot">&lt;-</span> iris <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href=""></a>  <span class="fu">select</span>(Species, Petal.Width, Petal.Length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="mutate" class="slide level2">
 <h2>Mutate</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>iris_log <span class="ot">&lt;-</span>iris <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">log.Sepal.length =</span> <span class="fu">log</span>(Sepal.Length))</span>
-<span id="cb18-2"><a href=""></a></span>
-<span id="cb18-3"><a href=""></a><span class="fu">head</span>(iris_log)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>iris_log <span class="ot">&lt;-</span> iris <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">log.Sepal.length =</span> <span class="fu">log</span>(Sepal.Length))</span>
+<span id="cb18-3"><a href=""></a></span>
+<span id="cb18-4"><a href=""></a><span class="fu">head</span>(iris_log)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 7
    ...1 Sepal.Length Sepal.Width Petal.Length Petal.Width Species
@@ -924,7 +928,7 @@ Blandine Lyonnard
 <h2>Plotting Iris</h2>
 <p>Lets say we want to plot the relationship between petal length and petal width for each species.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>p<span class="ot">&lt;-</span>iris <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>p <span class="ot">&lt;-</span> iris <span class="sc">%&gt;%</span> </span>
 <span id="cb20-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
 <span id="cb20-3"><a href=""></a>    <span class="at">x =</span> Petal.Length,</span>
 <span id="cb20-4"><a href=""></a>    <span class="at">y =</span> Petal.Width,</span>

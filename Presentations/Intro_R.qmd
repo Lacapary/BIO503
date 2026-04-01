@@ -334,7 +334,7 @@ iris <- read_csv("Data/iris.csv")
 
 ```{r eval=FALSE, echo=T}
 # R basic function
-iris <-read.csv("Data/iris.csv")
+iris <- read.csv("Data/iris.csv")
 ```
 
 ## Exploring the data
@@ -384,21 +384,25 @@ head(iris_means)
 ## Filter - subset rows
 
 ```{r echo=T}
-iris_versicolor <- iris |>  filter( Species == "versicolor")
+iris_versicolor <- iris |>  
+  filter(Species == "versicolor")
 
-iris_pl<-iris |>  filter(Petal.Length > 2)
+iris_pl <- iris |>  
+  filter(Petal.Length > 2)
 ```
 
 ## Select - subset columns
 
 ```{r echo=T}
-iris_subset<-iris |> select(Species, Petal.Width, Petal.Length)
+iris_subset <- iris |> 
+  select(Species, Petal.Width, Petal.Length)
 ```
 
 ## Mutate
 
 ```{r echo=T}
-iris_log <-iris |> mutate(log.Sepal.length = log(Sepal.Length))
+iris_log <- iris |> 
+  mutate(log.Sepal.length = log(Sepal.Length))
 
 head(iris_log)
 ```
@@ -423,7 +427,7 @@ Lets say we want to plot the relationship between petal length and petal width f
 
 ```{r echo=T}
 #| output: false
-p<-iris %>% 
+p <- iris %>% 
   ggplot(aes(
     x = Petal.Length,
     y = Petal.Width,
