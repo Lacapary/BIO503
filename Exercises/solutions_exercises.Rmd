@@ -19,30 +19,33 @@ knitr::opts_chunk$set(echo = TRUE)
 library(lme4)
 library(tidyverse)
 library(ggeffects) 
+library(performance)
 ```
 
 ## Load the data
 
 ```{r, message = FALSE}
 
-itex <- read_csv("Data/ITEX_diversity_data.csv") %>% 
-  dplyr::select(-...1) # this code takes out the first column that was called "...1", it's not necessary though, it just makes the dataframe cleaner I think
+itex0 <- read_csv("Data/ITEX_diversity_data.csv") %>% 
+  dplyr::select(-...1) # this code takes out the first column that was called "...1", it's not necessary though, it just makes the dataframe cleaner.
 
 ```
 
 Lets look at the data to make sure it looks okay
 
 ```{r}
-head(itex)
+head(itex0)
 ```
 
-## Exercise
+## Exercise 1
 
-What is the relationship between diversity and temperature across sites (i.e. across latitude)?
+How does climate change (i.e. temperature) impacts a variable of interest (i.e. diversity) across sites?
+
+In other words: What is the relationship between diversity and temperature across sites (i.e. across latitude)?
 
 ```{r}
-itex <- itex %>% 
-  mutate(TempC = (WarmQuarterTemp - 30)/2) #change temperature from F to °C (optional)
+itex <- itex0 %>% 
+  mutate(TempC = (PlotTemp - 30)/2) #change temperature from F to °C (optional)
 ```
 
 mutate is used to make a new column, in this case we are making a new column called "TempC" by subtracting 30 from the column "PlotTemp" and dividing by 2.
@@ -60,11 +63,11 @@ summary(itex.lm)
 
 From the summary output you can read plenty, but I'll explain a few for now. -
 
--   The estimate is the slope of the relationship (1.7669)
+-   The estimate, for TempC, is the slope of the relationship (0.14623)
 
 -   Pr is the p value from the model - in our case it is significant since it is lower than 0.05.
 
--   Adjusted R-squared tells us how much variation was explained by the model - in our case 0.1067 or 10%.
+-   Adjusted R-squared tells us how much variation was explained by the model - in our case 0.1057 or 10%.
 
 Now lets plot this relationship
 
@@ -76,13 +79,13 @@ Now lets plot this relationship
 
 Notice that we get a warming message ... wonder what is causing that?
 
-To evaluate how good the model fit was we can look at the residuals (the variation that was not explained by the model) against the fitted values. This is done to detect non-linearity, unequal error variances and outliers. When a linear regression model is suitable for a data set, then the residuals are more or less randomly distributed around the 0 line.
+To evaluate how good the model fit was, we can look at the residuals (the variation that was not explained by the model) against the fitted values. This is done to detect non-linearity, unequal error variances and outliers. When a linear regression model is suitable for a dataset, then the residuals are more or less randomly distributed around the 0 line.
 
 ```{r}
-plot(itex.lm, which = 1)  # not perfect... but we'll go with it
+check_model(itex.lm)  # not perfect... but we'll go with it
 ```
 
-Now lets explore this relationship a bit more, lets add colors based on sites to see if we notice any pattern.
+Now lets explore this relationship a bit more, let's add colors based on sites to see if we notice any pattern.
 
 *sidenote : in ggplot you can add colors by including "color = SITE" within the aesthetic*
 
@@ -95,7 +98,7 @@ Now lets explore this relationship a bit more, lets add colors based on sites to
 
 Can we see any pattern? ... Yes I think so. The colors which represent different sites are in some cases clustered together.
 
-Because of the nested structure of our data, i.e. plots within subsites within sites we might want to think about using a **linear mixed model**. Then we need to think about what we want to include as random effects. Because we expect plots within SITE and SUBSITE to be more similar to each other, we will add SITE and SUBSITE as random effect
+Because of the nested structure of our data, i.e. plots within subsites within sites, we might want to think about using a **linear mixed model**. Then we need to think about what we want to include as random effects. Because we expect plots within SITE and SUBSITE to be more similar to each other, we will add SITE and SUBSITE as random effect
 
 ```{r}
 mixed.lmer <- lmer(SppRich ~ TempC + (1|SITE/SUBSITE), data = itex)
@@ -126,10 +129,10 @@ Something is not quite right here. Do you remember how we got a warning message 
 
 The problem we have is that one of the sites has missing values that we should remove before the analysis
 
-Lets look for missing values then
+Let's look for missing values then
 
 ```{r}
-sum(is.na(itex$SppRich)) # no NAs in SppRich, how about TempC_scaled?
+sum(is.na(itex$SppRich)) # no NAs in SppRich, how about TempC?
 ```
 
 ```{r}
@@ -138,10 +141,10 @@ sum(is.na(itex$TempC)) # yes, here we have 9 missing values
 
 ```{r, warning = FALSE}
 itex <- itex %>% 
-  filter(!is.na(TempC)) # here we filter out all NA values within TempC_scaled
+  filter(!is.na(TempC)) # here we filter out all NA values within TempC
 ```
 
-*sidenote: adding a "!" infront will remove values when using the filter function*
+*sidenote: adding a "!" in front will remove values when using the filter function*
 
 Alright lets try it again.
 
@@ -166,7 +169,11 @@ mixed.lmer <- lmer(SppRich ~ TempC + (1|SITE/SUBSITE), data = itex)
 summary(mixed.lmer)
 ```
 
-The summary output for linear mixed models in the lme4 package don't show p-values.This is a conscious choice made by the authors of the package, as there are many problems with p-values. Please be careful when it comes to evaluating the significance of your model. Focus on your question and avoid plugging in and dropping variables from a model haphazardly until you make something “significant”. Always choose variables based on biology/ecology and avoid adding in all possible variables that you have access to (i.e. don’t overfit). Remember that as a rule of thumb, you need 10 times more data than parameters you are trying to estimate. There are some common different methods used for model selection which we won't go into here but take a look at this thread if you are interested:
+The summary output for linear mixed models in the lme4 package don't show p-values.This is a conscious choice made by the authors of the package, as there are many problems with p-values. 
+Please be careful when it comes to evaluating the significance of your model. Focus on your question and avoid plugging in and dropping variables from a model haphazardly until you make something “significant”. 
+Always choose variables based on biology/ecology and avoid adding in all possible variables that you have access to (i.e. don’t overfit). Remember that as a rule of thumb, you need 10 times more data than parameters you are trying to estimate. 
+
+There are some common different methods used for model selection which we won't go into here but take a look at this thread if you are interested:
 https://stats.stackexchange.com/questions/95054/how-to-get-an-overall-p-value-and-effect-size-for-a-categorical-factor-in-a-mi 
 
 For simplification, we'll use the stargazer package that gives us a summary output table from our model.

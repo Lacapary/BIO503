@@ -926,6 +926,8 @@ unique(itex$SITE) #you can also do this and then it gives you the name of all sa
 
 Using the **ITEX diversity dataset** , think about a research question you could ask regarding the impact of one aspect of climate change on a variable of interest across different sites.
 
+Explore your research question using modeling tools you learned in today's lecture.
+
 ## Exercise 1 - Your tasks
 
 👉 Your Tasks:

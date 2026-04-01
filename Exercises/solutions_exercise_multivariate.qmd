@@ -12,7 +12,7 @@ execute:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# 2. Multivatriate analysis exercise
+# 2. Multivariate analysis exercise
 
 ## Libraries
 
@@ -256,4 +256,3 @@ Good luck :-)
 ```{r eval=FALSE, echo=FALSE }
 renderthis::to_pdf("solutions_exercise_multivariate.html")
 ```
-

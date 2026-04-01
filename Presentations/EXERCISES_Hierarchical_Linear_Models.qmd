@@ -4,9 +4,11 @@ format: pdf
 editor: visual
 ---
 
-## Exercise 1 Modeling Diversity and Temperature
+## Exercise 1 Modeling the Impact of Climate Change
 
-Using the **ITEX diversity dataset** , explore the relationship between **plant diversity** and **temperature** across different sites.
+Using the **ITEX diversity dataset** , think about a research question you could ask regarding the impact of **one aspect of climate change** on **a variable of interest**, across different sites.
+
+Explore your research question using modeling tools you learned in today's lecture.
 
 👉 Your Tasks:
 
@@ -21,9 +23,9 @@ Using the **ITEX diversity dataset** , explore the relationship between **plant 
 
 ## Exercise 2 (optional)
 
-What is the relationship between diversity and temperature **within sites**?
+What is the impact of climate change on your variable of interest **within sites**?
 
-Now that you've explored overall patterns, focus your model on how **temperature affects diversity within each site**.
+Now that you've explored overall patterns, focus your model on how **climate change impacts your variable of interest, within each site**.
 
 👉 Your Tasks:
 
