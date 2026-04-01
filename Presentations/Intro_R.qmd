@@ -29,8 +29,8 @@ By the end of this session, you'll be able to:
 -   ✅ Explain why ecological systems required multivariate approaches
 -   ✅ Distinguish correlation from causation and identify potential confounding
 -   ✅ Use R and RStudio to explore ecological data
--   ✅ Create simple plots using `ggplot2`\
 -   ✅ Understand the basics of tidy data
+-   ✅ Create simple plots using `ggplot2`\
 
 ## Ecological and biological data can be complex!
 
