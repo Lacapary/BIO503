@@ -1,8 +1,8 @@
 ---
 title: "Linear and Hierarchical Linear Models"
 subtitle: "Mixed Models, and Multilevel Models, GLMMs, etc..."
-author:   
-  - Camila Pacheco    
+author:
+  - Camila Pacheco
   - Katrín Björnsdóttir
   - Blandine Lyonnard
 format:
@@ -50,7 +50,7 @@ You are required to have downloaded and installed
 install.packages(c("lme4",
                       "ggeffects",
                       "MuMIn",
-                      "emmmeans"
+                      "emmeans"
                       ))
 ```
 
@@ -60,27 +60,52 @@ install.packages(c("lme4",
 <h4>Do not hesitate to ask questions!</h4>
 :::
 
-## Linear models
+## Data for this part of the session
 
-What is a linear model?
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("https://static1.srcdn.com/wordpress/wp-content/uploads/2022/08/Illustrations-of-various-dragons-from-Dungeons-and-Dragons.jpg")
+```
 
--   A mathematical tool used to describe the relationship between a *response variable* and an *explanatory variable*.
+[Coding Club Mixed models](https://ourcodingclub.github.io/tutorials/mixed-models/)
 
--   In the simplest form is expressed as:\
+Used to build intuition for linear models and mixed models.
 
--   $Y = \beta_0 + \beta_1 X + \varepsilon$.
 
-## Linear models
+# Linear Models
 
-A simple example:
+## What is a linear model?
 
-Does soil nitrogen content influence plant productivity?
+In ecology, we often want to ask:
 
-<p style="font-size: 1.2em;">
+-   Does temperature drive species richness?
+-   Does soil nitrogen limit plant biomass?
+-   Does drought reduce tree growth?
 
-Plant biomass = β₀ + β₁ · Soil nitrogen + ε
+::: fragment
+A **linear model** is our tool for quantifying these relationships formally. It describes how a *response variable* (what we measure) changes as a predictable function of one or more *predictors* (drivers, treatments, environmental gradients), while accounting for unexplained noise in the system.
+:::
 
-</p>
+## What is a linear model?
+
+In its simplest form:
+
+$$Y = \beta_0 + \beta_1 X + \varepsilon$$
+
+-   $Y$ = the biological response you measure (e.g., plant biomass)
+-   $X$ = the driver or predictor (e.g., soil nitrogen)
+-   $\beta_0$ = baseline value when $X = 0$ (intercept)
+-   $\beta_1$ = how much $Y$ changes per unit of $X$ (the effect size)
+-   $\varepsilon$ = everything else: noise, unmeasured factors, natural variation
+
+## Why do we use linear models?
+
+Ecological systems are *complex*, but linear models give us a *simplified* framework to ask and answer key ecological questions.
+
+-   ✅ Simple and interpretable: Easy to understand and communicate.
+-   ✅ Flexible: Can be extended with multiple predictors, interactions, etc.
+-   ✅ Hypothesis testing: Test relationships grounded in ecological theory.
+-   ✅ Data-driven: Connect real-world measurements to ecological mechanisms.
+-   ✅ Foundation for advanced models: GLMs, mixed models, and beyond.
 
 ## Linear Models
 
@@ -109,12 +134,12 @@ Plant biomass = β₀ + β₁ · [Soil nitrogen]{style="color: red; font-weight:
 ## Linear models
 
 ```{r, echo = FALSE, message = FALSE}
-n <- 100  
-soil_nitrogen <- rnorm(n, mean = 10, sd = 3)  
-beta_0 <- 5 
-beta_1 <- 2   
-epsilon <- rnorm(n, mean = 0, sd = 1)  
-plant_biomass <- beta_0 + beta_1 * soil_nitrogen + epsilon  
+n <- 100
+soil_nitrogen <- rnorm(n, mean = 10, sd = 3)
+beta_0 <- 5
+beta_1 <- 2
+epsilon <- rnorm(n, mean = 0, sd = 1)
+plant_biomass <- beta_0 + beta_1 * soil_nitrogen + epsilon
 
 data <- data.frame(SoilNitrogen = soil_nitrogen, PlantBiomass = plant_biomass)
 
@@ -128,8 +153,8 @@ equation <- paste("y = ", round(intercept, 2), " + ", round(slope, 2), "x", sep 
 library(ggplot2)
 
 ggplot(data, aes(x = SoilNitrogen, y = PlantBiomass)) +
-  geom_point(color = "#374558", size = 2) + 
-  geom_smooth(method = "lm", color = "#A7B5C8", se = FALSE, linewidth = 1.5) +  
+  geom_point(color = "#374558", size = 2) +
+  geom_smooth(method = "lm", color = "#A7B5C8", se = FALSE, linewidth = 1.5) +
   labs(title = "Relationship between Soil Nitrogen and Plant Biomass",
        x = "Soil Nitrogen",
        y = "Plant Biomass") +
@@ -139,25 +164,11 @@ ggplot(data, aes(x = SoilNitrogen, y = PlantBiomass)) +
 
 ```
 
-## Linear models
+---
 
-Why do we use linear models in ecology?
-
--   Ecological systems are *complex*, but linear models give us a *simplified* framework to ask and answer key ecological questions.
-
-    -   ✅ Simple and interpretable: Easy to understand and communicate.\
-    -   ✅ Flexible: Can be extended, multiple predictors, interactions etc.\
-    -   ✅ Hypothesis testing: Relationships based on ecological theory.\
-    -   ✅ Data-driveen: Test ecological hypotheses with real-world data.\
-    -   ✅ Foundation for advanced models.
-
-## Data for this part of the session
-
-```{r, echo=FALSE, out.width="80%"}
-knitr::include_graphics("https://static1.srcdn.com/wordpress/wp-content/uploads/2022/08/Illustrations-of-various-dragons-from-Dungeons-and-Dragons.jpg")
-```
-
-[Coding Club Mixed models](https://ourcodingclub.github.io/tutorials/mixed-models/)
+# Linear Models: 
+Dragon Example
+---
 
 ## Explore the data
 
@@ -168,7 +179,7 @@ knitr::include_graphics("https://static1.srcdn.com/wordpress/wp-content/uploads/
 library(tidyverse)
 load("CC-Linear-mixed-models/dragons.RData")
 
-dragons_Bavarian <- dragons |> 
+dragons_Bavarian <- dragons |>
   filter(mountainRange == "Bavarian")
 
 ```
@@ -235,12 +246,12 @@ Test score = β₀ + β₁ · Body length + ε
 Now lets visualize the relationship using ggplot.
 
 ```{r echo=TRUE}
-p <- dragons_Bavarian %>% 
+p <- dragons_Bavarian %>%
   ggplot(aes(
     x = bodyLength,
-    y = testScore)) + # to assign a color to each group
-  geom_point() + 
-  stat_smooth(method = "lm") +    
+    y = testScore)) +
+  geom_point() +
+  stat_smooth(method = "lm") +
   theme_classic() +
   labs(
     x = "Body length",
@@ -253,12 +264,12 @@ p <- dragons_Bavarian %>%
 Now lets visualize the relationship using ggplot.
 
 ```{r echo=FALSE}
-(p <- dragons_Bavarian %>% 
+(p <- dragons_Bavarian %>%
   ggplot(aes(
     x = bodyLength,
-    y = testScore)) + # to assign a color to each group
-  geom_point() + 
-  stat_smooth(method = "lm") +    
+    y = testScore)) +
+  geom_point() +
+  stat_smooth(method = "lm") +
   theme_classic() +
   labs(
     x = "Body length",
@@ -275,13 +286,19 @@ summary(basic.lm)
 
 ```
 
-## Factorial ANOVA: It’s Just a Linear Model
+---
+
+# Factorial ANOVA
+
+---
+
+## Factorial ANOVA: It's Just a Linear Model
 
 -   *Factorial ANOVA* is a special kind of analysis used when you have two or more categorical predictors.
 
--   But in R, you don’t need a special ANOVA function. You can just use the `lm()` function.
+-   But in R, you don't need a special ANOVA function. You can just use the `lm()` function.
 
--   That’s because factorial ANOVA is just a *linear model* with categorical predictors.
+-   That's because factorial ANOVA is just a *linear model* with categorical predictors.
 
 ## Factorial ANOVA: Example
 
@@ -304,11 +321,11 @@ anova(model)
 
 ## Factorial ANOVA: Post-Hoc Analysis
 
--   Let’s say we run an ANOVA and find a significant result.
+-   Let's say we run an ANOVA and find a significant result.
 
--   The test: "There’s a difference somewhere"
+-   The test: "There's a difference somewhere"
 
--   The post-hoc test: "Who’s different from who"
+-   The post-hoc test: "Who's different from who"
 
 ::: fragment
 ```{r echo=TRUE}
@@ -338,27 +355,60 @@ ggplot(iris, aes(x = Species, y = Sepal.Length)) +
   theme_minimal()
 ```
 
-## Generalize linear models
+---
 
-Get familiar with different data distributions Here is a brief summary of the data distributions you might encounter most often.
+# Generalised Linear Models
 
--   Gaussian - Continuous data (normal distribution and homoscedasticity assumed)
--   Poisson - Count abundance data (integer values, zero-inflated data, left-skewed data)
--   Binomial - Binary variables (TRUE/FALSE, 0/1, presence/absence data)
+---
+
+## From LM to GLM: what changes?
+
+A standard linear model makes three key assumptions:
+
+-   The response variable is **continuous**.
+-   The residuals are **normally distributed**.
+-   The variance is **constant** across all fitted values (homoscedasticity).
 
 ::: fragment
-Choosing the right statistical test for your analysis is an important step about which you should think carefully.
+In ecology, these assumptions are routinely violated:
+
+-   Counting individuals per plot: integers, never negative, often zero-heavy.
+-   Presence/absence of a species: binary, bounded between 0 and 1.
+-   Percentage cover: proportion, can't exceed 100%.
 :::
 
-## Generalize linear models
+##
+::: fragment
+A **Generalised Linear Model (GLM)** relaxes these constraints by letting you choose the distribution that actually fits your data.
+:::
+
+## From LM to GLM: the link function
+
+A GLM has three components:
+
+-   **Random component**: the distribution of the response (e.g., Poisson, Binomial).
+-   **Systematic component**: the linear predictor, $\beta_0 + \beta_1 X + \ldots$
+-   **Link function**: a transformation that connects the linear predictor to the expected value of the response on the correct scale.
+
+## Possible distributions
+
+Choose based on the nature of your response variable:
+
+-   **Gaussian** — continuous, symmetric data; the classic linear model (e.g., plant height, biomass, temperature).
+-   **Poisson** — count data; integers, cannot be negative, often zero-heavy (e.g., number of species per plot, insect abundance).
+-   **Binomial** — binary or proportion data (e.g., presence/absence, proportion of plots occupied by a species).
+-   **Gamma** — continuous, strictly positive, right-skewed (e.g., biomass, precipitation).
+-   **Negative Binomial** — count data with overdispersion, when Poisson variance is too small to fit the data.
+
+## Which model to use?
 
 ::: {style="background-color:white; display:inline-block; padding: 10px;"}
 ![lm which](https://ourcodingclub.github.io/assets/img/tutorials/modelling/DL_intro_lm_which.png)
 :::
 
-## Generalize linear models
+## Generalised linear models: syntax in R
 
-Syntax for a model with poisson (count) distribution
+Syntax for a model with Poisson distribution (count data)
 
 ```{r}
 #| output: false
@@ -366,17 +416,18 @@ Syntax for a model with poisson (count) distribution
 #| echo: true
 
 glm(y ~ x, family = poisson, data = df)
-  
+
 ```
 
-Syntax for a model with binomial distribution
+Syntax for a model with Binomial distribution (presence/absence, proportions)
 
 ```{r}
 #| output: false
 #| eval: false
 #| echo: true
+
 glm(y ~ x, family = binomial, data = df)
-  
+
 ```
 
 ## BREAK
@@ -385,7 +436,11 @@ glm(y ~ x, family = binomial, data = df)
 knitr::include_graphics("https://assets-global.website-files.com/647888ca92d03e3fca3f1ea0/647888ca92d03e3fca3f2376_shutterstock_792140977.jpg")
 ```
 
-## Hierarchical Linear Models
+---
+
+# Hierarchical Linear Models
+
+---
 
 ## Ecological and biological data can be complex!
 
@@ -395,13 +450,13 @@ knitr::include_graphics("https://assets-global.website-files.com/647888ca92d03e3
 
 -   Unbalanced study/experimental design
 
-## Hierarchical structres example
+## Hierarchical structures example
 
 ```{r, echo=FALSE, out.width="100%"}
 knitr::include_graphics("Hierarchical_Linear_Models_files/Figures/hierarchical_example.png")
 ```
 
-## What is Independence Assumption?
+## What is the Independence Assumption?
 
 In basic statistical models, we assume each observation gives us **new, independent information**.
 
@@ -409,7 +464,7 @@ In basic statistical models, we assume each observation gives us **new, independ
 *What happens in one sample shouldn't depend on what happened in another.*
 :::
 
-## Hierarchical structres in ecology
+## Hierarchical structures in ecology
 
 -   Measurements from the **same plot or site** are often more similar.
 -   Observations from the **same species** might behave similarly.
@@ -435,61 +490,78 @@ Are data points grouped by site, species, individual, or time?
 
 ## How could we analyze this data?
 
-We need to account for correlation in the data.
-
--   LINEAR MIXED MODELS
+A standard linear model treats all observations as independent. But we just established they are not.
 
 ::: fragment
-The *random effects* structure will aid correct inference about *fixed effects*, depending on which level of the system’s hierarchy is being manipulated.
+If we ignore the grouping structure, we risk:
+
+-   **Pseudoreplication**: treating 10 measurements from the same site as 10 independent data points.
+-   **Wrong p-values**: artificially inflating our confidence in the results.
+-   **Misleading conclusions**: a pattern that exists only within one site gets presented as a general rule.
 :::
 
--   What is random effects ?
--   What is fixed effects?
--   When to used them ?
+## How could we analyze this data?
 
-## Fixed effects : deterministic processes
+We need a model that can separate two things at once:
 
--   They are like drivers, categories or groups that you think might directly influence the outcome you're studying.
+::: fragment
+1. The **biological effect we care about** (e.g., does temperature reduce species richness?).
+:::
 
--   They're called "*fixed*" because you want to estimate the effect of each level
+::: fragment
+2. The **noise introduced by the grouping structure** (e.g., sites differ from each other for all sorts of reasons we did not measure).
+:::
 
--   `"I want to know how these different things (fixed effects) affect the outcome."`
+::: fragment
+That model is a **Linear Mixed Model**.
 
-## Random effects : stochastic processes
+It handles both by splitting predictors into two types: **fixed effects** and **random effects**.
+:::
 
--   Name random doesn’t have much to do with mathematical randomness
+## Fixed effects
 
--   Grouping variables you want to control for
+Fixed effects are the predictors you explicitly want to test and report.
 
--   You're not interested in each level individually
+-   Each level gets its own estimated coefficient in the model.
+-   They directly answer your research question.
+-   You have measured all the levels you care about, and you would report them specifically in your results.
 
--   but we know that they might be influencing the patterns we see
+::: fragment
+**Ecological examples:** treatment (warmed vs. control), soil nutrient level, land use category, species identity (when comparing specific species is the goal).
+:::
 
--   `"I want to know how these factors (random effects) contribute to the overall variation in the outcome."`
+## Random effects
 
--   They are always categorical
+Random effects are grouping variables where the specific levels in your study are a sample from a larger population of possible levels.
 
--   Examples: Site, Observer, Year
+-   The model does not estimate a separate coefficient for each group.
+-   Instead, it estimates how much variability exists across groups, treating each group's effect as a random draw from a shared distribution.
+-   You are not asking "what is specific to Site 3?" but rather "how much do sites vary overall, so I can account for it?"
 
-## When do we use them?
-
--   Whenever your data has hierarchical structure.
-
--   The choice depends on the research question
-
--   Is the variable a source of variation or the target of inference?
+::: fragment
+**Ecological examples:** site, plot, individual plant (repeated measures), year, observer.
+They are always **categorical**.
+:::
 
 ## Active break 💡
 
-Scenario: You measured plant height across 6 sites, with different treatments at each site.
+**Scenario:** You are studying how warming affects plant height in Arctic tundra. You set up open-top chambers (warming treatment) and control plots across **6 sites** spread along a latitudinal gradient. At each site you have 5 warmed plots and 5 control plots, and you measure the height of 10 plants per plot.
 
-Questions:
+**Your research question:** Does warming increase plant height?
 
--   What could be a fixed effect?
+::: fragment
+Discuss with your neighbour:
 
--   What could be a random effect?
+1. **What is the fixed effect?** What predictor directly answers your research question?
 
--   What would happen if you ignored site?
+2. **What is the random effect?** The 6 sites were chosen because they were accessible, not because you care about those specific sites. What does that make them?
+:::
+
+---
+
+# Back to the Dragons: 
+now with all mountain ranges
+---
 
 ## Dragon data
 
@@ -500,7 +572,7 @@ Questions:
 library(tidyverse)
 load("CC-Linear-mixed-models/dragons.RData")
 
-dragons<- dragons |> 
+dragons<- dragons |>
   mutate(bodyLength2=scale(bodyLength,center = TRUE, scale = TRUE))
 ```
 
@@ -510,7 +582,7 @@ We went to the field and sampled more mountains with dragons.
 #| output: true
 #| eval: true
 #| echo: false
-dragons |> group_by(mountainRange,site) |> 
+dragons |> group_by(mountainRange,site) |>
   summarise(samples=n())
 ```
 
@@ -520,7 +592,7 @@ dragons |> group_by(mountainRange,site) |>
 <h4>Is the test score affected by body length?</h4>
 :::
 
-## Dragons Linear model
+## Dragons: Naive Linear Model
 
 ```{r}
 #| output: true
@@ -530,7 +602,7 @@ basic.lm <- lm(testScore ~ bodyLength2, data = dragons)
 summary(basic.lm)
 ```
 
-## Dragons Linear model
+## Dragons: Naive Linear Model
 
 ```{r}
 #| output: true
@@ -548,7 +620,7 @@ summary(basic.lm)
 #| output: true
 #| eval: true
 #| echo: true
-qqnorm(resid(model)); qqline(resid(model))
+qqnorm(resid(basic.lm)); qqline(resid(basic.lm))
 ```
 
 ## Assumptions check
@@ -610,7 +682,7 @@ ggdag_parents(dag_data, .var = "testScore", text = FALSE, use_labels = "label") 
 
 ## Step 1: Model building
 
-Hierarchical linear models do is they essentially fit a separate regression line for each and every cluster. And then estimates what we call the *Fixed slope*. Average slope between x and y across my clusters.
+Hierarchical linear models fit a separate regression line for each and every cluster, then estimate what we call the *fixed slope*: the average slope between x and y across all clusters.
 
 ## Step 1: Model building Dragons
 
@@ -639,7 +711,7 @@ qqnorm(resid(mixed.lmer))
 qqline(resid(mixed.lmer))
 ```
 
-## Step 3: Model interpreation Dragons
+## Step 3: Model interpretation Dragons
 
 ```{r}
 summary(mixed.lmer)
@@ -676,7 +748,7 @@ head(pred.mm)
 #| echo: true
 #| code-line-numbers: "|3-4|5-13|13-17"
 
-# Plot the predictions 
+# Plot the predictions
 p<-ggplot(pred.mm) +
     # slope
     geom_line(aes(x = x, y = predicted)) +
@@ -691,7 +763,7 @@ p<-ggplot(pred.mm) +
       alpha = 0.5
     ) +
     # adding the raw data (scaled values)
-    geom_point(data = dragons,                      
+    geom_point(data = dragons,
                aes(x = bodyLength2, y = testScore, colour = mountainRange)) +
     labs(x = "Body Length (indexed)",
          y = "Test Score",
@@ -718,10 +790,10 @@ p
 #| code-line-numbers: "|3|4"
 p<-
   ggpredict(mixed.lmer, terms = c("bodyLength2", "mountainRange"),
-            type = "random") %>% 
+            type = "random") %>%
    plot(show_ci = FALSE) +
-   labs(x = "Body Length", y = "Test Score", 
-        title = "Effect of body size on intelligence in dragons") + 
+   labs(x = "Body Length", y = "Test Score",
+        title = "Effect of body size on intelligence in dragons") +
    theme_minimal()
 ```
 
@@ -734,19 +806,44 @@ p<-
 p
 ```
 
-## Random slopes and Random intercept
+## Random intercept vs. random slope
+
+**Random intercept** `(1|group)`: each group gets its own baseline, but the effect of the predictor is the same across all groups.
+
+> Some mountain ranges have smarter dragons on average, but body length affects test score equally everywhere.
 
 ::: {.fragment .fade-in}
-A random-intercept model allows each cluster (e.g. population) to have its own starting point — some may be smarter or dumber overall.
+**Random slope** `(1 + x|group)`: each group gets its own baseline **and** its own slope. The effect of the predictor is allowed to differ across groups.
+
+> In some mountain ranges body length predicts intelligence strongly; in others there is almost no relationship.
 :::
 
-::: {.fragment .fade-in}
-A random-slope model goes further: it lets the effect of a predictor (like body length) vary across clusters. So, one population might show a strong link between body length and intelligence, while another shows little or none.
-:::
+## Random intercept vs. random slope
+**When to use which?**
 
-## Random slopes and Random intercept
+- Use a random intercept when you expect groups to differ in their average response but not in how they respond to your predictor.
 
-We only need to make one change to our model to allow for random slopes as well as intercept, and that’s adding the fixed variable into the random effect brackets:
+- Use random slopes when you have biological reason to think the effect of your predictor genuinely varies across groups, and when you have enough data per group to estimate it.
+
+
+## Random intercept vs. random slope: the syntax
+
+The `1` inside the brackets refers to the intercept. Adding a variable alongside it allows that variable's slope to vary too.
+
+```{r}
+#| output: false
+#| eval: false
+#| echo: true
+
+# Random intercept only: groups differ in baseline, same slope everywhere
+lmer(y ~ x + (1|group))
+
+# Random intercept + random slope: groups differ in baseline AND in the effect of x
+lmer(y ~ x + (1 + x|group))
+```
+
+::: fragment
+For the dragons: we allow both the baseline test score **and** the effect of body length to vary across mountain ranges and sites.
 
 ```{r}
 #| output: true
@@ -754,49 +851,58 @@ We only need to make one change to our model to allow for random slopes as well 
 #| echo: true
 #| code-line-numbers: "|2"
 mixed.ranslope <- lmer(testScore ~ bodyLength2 +
-                         (1 + bodyLength2|mountainRange/site), 
-                       data = dragons) 
-
-summary(mixed.ranslope)
+                         (1 + bodyLength2|mountainRange/site),
+                       data = dragons)
 ```
+:::
 
-## Random slopes
+## Random slopes: what it looks like
+
+Each panel is a mountain range. Each line is a site. Notice lines differ in both starting height (intercept) and steepness (slope).
 
 ```{r}
 #| output: true
 #| eval: true
 #| echo: false
 (mm_plot <- ggplot(dragons, aes(x = bodyLength, y = testScore, colour = site)) +
-      facet_wrap(~mountainRange, nrow=2) +   # a panel for each mountain range
+      facet_wrap(~mountainRange, nrow=2) +
       geom_point(alpha = 0.5) +
       theme_classic() +
-      geom_line(data = cbind(dragons, pred = predict(mixed.ranslope)), aes(y = pred), size = 1) +  # adding predicted line from mixed model 
+      geom_line(data = cbind(dragons, pred = predict(mixed.ranslope)), aes(y = pred), size = 1) +
       theme(legend.position = "none",
-            panel.spacing = unit(2, "lines"))  # adding space between panels
+            panel.spacing = unit(2, "lines"))
 )
 ```
 
-## Crossed effects
+## Nested vs. crossed 
 
-Example:
+So far our random effects have been **nested**: each lower level belongs to exactly one higher level.
 
-10 control \| 10 experimental
+> Site 1 in the Bavarian mountains is a different site from Site 1 in the Alps. They share a label but are completely separate. Sites are nested within mountain ranges.
 
--   3 years
+Syntax: `(1|mountainRange/site)`
 
--   Each season
+::: fragment
+**Crossed** random effects arise when the same levels of one grouping variable appear across multiple levels of another.
 
--   20 beds
+> The same **year** (e.g., 2022) occurs at every site simultaneously. Year is not inside any one site; it crosses all sites.
 
--   50 seedlings
+Syntax: `(1|site) + (1|year)` — two separate parallel terms.
+:::
 
--   5 leaves
+## Crossed effects: a plant example
 
--   5 leaves x 50 seedlings x 20 beds x 4 seasons x 3 years = 60 000 measurements per treatment
+Greenhouse experiment measuring leaf length under warming vs. control:
 
--   *Very hot summer in the second year*
+-   20 beds, each with 50 seedlings, each with 5 leaves measured: **nested** (Leaf inside Plant inside Bed).
+-   The experiment runs across 3 years and 4 seasons: **crossed** — every season occurs in every bed.
+-   A very hot summer hits in year 2, affecting all beds equally.
 
-## Crossed effects
+::: fragment
+Season cannot go inside the Bed hierarchy because it is not unique to any bed. If you ignore it, the effect of that hot summer inflates your residual variance and distorts the treatment estimate.
+:::
+
+## Crossed effects: the syntax
 
 ```{r}
 library(ggdag)
@@ -806,7 +912,7 @@ dag_data <- dagify(
   Plant ~ Bed,
   exposure = "treatment",
   outcome = "leafLength",
-  latent = c("Leaf", "Plant", "Bed", "Season")  # Show as latent (random effect)
+  latent = c("Leaf", "Plant", "Bed", "Season")
 ) %>%
   tidy_dagitty()
 
@@ -828,18 +934,8 @@ ggdag_parents(dag_data, .var = "leafLength", text = FALSE, use_labels = "label")
   theme(legend.position = "none")
 ```
 
-```{r}
-#| output: false
-#| eval: false
-#| echo: true
-
-leafLength ~ treatment + (1|Bed/Plant/Leaf)
-```
-
-What about the crossed effects ?
-
 ::: fragment
-Crossed (or partially crossed) random factors that do not represent levels in a hierarchy.
+The nested hierarchy uses `/`. The crossed factor gets its own separate `+` term.
 
 ```{r}
 #| output: false
@@ -850,7 +946,7 @@ leafLength ~ treatment + (1|Bed/Plant/Leaf) + (1|Season)
 ```
 :::
 
-## Additional ressources
+## Additional resources
 
 Popular libraries for (G)LMMs:
 
@@ -867,6 +963,12 @@ Popular libraries for (G)LMMs:
 ```{r, echo=FALSE, out.width="100%"}
 knitr::include_graphics("https://assets-global.website-files.com/647888ca92d03e3fca3f1ea0/647888ca92d03e3fca3f2376_shutterstock_792140977.jpg")
 ```
+
+---
+
+# Exercise
+
+---
 
 ## Exercise
 
@@ -922,9 +1024,9 @@ unique(itex$SITE) #you can also do this and then it gives you the name of all sa
 ```
 :::
 
-## Exercise 1 Modeling the impact of climate change
+## Exercise 1: Modeling the impact of climate change
 
-Using the **ITEX diversity dataset** , think about a research question you could ask regarding the impact of one aspect of climate change on a variable of interest across different sites.
+Using the **ITEX diversity dataset**, think about a research question you could ask regarding the impact of one aspect of climate change on a variable of interest across different sites.
 
 Explore your research question using modeling tools you learned in today's lecture.
 
@@ -943,7 +1045,7 @@ Explore your research question using modeling tools you learned in today's lectu
 
 ## Exercise 2 (optional)
 
-Explore your research question **within sites**, as opposed as across sites as before.
+Explore your research question **within sites**, as opposed to across sites as before.
 
 Now that you've explored overall patterns, focus your model on how **climate change impacts your variable of interest, within each site**.
 
@@ -951,7 +1053,7 @@ Now that you've explored overall patterns, focus your model on how **climate cha
 
 👉 Your Tasks:
 
-1.  
+1.
 
     -   What changes when we ask about relationships *within sites* instead of *across* them?
     -   Should you adjust the way `site` is treated in your model?
@@ -965,10 +1067,7 @@ Now that you've explored overall patterns, focus your model on how **climate cha
 
 ## What is next
 
--   28th of April 13:15am -17m *3401 Korallrevet* <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExNjQwajh5am9uemJlZmw2Zm5jZWw0bWt6NzRsbjFnZDAwaW9vbmR5bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Sm9AfJRiZofjlrkAAl/giphy.gif" style="width: 100px;"/>
--   Practice using R (self-study)
-    -   Reviewing and practicing the material we covered in [today’s lecture](https://github.com/Lacapary/BIO503)
-    -   [Linear models](https://ourcodingclub.github.io/tutorials/modelling/)
+-   28th of April 13:15am -17m *3401 Korallrevet* <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaXQ3ZHZzZzZncGpuanRrYTg3bjQ1Z2d2NHU5anAwc3B6cWszYWR3biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wQI5H4jtqZEPK/giphy.gif">
 
 ```{r eval=FALSE, echo=FALSE }
 renderthis::to_pdf("Hierarchical_Linear_Models.html")

@@ -8,7 +8,7 @@
 <link href="Hierarchical_Linear_Models_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="Hierarchical_Linear_Models_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="Hierarchical_Linear_Models_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.4.555">
+  <meta name="generator" content="quarto-1.4.551">
 
   <meta name="author" content="Camila Pacheco">
   <meta name="author" content="Katrín Björnsdóttir">
@@ -442,7 +442,7 @@ Blandine Lyonnard
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"lme4"</span>,</span>
 <span id="cb1-2"><a href=""></a>                      <span class="st">"ggeffects"</span>,</span>
 <span id="cb1-3"><a href=""></a>                      <span class="st">"MuMIn"</span>,</span>
-<span id="cb1-4"><a href=""></a>                      <span class="st">"emmmeans"</span></span>
+<span id="cb1-4"><a href=""></a>                      <span class="st">"emmeans"</span></span>
 <span id="cb1-5"><a href=""></a>                      ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -454,25 +454,53 @@ Do not hesitate to ask questions!
 </h4>
 </div>
 </section>
-<section id="linear-models" class="slide level2">
-<h2>Linear models</h2>
-<p>What is a linear model?</p>
+<section id="data-for-this-part-of-the-session" class="slide level2">
+<h2>Data for this part of the session</h2>
+
+<img data-src="https://static1.srcdn.com/wordpress/wp-content/uploads/2022/08/Illustrations-of-various-dragons-from-Dungeons-and-Dragons.jpg" style="width:80.0%" class="r-stretch"><p><a href="https://ourcodingclub.github.io/tutorials/mixed-models/">Coding Club Mixed models</a></p>
+<p>Used to build intuition for linear models and mixed models.</p>
+</section>
+<section>
+<section id="linear-models" class="title-slide slide level1 center">
+<h1>Linear Models</h1>
+
+</section>
+<section id="what-is-a-linear-model" class="slide level2">
+<h2>What is a linear model?</h2>
+<p>In ecology, we often want to ask:</p>
 <ul>
-<li class="fragment"><p>A mathematical tool used to describe the relationship between a <em>response variable</em> and an <em>explanatory variable</em>.</p></li>
-<li class="fragment"><p>In the simplest form is expressed as:<br>
-</p></li>
-<li class="fragment"><p><span class="math inline">\(Y = \beta_0 + \beta_1 X + \varepsilon\)</span>.</p></li>
+<li class="fragment">Does temperature drive species richness?</li>
+<li class="fragment">Does soil nitrogen limit plant biomass?</li>
+<li class="fragment">Does drought reduce tree growth?</li>
+</ul>
+<div class="fragment">
+<p>A <strong>linear model</strong> is our tool for quantifying these relationships formally. It describes how a <em>response variable</em> (what we measure) changes as a predictable function of one or more <em>predictors</em> (drivers, treatments, environmental gradients), while accounting for unexplained noise in the system.</p>
+</div>
+</section>
+<section id="what-is-a-linear-model-1" class="slide level2">
+<h2>What is a linear model?</h2>
+<p>In its simplest form:</p>
+<p><span class="math display">\[Y = \beta_0 + \beta_1 X + \varepsilon\]</span></p>
+<ul>
+<li class="fragment"><span class="math inline">\(Y\)</span> = the biological response you measure (e.g., plant biomass)</li>
+<li class="fragment"><span class="math inline">\(X\)</span> = the driver or predictor (e.g., soil nitrogen)</li>
+<li class="fragment"><span class="math inline">\(\beta_0\)</span> = baseline value when <span class="math inline">\(X = 0\)</span> (intercept)</li>
+<li class="fragment"><span class="math inline">\(\beta_1\)</span> = how much <span class="math inline">\(Y\)</span> changes per unit of <span class="math inline">\(X\)</span> (the effect size)</li>
+<li class="fragment"><span class="math inline">\(\varepsilon\)</span> = everything else: noise, unmeasured factors, natural variation</li>
+</ul>
+</section>
+<section id="why-do-we-use-linear-models" class="slide level2">
+<h2>Why do we use linear models?</h2>
+<p>Ecological systems are <em>complex</em>, but linear models give us a <em>simplified</em> framework to ask and answer key ecological questions.</p>
+<ul>
+<li class="fragment">✅ Simple and interpretable: Easy to understand and communicate.</li>
+<li class="fragment">✅ Flexible: Can be extended with multiple predictors, interactions, etc.</li>
+<li class="fragment">✅ Hypothesis testing: Test relationships grounded in ecological theory.</li>
+<li class="fragment">✅ Data-driven: Connect real-world measurements to ecological mechanisms.</li>
+<li class="fragment">✅ Foundation for advanced models: GLMs, mixed models, and beyond.</li>
 </ul>
 </section>
 <section id="linear-models-1" class="slide level2">
-<h2>Linear models</h2>
-<p>A simple example:</p>
-<p>Does soil nitrogen content influence plant productivity?</p>
-<p style="font-size: 1.2em;">
-</p><p>Plant biomass = β₀ + β₁ · Soil nitrogen + ε</p>
-<p></p>
-</section>
-<section id="linear-models-2" class="slide level2">
 <h2>Linear Models</h2>
 <p>A simple example:</p>
 <p>Does soil nitrogen content influence plant productivity?</p>
@@ -480,7 +508,7 @@ Do not hesitate to ask questions!
 </p><p><span style="color: red; font-weight: bold;">Plant biomass</span> = β₀ + β₁ · Soil nitrogen + ε</p>
 <p></p>
 </section>
-<section id="linear-models-3" class="slide level2">
+<section id="linear-models-2" class="slide level2">
 <h2>Linear Models</h2>
 <p>A simple example:</p>
 <p>Does soil nitrogen content influence plant productivity?</p>
@@ -488,32 +516,17 @@ Do not hesitate to ask questions!
 </p><p>Plant biomass = β₀ + β₁ · <span style="color: red; font-weight: bold;">Soil nitrogen</span> + ε</p>
 <p></p>
 </section>
-<section id="linear-models-4" class="slide level2">
+<section id="linear-models-3" class="slide level2">
 <h2>Linear models</h2>
 
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section>
-<section id="linear-models-5" class="slide level2">
-<h2>Linear models</h2>
-<p>Why do we use linear models in ecology?</p>
-<ul>
-<li class="fragment"><p>Ecological systems are <em>complex</em>, but linear models give us a <em>simplified</em> framework to ask and answer key ecological questions.</p>
-<ul>
-<li class="fragment">✅ Simple and interpretable: Easy to understand and communicate.<br>
-</li>
-<li class="fragment">✅ Flexible: Can be extended, multiple predictors, interactions etc.<br>
-</li>
-<li class="fragment">✅ Hypothesis testing: Relationships based on ecological theory.<br>
-</li>
-<li class="fragment">✅ Data-driveen: Test ecological hypotheses with real-world data.<br>
-</li>
-<li class="fragment">✅ Foundation for advanced models.</li>
-</ul></li>
-</ul>
-</section>
-<section id="data-for-this-part-of-the-session" class="slide level2">
-<h2>Data for this part of the session</h2>
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
+<section class="slide level2">
 
-<img data-src="https://static1.srcdn.com/wordpress/wp-content/uploads/2022/08/Illustrations-of-various-dragons-from-Dungeons-and-Dragons.jpg" style="width:80.0%" class="r-stretch"><p><a href="https://ourcodingclub.github.io/tutorials/mixed-models/">Coding Club Mixed models</a></p>
+</section></section>
+<section>
+<section id="linear-models-4" class="title-slide slide level1 center">
+<h1>Linear Models:</h1>
+<p>Dragon Example</p>
 </section>
 <section id="explore-the-data" class="slide level2">
 <h2>Explore the data</h2>
@@ -521,7 +534,7 @@ Do not hesitate to ask questions!
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb2-2"><a href=""></a><span class="fu">load</span>(<span class="st">"CC-Linear-mixed-models/dragons.RData"</span>)</span>
 <span id="cb2-3"><a href=""></a></span>
-<span id="cb2-4"><a href=""></a>dragons_Bavarian <span class="ot">&lt;-</span> dragons <span class="sc">|&gt;</span> </span>
+<span id="cb2-4"><a href=""></a>dragons_Bavarian <span class="ot">&lt;-</span> dragons <span class="sc">|&gt;</span></span>
 <span id="cb2-5"><a href=""></a>  <span class="fu">filter</span>(mountainRange <span class="sc">==</span> <span class="st">"Bavarian"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -569,12 +582,12 @@ Do not hesitate to ask questions!
 <h2>Our question</h2>
 <p>Now lets visualize the relationship using ggplot.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>p <span class="ot">&lt;-</span> dragons_Bavarian <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>p <span class="ot">&lt;-</span> dragons_Bavarian <span class="sc">%&gt;%</span></span>
 <span id="cb6-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
 <span id="cb6-3"><a href=""></a>    <span class="at">x =</span> bodyLength,</span>
-<span id="cb6-4"><a href=""></a>    <span class="at">y =</span> testScore)) <span class="sc">+</span> <span class="co"># to assign a color to each group</span></span>
-<span id="cb6-5"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb6-6"><a href=""></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span>    </span>
+<span id="cb6-4"><a href=""></a>    <span class="at">y =</span> testScore)) <span class="sc">+</span></span>
+<span id="cb6-5"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb6-6"><a href=""></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
 <span id="cb6-7"><a href=""></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
 <span id="cb6-8"><a href=""></a>  <span class="fu">labs</span>(</span>
 <span id="cb6-9"><a href=""></a>    <span class="at">x =</span> <span class="st">"Body length"</span>,</span>
@@ -612,6 +625,14 @@ Multiple R-squared:  0.07093,   Adjusted R-squared:  0.05491
 F-statistic: 4.428 on 1 and 58 DF,  p-value: 0.0397</code></pre>
 </div>
 </div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="factorial-anova" class="title-slide slide level1 center">
+<h1>Factorial ANOVA</h1>
+
 </section>
 <section id="factorial-anova-its-just-a-linear-model" class="slide level2">
 <h2>Factorial ANOVA: It’s Just a Linear Model</h2>
@@ -685,9 +706,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb13-6"><a href=""></a><span class="fu">pairs</span>(em, <span class="at">adjust =</span> <span class="st">"tukey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> contrast               estimate    SE  df t.ratio p.value
- setosa - versicolor      -0.930 0.103 147  -9.033 &lt;0.0001
- setosa - virginica       -1.582 0.103 147 -15.366 &lt;0.0001
- versicolor - virginica   -0.652 0.103 147  -6.333 &lt;0.0001
+ setosa - versicolor      -0.930 0.103 147  -9.033  &lt;.0001
+ setosa - virginica       -1.582 0.103 147 -15.366  &lt;.0001
+ versicolor - virginica   -0.652 0.103 147  -6.333  &lt;.0001
 
 P value adjustment: tukey method for comparing a family of 3 estimates </code></pre>
 </div>
@@ -711,20 +732,59 @@ P value adjustment: tukey method for comparing a family of 3 estimates </code></
 </div>
 
 <img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"></section>
-<section id="generalize-linear-models" class="slide level2">
-<h2>Generalize linear models</h2>
-<p>Get familiar with different data distributions Here is a brief summary of the data distributions you might encounter most often.</p>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="generalised-linear-models" class="title-slide slide level1 center">
+<h1>Generalised Linear Models</h1>
+
+</section>
+<section id="from-lm-to-glm-what-changes" class="slide level2">
+<h2>From LM to GLM: what changes?</h2>
+<p>A standard linear model makes three key assumptions:</p>
 <ul>
-<li class="fragment">Gaussian - Continuous data (normal distribution and homoscedasticity assumed)</li>
-<li class="fragment">Poisson - Count abundance data (integer values, zero-inflated data, left-skewed data)</li>
-<li class="fragment">Binomial - Binary variables (TRUE/FALSE, 0/1, presence/absence data)</li>
+<li class="fragment">The response variable is <strong>continuous</strong>.</li>
+<li class="fragment">The residuals are <strong>normally distributed</strong>.</li>
+<li class="fragment">The variance is <strong>constant</strong> across all fitted values (homoscedasticity).</li>
 </ul>
 <div class="fragment">
-<p>Choosing the right statistical test for your analysis is an important step about which you should think carefully.</p>
+<p>In ecology, these assumptions are routinely violated:</p>
+<ul>
+<li class="fragment">Counting individuals per plot: integers, never negative, often zero-heavy.</li>
+<li class="fragment">Presence/absence of a species: binary, bounded between 0 and 1.</li>
+<li class="fragment">Percentage cover: proportion, can’t exceed 100%.</li>
+</ul>
 </div>
 </section>
-<section id="generalize-linear-models-1" class="slide level2">
-<h2>Generalize linear models</h2>
+<section id="section" class="slide level2">
+<h2></h2>
+<div class="fragment">
+<p>A <strong>Generalised Linear Model (GLM)</strong> relaxes these constraints by letting you choose the distribution that actually fits your data.</p>
+</div>
+</section>
+<section id="from-lm-to-glm-the-link-function" class="slide level2">
+<h2>From LM to GLM: the link function</h2>
+<p>A GLM has three components:</p>
+<ul>
+<li class="fragment"><strong>Random component</strong>: the distribution of the response (e.g., Poisson, Binomial).</li>
+<li class="fragment"><strong>Systematic component</strong>: the linear predictor, <span class="math inline">\(\beta_0 + \beta_1 X + \ldots\)</span></li>
+<li class="fragment"><strong>Link function</strong>: a transformation that connects the linear predictor to the expected value of the response on the correct scale.</li>
+</ul>
+</section>
+<section id="possible-distributions" class="slide level2">
+<h2>Possible distributions</h2>
+<p>Choose based on the nature of your response variable:</p>
+<ul>
+<li class="fragment"><strong>Gaussian</strong> — continuous, symmetric data; the classic linear model (e.g., plant height, biomass, temperature).</li>
+<li class="fragment"><strong>Poisson</strong> — count data; integers, cannot be negative, often zero-heavy (e.g., number of species per plot, insect abundance).</li>
+<li class="fragment"><strong>Binomial</strong> — binary or proportion data (e.g., presence/absence, proportion of plots occupied by a species).</li>
+<li class="fragment"><strong>Gamma</strong> — continuous, strictly positive, right-skewed (e.g., biomass, precipitation).</li>
+<li class="fragment"><strong>Negative Binomial</strong> — count data with overdispersion, when Poisson variance is too small to fit the data.</li>
+</ul>
+</section>
+<section id="which-model-to-use" class="slide level2">
+<h2>Which model to use?</h2>
 <div style="background-color:white; display:inline-block; padding: 10px;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -734,13 +794,13 @@ P value adjustment: tukey method for comparing a family of 3 estimates </code></
 </div>
 </div>
 </section>
-<section id="generalize-linear-models-2" class="slide level2">
-<h2>Generalize linear models</h2>
-<p>Syntax for a model with poisson (count) distribution</p>
+<section id="generalised-linear-models-syntax-in-r" class="slide level2">
+<h2>Generalised linear models: syntax in R</h2>
+<p>Syntax for a model with Poisson distribution (count data)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">glm</span>(y <span class="sc">~</span> x, <span class="at">family =</span> poisson, <span class="at">data =</span> df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Syntax for a model with binomial distribution</p>
+<p>Syntax for a model with Binomial distribution (presence/absence, proportions)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">glm</span>(y <span class="sc">~</span> x, <span class="at">family =</span> binomial, <span class="at">data =</span> df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -749,8 +809,13 @@ P value adjustment: tukey method for comparing a family of 3 estimates </code></
 <h2>BREAK</h2>
 
 <img data-src="https://assets-global.website-files.com/647888ca92d03e3fca3f1ea0/647888ca92d03e3fca3f2376_shutterstock_792140977.jpg" style="width:100.0%" class="r-stretch"></section>
-<section id="hierarchical-linear-models" class="slide level2">
-<h2>Hierarchical Linear Models</h2>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="hierarchical-linear-models" class="title-slide slide level1 center">
+<h1>Hierarchical Linear Models</h1>
+
 </section>
 <section id="ecological-and-biological-data-can-be-complex" class="slide level2">
 <h2>Ecological and biological data can be complex!</h2>
@@ -760,19 +825,19 @@ P value adjustment: tukey method for comparing a family of 3 estimates </code></
 <li class="fragment"><p>Unbalanced study/experimental design</p></li>
 </ul>
 </section>
-<section id="hierarchical-structres-example" class="slide level2">
-<h2>Hierarchical structres example</h2>
+<section id="hierarchical-structures-example" class="slide level2">
+<h2>Hierarchical structures example</h2>
 
 <img data-src="Hierarchical_Linear_Models_files/Figures/hierarchical_example.png" style="width:100.0%" class="r-stretch"></section>
-<section id="what-is-independence-assumption" class="slide level2">
-<h2>What is Independence Assumption?</h2>
+<section id="what-is-the-independence-assumption" class="slide level2">
+<h2>What is the Independence Assumption?</h2>
 <p>In basic statistical models, we assume each observation gives us <strong>new, independent information</strong>.</p>
 <div class="fragment">
 <p><em>What happens in one sample shouldn’t depend on what happened in another.</em></p>
 </div>
 </section>
-<section id="hierarchical-structres-in-ecology" class="slide level2">
-<h2>Hierarchical structres in ecology</h2>
+<section id="hierarchical-structures-in-ecology" class="slide level2">
+<h2>Hierarchical structures in ecology</h2>
 <ul>
 <li class="fragment">Measurements from the <strong>same plot or site</strong> are often more similar.</li>
 <li class="fragment">Observations from the <strong>same species</strong> might behave similarly.</li>
@@ -797,56 +862,77 @@ P value adjustment: tukey method for comparing a family of 3 estimates </code></
 </section>
 <section id="how-could-we-analyze-this-data" class="slide level2">
 <h2>How could we analyze this data?</h2>
-<p>We need to account for correlation in the data.</p>
+<p>A standard linear model treats all observations as independent. But we just established they are not.</p>
+<div class="fragment">
+<p>If we ignore the grouping structure, we risk:</p>
 <ul>
-<li class="fragment">LINEAR MIXED MODELS</li>
+<li class="fragment"><strong>Pseudoreplication</strong>: treating 10 measurements from the same site as 10 independent data points.</li>
+<li class="fragment"><strong>Wrong p-values</strong>: artificially inflating our confidence in the results.</li>
+<li class="fragment"><strong>Misleading conclusions</strong>: a pattern that exists only within one site gets presented as a general rule.</li>
+</ul>
+</div>
+</section>
+<section id="how-could-we-analyze-this-data-1" class="slide level2 scrollable">
+<h2>How could we analyze this data?</h2>
+<p>We need a model that can separate two things at once:</p>
+<div class="fragment">
+<ol type="1">
+<li class="fragment">The <strong>biological effect we care about</strong> (e.g., does temperature reduce species richness?).</li>
+</ol>
+</div>
+<div class="fragment">
+<ol start="2" type="1">
+<li class="fragment">The <strong>noise introduced by the grouping structure</strong> (e.g., sites differ from each other for all sorts of reasons we did not measure).</li>
+</ol>
+</div>
+<div class="fragment">
+<p>That model is a <strong>Linear Mixed Model</strong>.</p>
+<p>It handles both by splitting predictors into two types: <strong>fixed effects</strong> and <strong>random effects</strong>.</p>
+</div>
+</section>
+<section id="fixed-effects" class="slide level2">
+<h2>Fixed effects</h2>
+<p>Fixed effects are the predictors you explicitly want to test and report.</p>
+<ul>
+<li class="fragment">Each level gets its own estimated coefficient in the model.</li>
+<li class="fragment">They directly answer your research question.</li>
+<li class="fragment">You have measured all the levels you care about, and you would report them specifically in your results.</li>
 </ul>
 <div class="fragment">
-<p>The <em>random effects</em> structure will aid correct inference about <em>fixed effects</em>, depending on which level of the system’s hierarchy is being manipulated.</p>
+<p><strong>Ecological examples:</strong> treatment (warmed vs.&nbsp;control), soil nutrient level, land use category, species identity (when comparing specific species is the goal).</p>
 </div>
-<ul>
-<li class="fragment">What is random effects ?</li>
-<li class="fragment">What is fixed effects?</li>
-<li class="fragment">When to used them ?</li>
-</ul>
 </section>
-<section id="fixed-effects-deterministic-processes" class="slide level2">
-<h2>Fixed effects : deterministic processes</h2>
+<section id="random-effects" class="slide level2">
+<h2>Random effects</h2>
+<p>Random effects are grouping variables where the specific levels in your study are a sample from a larger population of possible levels.</p>
 <ul>
-<li class="fragment"><p>They are like drivers, categories or groups that you think might directly influence the outcome you’re studying.</p></li>
-<li class="fragment"><p>They’re called “<em>fixed</em>” because you want to estimate the effect of each level</p></li>
-<li class="fragment"><p><code>"I want to know how these different things (fixed effects) affect the outcome."</code></p></li>
+<li class="fragment">The model does not estimate a separate coefficient for each group.</li>
+<li class="fragment">Instead, it estimates how much variability exists across groups, treating each group’s effect as a random draw from a shared distribution.</li>
+<li class="fragment">You are not asking “what is specific to Site 3?” but rather “how much do sites vary overall, so I can account for it?”</li>
 </ul>
+<div class="fragment">
+<p><strong>Ecological examples:</strong> site, plot, individual plant (repeated measures), year, observer. They are always <strong>categorical</strong>.</p>
+</div>
 </section>
-<section id="random-effects-stochastic-processes" class="slide level2">
-<h2>Random effects : stochastic processes</h2>
-<ul>
-<li class="fragment"><p>Name random doesn’t have much to do with mathematical randomness</p></li>
-<li class="fragment"><p>Grouping variables you want to control for</p></li>
-<li class="fragment"><p>You’re not interested in each level individually</p></li>
-<li class="fragment"><p>but we know that they might be influencing the patterns we see</p></li>
-<li class="fragment"><p><code>"I want to know how these factors (random effects) contribute to the overall variation in the outcome."</code></p></li>
-<li class="fragment"><p>They are always categorical</p></li>
-<li class="fragment"><p>Examples: Site, Observer, Year</p></li>
-</ul>
-</section>
-<section id="when-do-we-use-them" class="slide level2">
-<h2>When do we use them?</h2>
-<ul>
-<li class="fragment"><p>Whenever your data has hierarchical structure.</p></li>
-<li class="fragment"><p>The choice depends on the research question</p></li>
-<li class="fragment"><p>Is the variable a source of variation or the target of inference?</p></li>
-</ul>
-</section>
-<section id="active-break" class="slide level2">
+<section id="active-break" class="slide level2 scrollable">
 <h2>Active break 💡</h2>
-<p>Scenario: You measured plant height across 6 sites, with different treatments at each site.</p>
-<p>Questions:</p>
-<ul>
-<li class="fragment"><p>What could be a fixed effect?</p></li>
-<li class="fragment"><p>What could be a random effect?</p></li>
-<li class="fragment"><p>What would happen if you ignored site?</p></li>
-</ul>
+<p><strong>Scenario:</strong> You are studying how warming affects plant height in Arctic tundra. You set up open-top chambers (warming treatment) and control plots across <strong>6 sites</strong> spread along a latitudinal gradient. At each site you have 5 warmed plots and 5 control plots, and you measure the height of 10 plants per plot.</p>
+<p><strong>Your research question:</strong> Does warming increase plant height?</p>
+<div class="fragment">
+<p>Discuss with your neighbour:</p>
+<ol type="1">
+<li class="fragment"><p><strong>What is the fixed effect?</strong> What predictor directly answers your research question?</p></li>
+<li class="fragment"><p><strong>What is the random effect?</strong> The 6 sites were chosen because they were accessible, not because you care about those specific sites. What does that make them?</p></li>
+</ol>
+</div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="back-to-the-dragons" class="title-slide slide level1 center">
+<h1>Back to the Dragons:</h1>
+<p>now with all mountain ranges</p>
 </section>
 <section id="dragon-data" class="slide level2">
 <h2>Dragon data</h2>
@@ -877,8 +963,8 @@ Is the test score affected by body length?
 </h4>
 </div>
 </section>
-<section id="dragons-linear-model" class="slide level2">
-<h2>Dragons Linear model</h2>
+<section id="dragons-naive-linear-model" class="slide level2">
+<h2>Dragons: Naive Linear Model</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>basic.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(testScore <span class="sc">~</span> bodyLength2, <span class="at">data =</span> dragons)</span>
 <span id="cb18-2"><a href=""></a><span class="fu">summary</span>(basic.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -904,8 +990,8 @@ F-statistic: 86.25 on 1 and 478 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
-<section id="dragons-linear-model-1" class="slide level2">
-<h2>Dragons Linear model</h2>
+<section id="dragons-naive-linear-model-1" class="slide level2">
+<h2>Dragons: Naive Linear Model</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>(prelim_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dragons, <span class="fu">aes</span>(<span class="at">x =</span> bodyLength, <span class="at">y =</span> testScore)) <span class="sc">+</span></span>
 <span id="cb20-2"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
@@ -917,7 +1003,7 @@ F-statistic: 86.25 on 1 and 478 DF,  p-value: &lt; 2.2e-16</code></pre>
 <section id="assumptions-check" class="slide level2">
 <h2>Assumptions check</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">qqnorm</span>(<span class="fu">resid</span>(model)); <span class="fu">qqline</span>(<span class="fu">resid</span>(model))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">qqnorm</span>(<span class="fu">resid</span>(basic.lm)); <span class="fu">qqline</span>(<span class="fu">resid</span>(basic.lm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-23-1.png" width="960" class="r-stretch"></section>
@@ -958,7 +1044,7 @@ Are our data independent?
 </section>
 <section id="step-1-model-building" class="slide level2">
 <h2>Step 1: Model building</h2>
-<p>Hierarchical linear models do is they essentially fit a separate regression line for each and every cluster. And then estimates what we call the <em>Fixed slope</em>. Average slope between x and y across my clusters.</p>
+<p>Hierarchical linear models fit a separate regression line for each and every cluster, then estimate what we call the <em>fixed slope</em>: the average slope between x and y across all clusters.</p>
 </section>
 <section id="step-1-model-building-dragons" class="slide level2">
 <h2>Step 1: Model building Dragons</h2>
@@ -980,8 +1066,8 @@ Are our data independent?
 
 </div>
 <img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-27-1.png" width="960" class="r-stretch"></section>
-<section id="step-3-model-interpreation-dragons" class="slide level2">
-<h2>Step 3: Model interpreation Dragons</h2>
+<section id="step-3-model-interpretation-dragons" class="slide level2">
+<h2>Step 3: Model interpretation Dragons</h2>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML ['lmerMod']
@@ -1049,7 +1135,7 @@ Adjusted for:
 <section id="step-4.-visualization-1" class="slide level2">
 <h2>Step 4. Visualization</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30" data-code-line-numbers="|3-4|5-13|13-17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="co"># Plot the predictions </span></span>
+<div class="sourceCode cell-code" id="cb30" data-code-line-numbers="|3-4|5-13|13-17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="co"># Plot the predictions</span></span>
 <span id="cb30-2"><a href=""></a>p<span class="ot">&lt;-</span><span class="fu">ggplot</span>(pred.mm) <span class="sc">+</span></span>
 <span id="cb30-3"><a href=""></a>    <span class="co"># slope</span></span>
 <span id="cb30-4"><a href=""></a>    <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> predicted)) <span class="sc">+</span></span>
@@ -1064,7 +1150,7 @@ Adjusted for:
 <span id="cb30-13"><a href=""></a>      <span class="at">alpha =</span> <span class="fl">0.5</span></span>
 <span id="cb30-14"><a href=""></a>    ) <span class="sc">+</span></span>
 <span id="cb30-15"><a href=""></a>    <span class="co"># adding the raw data (scaled values)</span></span>
-<span id="cb30-16"><a href=""></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> dragons,                      </span>
+<span id="cb30-16"><a href=""></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> dragons,</span>
 <span id="cb30-17"><a href=""></a>               <span class="fu">aes</span>(<span class="at">x =</span> bodyLength2, <span class="at">y =</span> testScore, <span class="at">colour =</span> mountainRange)) <span class="sc">+</span></span>
 <span id="cb30-18"><a href=""></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Body Length (indexed)"</span>,</span>
 <span id="cb30-19"><a href=""></a>         <span class="at">y =</span> <span class="st">"Test Score"</span>,</span>
@@ -1081,10 +1167,10 @@ Adjusted for:
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31" data-code-line-numbers="|3|4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>p<span class="ot">&lt;-</span></span>
 <span id="cb31-2"><a href=""></a>  <span class="fu">ggpredict</span>(mixed.lmer, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"bodyLength2"</span>, <span class="st">"mountainRange"</span>),</span>
-<span id="cb31-3"><a href=""></a>            <span class="at">type =</span> <span class="st">"random"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-3"><a href=""></a>            <span class="at">type =</span> <span class="st">"random"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb31-4"><a href=""></a>   <span class="fu">plot</span>(<span class="at">show_ci =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb31-5"><a href=""></a>   <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Body Length"</span>, <span class="at">y =</span> <span class="st">"Test Score"</span>, </span>
-<span id="cb31-6"><a href=""></a>        <span class="at">title =</span> <span class="st">"Effect of body size on intelligence in dragons"</span>) <span class="sc">+</span> </span>
+<span id="cb31-5"><a href=""></a>   <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Body Length"</span>, <span class="at">y =</span> <span class="st">"Test Score"</span>,</span>
+<span id="cb31-6"><a href=""></a>        <span class="at">title =</span> <span class="st">"Effect of body size on intelligence in dragons"</span>) <span class="sc">+</span></span>
 <span id="cb31-7"><a href=""></a>   <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1092,91 +1178,90 @@ Adjusted for:
 <h2>Step 4. Visualization</h2>
 
 <img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-34-1.png" width="960" class="r-stretch"></section>
-<section id="random-slopes-and-random-intercept" class="slide level2">
-<h2>Random slopes and Random intercept</h2>
+<section id="random-intercept-vs.-random-slope" class="slide level2">
+<h2>Random intercept vs.&nbsp;random slope</h2>
+<p><strong>Random intercept</strong> <code>(1|group)</code>: each group gets its own baseline, but the effect of the predictor is the same across all groups.</p>
+<blockquote>
+<p>Some mountain ranges have smarter dragons on average, but body length affects test score equally everywhere.</p>
+</blockquote>
 <div class="fragment fade-in">
-<p>A random-intercept model allows each cluster (e.g.&nbsp;population) to have its own starting point — some may be smarter or dumber overall.</p>
-</div>
-<div class="fragment fade-in">
-<p>A random-slope model goes further: it lets the effect of a predictor (like body length) vary across clusters. So, one population might show a strong link between body length and intelligence, while another shows little or none.</p>
+<p><strong>Random slope</strong> <code>(1 + x|group)</code>: each group gets its own baseline <strong>and</strong> its own slope. The effect of the predictor is allowed to differ across groups.</p>
+<blockquote>
+<p>In some mountain ranges body length predicts intelligence strongly; in others there is almost no relationship.</p>
+</blockquote>
 </div>
 </section>
-<section id="random-slopes-and-random-intercept-1" class="slide level2">
-<h2>Random slopes and Random intercept</h2>
-<p>We only need to make one change to our model to allow for random slopes as well as intercept, and that’s adding the fixed variable into the random effect brackets:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb32" data-code-line-numbers="|2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>mixed.ranslope <span class="ot">&lt;-</span> <span class="fu">lmer</span>(testScore <span class="sc">~</span> bodyLength2 <span class="sc">+</span></span>
-<span id="cb32-2"><a href=""></a>                         (<span class="dv">1</span> <span class="sc">+</span> bodyLength2<span class="sc">|</span>mountainRange<span class="sc">/</span>site), </span>
-<span id="cb32-3"><a href=""></a>                       <span class="at">data =</span> dragons) </span>
-<span id="cb32-4"><a href=""></a></span>
-<span id="cb32-5"><a href=""></a><span class="fu">summary</span>(mixed.ranslope)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Linear mixed model fit by REML ['lmerMod']
-Formula: testScore ~ bodyLength2 + (1 + bodyLength2 | mountainRange/site)
-   Data: dragons
-
-REML criterion at convergence: 3968.4
-
-Scaled residuals: 
-    Min      1Q  Median      3Q     Max 
--3.2654 -0.6737 -0.0200  0.6931  2.8432 
-
-Random effects:
- Groups             Name        Variance Std.Dev. Corr 
- site:mountainRange (Intercept)  19.8156  4.4515       
-                    bodyLength2   0.7178  0.8472  1.00 
- mountainRange      (Intercept) 310.9691 17.6343       
-                    bodyLength2   6.1119  2.4722  -1.00
- Residual                       208.5025 14.4396       
-Number of obs: 480, groups:  site:mountainRange, 24; mountainRange, 8
-
-Fixed effects:
-            Estimate Std. Error t value
-(Intercept)  51.4263     6.3408   8.110
-bodyLength2   0.6691     1.8729   0.357
-
-Correlation of Fixed Effects:
-            (Intr)
-bodyLength2 -0.461
-optimizer (nloptwrap) convergence code: 0 (OK)
-boundary (singular) fit: see help('isSingular')</code></pre>
-</div>
-</div>
-</section>
-<section id="random-slopes" class="slide level2">
-<h2>Random slopes</h2>
-
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-36-1.png" width="960" class="r-stretch"></section>
-<section id="crossed-effects" class="slide level2">
-<h2>Crossed effects</h2>
-<p>Example:</p>
-<p>10 control | 10 experimental</p>
+<section id="random-intercept-vs.-random-slope-1" class="slide level2">
+<h2>Random intercept vs.&nbsp;random slope</h2>
+<p><strong>When to use which?</strong></p>
 <ul>
-<li class="fragment"><p>3 years</p></li>
-<li class="fragment"><p>Each season</p></li>
-<li class="fragment"><p>20 beds</p></li>
-<li class="fragment"><p>50 seedlings</p></li>
-<li class="fragment"><p>5 leaves</p></li>
-<li class="fragment"><p>5 leaves x 50 seedlings x 20 beds x 4 seasons x 3 years = 60 000 measurements per treatment</p></li>
-<li class="fragment"><p><em>Very hot summer in the second year</em></p></li>
+<li class="fragment"><p>Use a random intercept when you expect groups to differ in their average response but not in how they respond to your predictor.</p></li>
+<li class="fragment"><p>Use random slopes when you have biological reason to think the effect of your predictor genuinely varies across groups, and when you have enough data per group to estimate it.</p></li>
 </ul>
 </section>
-<section id="crossed-effects-1" class="slide level2">
-<h2>Crossed effects</h2>
-
-<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-37-1.png" width="960" class="r-stretch"><div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a>leafLength <span class="sc">~</span> treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Bed<span class="sc">/</span>Plant<span class="sc">/</span>Leaf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>What about the crossed effects ?</p>
-<div class="fragment">
-<p>Crossed (or partially crossed) random factors that do not represent levels in a hierarchy.</p>
+<section id="random-intercept-vs.-random-slope-the-syntax" class="slide level2">
+<h2>Random intercept vs.&nbsp;random slope: the syntax</h2>
+<p>The <code>1</code> inside the brackets refers to the intercept. Adding a variable alongside it allows that variable’s slope to vary too.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>leafLength <span class="sc">~</span> treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Bed<span class="sc">/</span>Plant<span class="sc">/</span>Leaf) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Season)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a><span class="co"># Random intercept only: groups differ in baseline, same slope everywhere</span></span>
+<span id="cb32-2"><a href=""></a><span class="fu">lmer</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>group))</span>
+<span id="cb32-3"><a href=""></a></span>
+<span id="cb32-4"><a href=""></a><span class="co"># Random intercept + random slope: groups differ in baseline AND in the effect of x</span></span>
+<span id="cb32-5"><a href=""></a><span class="fu">lmer</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> x<span class="sc">|</span>group))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<p>For the dragons: we allow both the baseline test score <strong>and</strong> the effect of body length to vary across mountain ranges and sites.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33" data-code-line-numbers="|2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>mixed.ranslope <span class="ot">&lt;-</span> <span class="fu">lmer</span>(testScore <span class="sc">~</span> bodyLength2 <span class="sc">+</span></span>
+<span id="cb33-2"><a href=""></a>                         (<span class="dv">1</span> <span class="sc">+</span> bodyLength2<span class="sc">|</span>mountainRange<span class="sc">/</span>site),</span>
+<span id="cb33-3"><a href=""></a>                       <span class="at">data =</span> dragons)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
-<section id="additional-ressources" class="slide level2">
-<h2>Additional ressources</h2>
+<section id="random-slopes-what-it-looks-like" class="slide level2">
+<h2>Random slopes: what it looks like</h2>
+<p>Each panel is a mountain range. Each line is a site. Notice lines differ in both starting height (intercept) and steepness (slope).</p>
+
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-37-1.png" width="960" class="r-stretch"></section>
+<section id="nested-vs.-crossed" class="slide level2">
+<h2>Nested vs.&nbsp;crossed</h2>
+<p>So far our random effects have been <strong>nested</strong>: each lower level belongs to exactly one higher level.</p>
+<blockquote>
+<p>Site 1 in the Bavarian mountains is a different site from Site 1 in the Alps. They share a label but are completely separate. Sites are nested within mountain ranges.</p>
+</blockquote>
+<p>Syntax: <code>(1|mountainRange/site)</code></p>
+<div class="fragment">
+<p><strong>Crossed</strong> random effects arise when the same levels of one grouping variable appear across multiple levels of another.</p>
+<blockquote>
+<p>The same <strong>year</strong> (e.g., 2022) occurs at every site simultaneously. Year is not inside any one site; it crosses all sites.</p>
+</blockquote>
+<p>Syntax: <code>(1|site) + (1|year)</code> — two separate parallel terms.</p>
+</div>
+</section>
+<section id="crossed-effects-a-plant-example" class="slide level2">
+<h2>Crossed effects: a plant example</h2>
+<p>Greenhouse experiment measuring leaf length under warming vs.&nbsp;control:</p>
+<ul>
+<li class="fragment">20 beds, each with 50 seedlings, each with 5 leaves measured: <strong>nested</strong> (Leaf inside Plant inside Bed).</li>
+<li class="fragment">The experiment runs across 3 years and 4 seasons: <strong>crossed</strong> — every season occurs in every bed.</li>
+<li class="fragment">A very hot summer hits in year 2, affecting all beds equally.</li>
+</ul>
+<div class="fragment">
+<p>Season cannot go inside the Bed hierarchy because it is not unique to any bed. If you ignore it, the effect of that hot summer inflates your residual variance and distorts the treatment estimate.</p>
+</div>
+</section>
+<section id="crossed-effects-the-syntax" class="slide level2">
+<h2>Crossed effects: the syntax</h2>
+
+<img data-src="Hierarchical_Linear_Models_files/figure-revealjs/unnamed-chunk-38-1.png" width="960" class="r-stretch"><div class="fragment">
+<p>The nested hierarchy uses <code>/</code>. The crossed factor gets its own separate <code>+</code> term.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a>leafLength <span class="sc">~</span> treatment <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Bed<span class="sc">/</span>Plant<span class="sc">/</span>Leaf) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Season)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="additional-resources" class="slide level2">
+<h2>Additional resources</h2>
 <p>Popular libraries for (G)LMMs:</p>
 <ul>
 <li class="fragment"><p>Frequentist : <code>nlme</code>, <code>lme4</code>, <code>glmmTMB</code></p></li>
@@ -1189,7 +1274,15 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <h2>BREAK</h2>
 
 <img data-src="https://assets-global.website-files.com/647888ca92d03e3fca3f1ea0/647888ca92d03e3fca3f2376_shutterstock_792140977.jpg" style="width:100.0%" class="r-stretch"></section>
-<section id="exercise" class="slide level2">
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="exercise" class="title-slide slide level1 center">
+<h1>Exercise</h1>
+
+</section>
+<section id="exercise-1" class="slide level2">
 <h2>Exercise</h2>
 <p>Now let’s practice …</p>
 <div class="fragment">
@@ -1223,11 +1316,11 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <section id="lets-look-at-the-data" class="slide level2">
 <h2>Let’s look at the data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a>itex <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/ITEX_diversity_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>itex <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/ITEX_diversity_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">head</span>(itex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a><span class="fu">head</span>(itex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 11
    ...1 SITE      SUBSITE     PLOT   YEAR TRTMT Latitude WarmQuarterTemp SppRich
@@ -1244,7 +1337,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 <div class="fragment">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">length</span>(<span class="fu">unique</span>(itex<span class="sc">$</span>SITE)) <span class="co">#this code tells you how many different samples we have within the SITE column</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a><span class="fu">length</span>(<span class="fu">unique</span>(itex<span class="sc">$</span>SITE)) <span class="co">#this code tells you how many different samples we have within the SITE column</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 24</code></pre>
 </div>
@@ -1252,7 +1345,7 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 <div class="fragment">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="fu">unique</span>(itex<span class="sc">$</span>SITE) <span class="co">#you can also do this and then it gives you the name of all samples within the SITE column</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a><span class="fu">unique</span>(itex<span class="sc">$</span>SITE) <span class="co">#you can also do this and then it gives you the name of all samples within the SITE column</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "ALEXFIORD"    "ANWR"         "ATQASUK"      "AUDKULUHEIDI" "BARROW"      
  [6] "BROOKS"       "BYLOT"        "DOVRE"        "ENDALEN"      "FAROE"       
@@ -1264,8 +1357,9 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
 </section>
 <section id="exercise-1-modeling-the-impact-of-climate-change" class="slide level2">
-<h2>Exercise 1 Modeling the impact of climate change</h2>
-<p>Using the <strong>ITEX diversity dataset</strong> , think about a research question you could ask regarding the impact of one aspect of climate change on a variable of interest across different sites.</p>
+<h2>Exercise 1: Modeling the impact of climate change</h2>
+<p>Using the <strong>ITEX diversity dataset</strong>, think about a research question you could ask regarding the impact of one aspect of climate change on a variable of interest across different sites.</p>
+<p>Explore your research question using modeling tools you learned in today’s lecture.</p>
 </section>
 <section id="exercise-1---your-tasks" class="slide level2 scrollable">
 <h2>Exercise 1 - Your tasks</h2>
@@ -1289,8 +1383,8 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 </section>
 <section id="exercise-2-optional" class="slide level2">
 <h2>Exercise 2 (optional)</h2>
-<p>Explore your research question <strong>within sites</strong>, as opposed as across sites as before.</p>
-<p>Now that you’ve explored overall patterns, focus your model on how <strong>the impact of climate change on your variable of interest, within each site</strong>.</p>
+<p>Explore your research question <strong>within sites</strong>, as opposed to across sites as before.</p>
+<p>Now that you’ve explored overall patterns, focus your model on how <strong>climate change impacts your variable of interest, within each site</strong>.</p>
 </section>
 <section id="exercise-2-optional---your-tasks" class="slide level2 scrollable">
 <h2>Exercise 2 (optional) - Your tasks</h2>
@@ -1311,19 +1405,14 @@ boundary (singular) fit: see help('isSingular')</code></pre>
 <section id="what-is-next" class="slide level2">
 <h2>What is next</h2>
 <ul>
-<li class="fragment">28th of April 13:15am -17m <em>3401 Korallrevet</em> <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExNjQwajh5am9uemJlZmw2Zm5jZWw0bWt6NzRsbjFnZDAwaW9vbmR5bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Sm9AfJRiZofjlrkAAl/giphy.gif" style="width: 100px;"></li>
-<li class="fragment">Practice using R (self-study)
-<ul>
-<li class="fragment">Reviewing and practicing the material we covered in <a href="https://github.com/Lacapary/BIO503">today’s lecture</a></li>
-<li class="fragment"><a href="https://ourcodingclub.github.io/tutorials/modelling/">Linear models</a></li>
-</ul></li>
+<li class="fragment">28th of April 13:15am -17m <em>3401 Korallrevet</em> <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaXQ3ZHZzZzZncGpuanRrYTg3bjQ1Z2d2NHU5anAwc3B6cWszYWR3biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wQI5H4jtqZEPK/giphy.gif"></li>
 </ul>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
 </div>
 </div>
-</section>
+</section></section>
     </div>
   </div>
 
