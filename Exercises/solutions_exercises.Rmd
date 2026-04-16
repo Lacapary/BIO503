@@ -101,7 +101,7 @@ Can we see any pattern? ... Yes I think so. The colors which represent different
 Because of the nested structure of our data, i.e. plots within subsites within sites, we might want to think about using a **linear mixed model**. Then we need to think about what we want to include as random effects. Because we expect plots within SITE and SUBSITE to be more similar to each other, we will add SITE and SUBSITE as random effect
 
 ```{r}
-mixed.lmer <- lmer(SppRich ~ TempC + (1|SITE/SUBSITE), data = itex)
+mixed.lmer <- lmer(SppRich ~ TempC + (1|SUBSITE/PLOT), data = itex)
 summary(mixed.lmer)
 ```
 
@@ -165,7 +165,7 @@ Great now we can continue.
 Run the model again with the fixed dataset.
 
 ```{r}
-mixed.lmer <- lmer(SppRich ~ TempC + (1|SITE/SUBSITE), data = itex)
+mixed.lmer <- lmer(SppRich ~ TempC + (1|SUBSITE/PLOT), data = itex)
 summary(mixed.lmer)
 ```
 
@@ -193,7 +193,11 @@ stargazer(mixed.lmer,
 
 From this table we see that there is not a significant relationship with temperature and species richness across sites. If there would have been a significant relationship, there would have been an asterick/s after the 1.714 value (the slope of relationship).
 
-Now for fun, lets visualize the new model to compare with our original linear model
+
+You can also use a package called lmerTest and run your models and the summary again with this package loaded and the p-values will be added to the summary.
+
+
+Now for fun, lets visualize the new model to compare with our original linear model.
 
 Extract the prediction dataframe.
 
