@@ -1,7 +1,7 @@
 ---
 title: "Quantitative methods - solutions to exercises"
-author: "Katrín Björnsdóttir & Camila Pacheco Riaño"
-date: "2025-04-15"
+author: "Blandine Lyonnard, Camila Pacheco Riaño & Katrín Björnsdóttir"
+date: "2026-04-15"
 output: html_document
 ---
 
@@ -255,8 +255,7 @@ and this is also a great source to understand how to work with colors in ggplot:
 
 Don't hesitate to contact us if you are having problems with running the script.
 
-[katrin.bjornsdottir\@bioenv.gu.se](mailto:katrin.bjornsdottir@bioenv.gu.se){.email}
-
+[blandine.lyonnard\@bioenv.gu.se](mailto:blandine.lyonnard@bioenv.gu.se){.email}
 [camila.pacheco.riano\@bioenv.gu.se](mailto:camila.pacheco.riano@bioenv.gu.se){.email}
 
 Good luck :-)
