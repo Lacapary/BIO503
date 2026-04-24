@@ -78,12 +78,20 @@ library(vegan)
 dune2_spe <- read_csv("Data/dune2_spe.csv")
 dune2_env <- read_csv("Data/dune2_env.csv")
 
+
+
+```
+## 
+```{r}
+#| output: true
+#| eval: true
+#| echo: true
+
 # Open the dataset and look if you can find any patterns
 head(dune2_spe)
 head(dune2_env)
 
 ```
-
 ## Recap: Linear models
 
 -   We learned some models to study at ecological data.
@@ -114,9 +122,13 @@ This tells you:\
 
 ## Why That's Limiting in Ecology
 
-In real ecosystems: - You usually have **many species** per site.
-- Environmental variables may affect **multiple species simultaneously**.
-- Species may interact (e.g., competition, facilitation).
+In real ecosystems:
+
+-   You usually have **many species** per site.
+-   Environmental variables may affect **multiple species simultaneously**.
+-   Species may interact (e.g., competition, facilitation).
+-   The **community as a whole** responds, not just individual species.
+-   Running one univariate model per species inflates the risk of false positives and ignores covariance between species.
 
 ## Moving to Multivariate
 
@@ -150,7 +162,7 @@ Our research question might be:
 -   How closely-related are local vegetation communities in terms of their composition ?
 
 ## How does the data look?
-
+::: fragment
 Matrix Species
 
 | Site | Species 1   | Species 2   | ... | Species n   |
@@ -158,7 +170,8 @@ Matrix Species
 | 1    | abundance 1 | abundance 2 | ... | abundance n |
 | 2    | abundance 1 | abundance 2 | ... | abundance n |
 | m    | ...         | ...         | ... | ...         |
-
+:::
+::: fragment
 Matrix locations
 
 | Site | Temperature   | Precipitation   | ... | Driver n |
@@ -166,7 +179,7 @@ Matrix locations
 | 1    | Temperature 1 | Precipitation 2 | ... | Driver n |
 | 2    | Temperature 1 | Precipitation 2 | ... | Driver n |
 | m    | ...           | ...             | ... | ...      |
-
+:::
 ## Multivariate methods
 
 -   *Ordination* and *clustering* are the two main classes of multivariate methods that community ecologists employ.
@@ -183,9 +196,9 @@ Matrix locations
 
 -   Its results can be represented as dendrograms (tree-like diagrams), which describe how closely observations are.
 
-::: fragment
+## Clustering
+
 ![source: Prasad Pai](https://miro.medium.com/v2/resize:fit:640/format:webp/1*2MAGLkkfRXSXhQ9pEgK0WQ.png)
-:::
 
 ## Clustering
 
@@ -199,7 +212,46 @@ Matrix locations
 :::
 :::
 
-## Clustering
+## Step 1 — Choose a distance metric
+
+Before we can cluster, we need to quantify **how different two sites are**.
+
+-   **Bray-Curtis** → species abundance data. Ignores joint absences (two sites sharing *zero* individuals of a species are not automatically "similar").
+-   **Jaccard** → presence/absence data.
+-   **Euclidean** → continuous environmental variables (pH, temperature, moisture).
+-   **Chi-square** → emphasizes relative composition; the metric behind Correspondence Analysis.
+
+## Step 1 — Choose a distance metric
+
+::: fragment
+> 🌿 *Rule of thumb in community ecology*: use **Bray-Curtis** for species abundances.
+:::
+
+## Step 2 — Choose a linkage method
+
+Once we have pairwise distances, how do we merge sites into groups?
+
+-   **Single** → distance to the *nearest* member. Tends to produce long "chains".
+-   **Complete** → distance to the *farthest* member. Produces compact clusters.
+-   **Average (UPGMA)** → mean pairwise distance.
+-   **Ward.D2** → minimizes within-cluster variance → balanced, ecologically interpretable clusters.
+
+## Step 2 — Choose a linkage method
+
+::: fragment
+> We will use `ward.D2` with Bray-Curtis distances. This combination is common in vegetation studies because it produces clusters of similar size and variance.
+:::
+
+## Step 3 — Reading a dendrogram
+
+![source: Prasad Pai](https://miro.medium.com/v2/resize:fit:640/format:webp/1*2MAGLkkfRXSXhQ9pEgK0WQ.png)
+
+-   The **merge height** = dissimilarity between the clusters being merged.
+-   **Lower heights** = very similar communities (share most species at similar abundances).
+-   **Higher heights** = strongly different communities (different species pool).
+
+
+## Clustering in R
 
 ```{r}
 #| output: true
@@ -209,7 +261,7 @@ Matrix locations
 library(dendextend)
 
 
-dis_data<-dune2_spe %>% 
+dis_data<-dune2_spe %>%
   vegdist(method = "bray",upper=FALSE)
 
 dend <- dis_data %>% 
@@ -304,7 +356,7 @@ Matrix algebra
 
 -   In simple terms, unconstrained ordination lets the data tell its story without interference, while constrained ordination guides the analysis based on what we already know or suspect.
 
--   We are going to focus in Unconstrained Ordinations tion aims at arranging samples or species continuously along gradients.
+-   We will focus on **Unconstrained Ordination**, which arranges samples or species continuously along latent gradients without using any external predictor.
 
 ## Doing an ordination
 
@@ -330,6 +382,20 @@ This ordination goes in two steps:
 | DCA     | Unimodal    | Species have peak abundances along gradients | Long gradients, curved structure       |
 | NMDS    | Non-metric  | Preserving ranked distances                  | No assumptions, works with Bray-Curtis |
 | CCA/RDA | Constrained | Link communities to environmental variables  | Explaining structure via predictors    |
+
+## Species response along gradients
+
+Before picking a method, ask: **how do species respond to the underlying gradient?**
+
+-   **Linear response** → a species' abundance steadily increases (or decreases) along the gradient. Typical for **short** gradients (e.g. a narrow range of pH).
+-   **Unimodal response** → a species peaks at its optimum and declines on either side. Typical for **long** gradients where species turn over (different species at each end).
+-   **Short gradient, linear response** → PCA.
+-   **Long gradient, unimodal response, high turnover** → DCA or NMDS.
+
+
+## Species response along gradients
+
+![source: davidzeleny](https://www.davidzeleny.net/anadat-r/lib/exe/fetch.php/obrazky:double-zero-illustration.png)
 
 ## *P*rincipal *C*omponent *A*nalysis (PCA)
 
@@ -437,8 +503,12 @@ It is especially useful when species show unimodal responses along environmental
 
 -   It has a problem with *CA* :suffers from creating often strong arch artefact in ordination diagrams. Which is caused by a non-linear correlation between first and higher axes
 
-::: fragment
-![](https://ordination.okstate.edu/boomca.jpg)
+## *D*etrended *c*orrespondence *a*nalysis (DCA)
+
+::: {style="text-align: center;"}
+```{r, echo=FALSE, out.width="60%"}
+knitr::include_graphics("sources/arch_effect.png")
+```
 :::
 
 ## Detrended correspondence analysis (DCA)
@@ -497,20 +567,30 @@ plot(fit, p.max = 0.05, col = "red")
 ## Important Things to Know
 
 -   NMDS does not use eigenanalysis like PCA or DCA.
+-   So there's no unique solution (you might get slightly different results each time — always set a seed).
+-   Axes are not ranked by explained variance — they are just an arbitrary reference frame. You can rotate the plot freely.
+-   You must choose the number of dimensions `k` in advance.
 
--   So there's no unique solution (you might get slightly different results each time).
+## Interpreting stress
 
--   Axes are not ranked by explained variance.
+Stress measures how well the reduced-space distances reflect the original dissimilarities.
 
--   You must choose the number of dimensions in advance.
+| Stress        | Interpretation                              |
+|---------------|---------------------------------------------|
+| \< 0.05       | Excellent representation                    |
+| 0.05 – 0.10   | Good, reliable                              |
+| 0.10 – 0.20   | Usable, interpret with care                 |
+| \> 0.20       | Suspicious — try more dimensions or another distance |
 
 ## Non-metric Multidimensional Scaling (NMDS)
 
 Methodology of NMDS:
 
-Step 1: Perform NMDS with 1 to 10 dimensions Step 2: Check the stress vs dimension plot Step 3: Choose the lowest number of dimensions with acceptably low stress (typically \< 0.2).
-4: Re-run NMDS with that number of dimensions.
-5: Check for convergence and interpret the final result.
+1.  Perform NMDS with 1 to 10 dimensions.
+2.  Check the stress vs. dimension plot (the "scree" plot).
+3.  Choose the lowest number of dimensions with acceptably low stress (typically \< 0.2).
+4.  Re-run NMDS with that number of dimensions.
+5.  Check for convergence and interpret the final result.
 
 ## Non-metric Multidimensional Scaling (NMDS)
 
@@ -580,7 +660,7 @@ stressplot(NMDS1)
 plot(NMDS1, type = "t")
 ```
 
-#Triplot
+## Triplot
 
 ```{r}
 #| output: true
@@ -633,13 +713,26 @@ with(dune2_env, ordihull(NMDS1, Management,
 ## Summary
 
 🌳 In short: Ordination helps ecologists **see the big picture**.
+Which one to use:
 
--   Use **PCA** when gradients are short and responses are simple.
--   Use **DCA** when you suspect **distinct ecological zones** or turnover.
--   Use **NMDS** for flexible, non-linear ecological data—common in field studies.
--   Use **CCA/RDA** when you want to test specific **hypotheses about drivers**.
+1.  **What kind of data do I have?**
+    -   Species abundances → Bray-Curtis distance, NMDS is a safe default.
+    -   Presence/absence → Jaccard distance, NMDS or DCA.
+    -   Continuous env. variables → Euclidean distance, PCA.
+2.  **Do I have hypotheses about environmental drivers?**
+    -   Yes → **constrained** ordination (RDA if linear, CCA if unimodal).
+    -   No → **unconstrained** (PCA / DCA / NMDS).
+3.  **Are my data messy, non-normal, or zero-inflated?**
+    -   NMDS is the most robust choice.
+    
+## Summary
 
+::: fragment
+> 🧭 *Clustering and ordination are complementary*: clustering tells you **which** sites group together, ordination tells you **along what gradient** they differ.
+:::
+::: fragment
 > 🧠 Think: *What ecological pattern am I trying to uncover or explain?*
+:::
 
 ## Material
 
