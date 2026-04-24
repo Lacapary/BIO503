@@ -583,7 +583,8 @@ We went to the field and sampled more mountains with dragons.
 #| eval: true
 #| echo: false
 dragons |> group_by(mountainRange,site) |>
-  summarise(samples=n())
+  summarise 
+
 ```
 
 ### Research question
