@@ -3,6 +3,7 @@ title: "Multivariate statistics"
 author:   
   - Camila Pacheco    
   - Katrín Björnsdóttir
+  - Blandine Lyonnard
 format:
    revealjs:
     theme: blood
@@ -73,7 +74,8 @@ The data originates from the research of Batterink & Wijffels (1983), published 
 library(tidyverse)
 library(vegan)
 
-# Load the community dataset which we`ll use in the examples today
+# Load the community dataset which we`ll use in 
+# the examples today
 
 dune2_spe <- read_csv("Data/dune2_spe.csv")
 dune2_env <- read_csv("Data/dune2_env.csv")
@@ -81,7 +83,9 @@ dune2_env <- read_csv("Data/dune2_env.csv")
 
 
 ```
+
 ## 
+
 ```{r}
 #| output: true
 #| eval: true
@@ -92,6 +96,7 @@ head(dune2_spe)
 head(dune2_env)
 
 ```
+
 ## Recap: Linear models
 
 -   We learned some models to study at ecological data.
@@ -162,6 +167,7 @@ Our research question might be:
 -   How closely-related are local vegetation communities in terms of their composition ?
 
 ## How does the data look?
+
 ::: fragment
 Matrix Species
 
@@ -171,6 +177,7 @@ Matrix Species
 | 2    | abundance 1 | abundance 2 | ... | abundance n |
 | m    | ...         | ...         | ... | ...         |
 :::
+
 ::: fragment
 Matrix locations
 
@@ -180,6 +187,7 @@ Matrix locations
 | 2    | Temperature 1 | Precipitation 2 | ... | Driver n |
 | m    | ...           | ...             | ... | ...      |
 :::
+
 ## Multivariate methods
 
 -   *Ordination* and *clustering* are the two main classes of multivariate methods that community ecologists employ.
@@ -239,7 +247,8 @@ Once we have pairwise distances, how do we merge sites into groups?
 ## Step 2 — Choose a linkage method
 
 ::: fragment
-> We will use `ward.D2` with Bray-Curtis distances. This combination is common in vegetation studies because it produces clusters of similar size and variance.
+> We will use `ward.D2` with Bray-Curtis distances.
+> This combination is common in vegetation studies because it produces clusters of similar size and variance.
 :::
 
 ## Step 3 — Reading a dendrogram
@@ -249,7 +258,6 @@ Once we have pairwise distances, how do we merge sites into groups?
 -   The **merge height** = dissimilarity between the clusters being merged.
 -   **Lower heights** = very similar communities (share most species at similar abundances).
 -   **Higher heights** = strongly different communities (different species pool).
-
 
 ## Clustering in R
 
@@ -261,11 +269,11 @@ Once we have pairwise distances, how do we merge sites into groups?
 library(dendextend)
 
 
-dis_data<-dune2_spe %>%
-  vegdist(method = "bray",upper=FALSE)
+dis_data <- dune2_spe %>%
+  vegdist(method = "bray", upper=FALSE)
 
 dend <- dis_data %>% 
-  hclust(method="ward.D2") %>% 
+  hclust(method = "ward.D2") %>% 
   as.dendrogram()
 
 dend
@@ -283,7 +291,9 @@ dend.plot <-  dend %>%
   set("branches_k_color",  k = 2) %>% # Color branches by groups
   set("labels_cex", 0.5) # Change label size
 
-plot(dend.plot, ylab = "Bray-Curtis Distance", main = "why would clusters be different?")
+plot(dend.plot, 
+     ylab = "Bray-Curtis Distance", 
+     main = "why would clusters be different?")
 ```
 
 ## Clustering
@@ -296,7 +306,7 @@ What is the ideal number of clusters?
 #| echo: true
 library(factoextra)
 
-varespec_m<-dis_data |> as.matrix()
+varespec_m <- dis_data |> as.matrix()
 
 fviz_nbclust(varespec_m, kmeans, method = "wss") +
   geom_vline(xintercept = 2, linetype = 2)
@@ -308,7 +318,10 @@ fviz_nbclust(varespec_m, kmeans, method = "wss") +
 #| output: true
 #| eval: true
 #| echo: true
-fviz_cluster(kmeans(varespec_m, centers = 2), geom = "point", data = dune2_spe)+ theme_minimal()
+fviz_cluster(kmeans(varespec_m, centers = 2), 
+             geom = "point", 
+             data = dune2_spe) + 
+  theme_minimal()
 ```
 
 ## From Clusters to Gradients
@@ -392,7 +405,6 @@ Before picking a method, ask: **how do species respond to the underlying gradien
 -   **Short gradient, linear response** → PCA.
 -   **Long gradient, unimodal response, high turnover** → DCA or NMDS.
 
-
 ## Species response along gradients
 
 ![source: davidzeleny](https://www.davidzeleny.net/anadat-r/lib/exe/fetch.php/obrazky:double-zero-illustration.png)
@@ -431,7 +443,10 @@ Before picking a method, ask: **how do species respond to the underlying gradien
 #| output: true
 #| eval: true
 #| echo: true
-PCA <- rda(dune2_spe, scale = FALSE)# Use scale = TRUE if your variables are on different scales (e.g. for abiotic variables).
+PCA <- rda(dune2_spe, scale = FALSE) # Use scale = TRUE 
+# if your variables are on different scales 
+# (e.g. for abiotic variables).
+
 # Here, all species are measured on the same scale 
 # So use scale = FALSE
 PCA
@@ -443,11 +458,13 @@ PCA
 #| output: true
 #| eval: true
 #| echo: true
-# Now plot a bar plot of relative eigenvalues. This is the percentage variance explained by each axis
+# Now plot a bar plot of relative eigenvalues. 
+# This is the percentage variance explained by each axis
 barplot(as.vector(PCA$CA$eig)/sum(PCA$CA$eig)) 
 
 # Calculate the percent of variance explained by first two axes
-sum((as.vector(PCA$CA$eig)/sum(PCA$CA$eig))[1:2]) # 53%, this is ok.
+sum((as.vector(PCA$CA$eig)/sum(PCA$CA$eig))[1:2]) 
+# 53%, this is ok.
 
 ```
 
@@ -470,8 +487,10 @@ plot(PCA, display = "species", type = "text")
 #| eval: true
 #| echo: true
 # In a biplot of a PCA, species' scores are drawn as arrows 
-# that point in the direction of increasing values for that variable
-biplot(PCA, choices = c(1,2), type = c("text", "points"), xlim = c(-5,5)) # biplot of axis 1 vs 2
+# that point in the direction of increasing values 
+# for that variable
+biplot(PCA, choices = c(1,2), type = c("text", "points"), 
+       xlim = c(-5,5)) # biplot of axis 1 vs 2
 ```
 
 ## Principal Component Analysis (PCA)
@@ -481,7 +500,7 @@ biplot(PCA, choices = c(1,2), type = c("text", "points"), xlim = c(-5,5)) # bipl
 -   PCA is extremely useful when we expect species to be linearly (or even monotonically) related to each other.
 -   Unfortunately, we rarely encounter such a situation in nature.
 
-## Environmetal Variables and Triplot
+## Environmental Variables and Triplot
 
 ```{r}
 #| output: true
@@ -501,7 +520,7 @@ plot(fit, p.max = 0.05, col = "red")
 
 It is especially useful when species show unimodal responses along environmental gradients (i.e., they peak at some optimal conditions).
 
--   It has a problem with *CA* :suffers from creating often strong arch artefact in ordination diagrams. Which is caused by a non-linear correlation between first and higher axes
+-   It has a problem with *CA*: suffers from creating often strong arch artefact in ordination diagrams. Which is caused by a non-linear correlation between first and higher axes
 
 ## *D*etrended *c*orrespondence *a*nalysis (DCA)
 
@@ -513,7 +532,7 @@ knitr::include_graphics("sources/arch_effect.png")
 
 ## Detrended correspondence analysis (DCA)
 
-Arch can be removed by detrending(*smooths out the data to make it easier to see the main patterns*), which is the base of the detrended correspondence analysis (DCA).
+Arch can be removed by detrending (*smoothing out the data to make it easier to see the main patterns*), which is the base of the detrended correspondence analysis (DCA).
 
 Think of DCA as a corrected version of CA—more reliable for real ecological gradients.
 ![source: davidzeleny](https://www.davidzeleny.net/anadat-r/lib/exe/fetch.php/obrazky:ca_to_dca.jpg)
@@ -575,12 +594,12 @@ plot(fit, p.max = 0.05, col = "red")
 
 Stress measures how well the reduced-space distances reflect the original dissimilarities.
 
-| Stress        | Interpretation                              |
-|---------------|---------------------------------------------|
-| \< 0.05       | Excellent representation                    |
-| 0.05 – 0.10   | Good, reliable                              |
-| 0.10 – 0.20   | Usable, interpret with care                 |
-| \> 0.20       | Suspicious — try more dimensions or another distance |
+| Stress      | Interpretation                                       |
+|-------------|------------------------------------------------------|
+| \< 0.05     | Excellent representation                             |
+| 0.05 – 0.10 | Good, reliable                                       |
+| 0.10 – 0.20 | Usable, interpret with care                          |
+| \> 0.20     | Suspicious — try more dimensions or another distance |
 
 ## Non-metric Multidimensional Scaling (NMDS)
 
@@ -598,16 +617,30 @@ Methodology of NMDS:
 #| output: false
 #| eval: true
 #| echo: true
-# First step is to calculate a distance matrix. See PCOA for more information about the distance measures
-# Here we use bray-curtis distance, which is recommended for abundance data
+# First step is to calculate a distance matrix. 
+# See PCOA for more information about the distance measures
+# Here we use bray-curtis distance, which is recommended for 
+# abundance data
 dist <- vegdist(dune2_spe,  method = "bray")
 
-# In this part, we define a function NMDS.scree() that automatically 
-# performs a NMDS for 1-10 dimensions and plots the nr of dimensions vs the stress
-NMDS.scree <- function(x) { #where x is the name of the data frame variable
-  plot(rep(1, 10), replicate(10, metaMDS(x, autotransform = F, k = 1)$stress), xlim = c(1, 10),ylim = c(0, 0.30), xlab = "# of Dimensions", ylab = "Stress", main = "NMDS stress plot")
+# In this part, we define a function NMDS.scree() 
+# that automatically performs a NMDS for 1-10 dimensions 
+# and plots the nb of dimensions vs the stress
+
+NMDS.scree <- function(x) { # where x is expected to be 
+  # the data frame or matrix used as input
+  plot(rep(1, 10), 
+       replicate(10, metaMDS(x, autotransform = F, k = 1)$stress), 
+       xlim = c(1, 10),
+       ylim = c(0, 0.30), 
+       xlab = "# of Dimensions", 
+       ylab = "Stress", 
+       main = "NMDS stress plot")
+  
   for (i in 1:10) {
-    points(rep(i + 1,10),replicate(10, metaMDS(x, autotransform = F, k = i + 1)$stress))
+    points(rep(i + 1,10),
+           replicate(10, 
+                     metaMDS(x, autotransform = F, k = i + 1)$stress))
   }
 }
 NMDS.scree(dist)
@@ -637,7 +670,9 @@ NMDS1 <- metaMDS(dist, k = 3, trymax = 100, trace = F)
 # Let's check the results
 NMDS1
 
-# If you don`t provide a dissimilarity matrix, metaMDS automatically applies Bray-Curtis. So in our case, the results would have to be the same
+# If you don`t provide a dissimilarity matrix, metaMDS 
+# automatically applies Bray-Curtis. So in our case, 
+# the results would have to be the same
 NMDS2 <- metaMDS(dune2_spe, k = 2, trymax = 100, trace = F)
 NMDS2
 ```
@@ -724,12 +759,13 @@ Which one to use:
     -   No → **unconstrained** (PCA / DCA / NMDS).
 3.  **Are my data messy, non-normal, or zero-inflated?**
     -   NMDS is the most robust choice.
-    
+
 ## Summary
 
 ::: fragment
 > 🧭 *Clustering and ordination are complementary*: clustering tells you **which** sites group together, ordination tells you **along what gradient** they differ.
 :::
+
 ::: fragment
 > 🧠 Think: *What ecological pattern am I trying to uncover or explain?*
 :::
@@ -751,7 +787,7 @@ knitr::include_graphics("https://assets-global.website-files.com/647888ca92d03e3
 ## Exercise
 
 In this exercise, you will explore community composition using NMDS (Non-metric Multidimensional Scaling) based on a subset of the ITEX dataset.
-    
+
 ## ITEX
 
 We will be using a subset of the ITEX network dataset we used last time.
@@ -788,13 +824,17 @@ head(itex.long)
 
 ::: fragment
 ```{r, echo=TRUE}
-length(unique(itex.long$SITE)) #this code tells you how many different samples we have within the SITE column
+length(unique(itex.long$SITE)) 
+# this code tells you how many different samples we have 
+# within the SITE column
 ```
 :::
 
 ::: fragment
 ```{r, echo=TRUE}
-unique(itex.long$SITE) #you can also do this and then it gives you the name of all samples within the SITE column
+unique(itex.long$SITE) 
+# you can also do this and then it gives you the name 
+# of all samples within the SITE column
 ```
 :::
 

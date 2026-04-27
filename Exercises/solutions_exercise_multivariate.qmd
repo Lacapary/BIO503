@@ -1,7 +1,7 @@
 ---
 title: "Quantitative methods - solutions to multivariate exercises"
-author: "Katrín Björnsdóttir & Camila Pacheco Riaño"
-date: "2025-05-08"
+author: "Katrín Björnsdóttir, Blandine Lyonnard, Camila Pacheco Riaño"
+date: "2026-04-27"
 format: html
 editor: visual
 execute:
@@ -56,9 +56,9 @@ Lets first think about how we should restructure our data to be able to fit an o
 
 ```{r, message=FALSE}
 itex.wide <- itex.long %>% 
-  group_by(SITE, SUBSITE, PLOT) |> 
+  group_by(SITE, SUBSITE, PLOT) %>%  
   pivot_wider(names_from  = SPECIES_NAME, values_from  = SumAbund, 
-              id_cols = c(SITE, SUBSITE, PLOT), values_fill = 0) |> 
+              id_cols = c(SITE, SUBSITE, PLOT), values_fill = 0) %>%  
   ungroup()
 ```
 
@@ -94,7 +94,7 @@ str(itex.nmds)
 
 Yes that seemed to work, make sure that you make a new dataframe (in our case itex.nmds) instead of overwiting the old one, because we need information on the sites and subsites later on.
 
-Now we can start making our NMDS
+Now we can start making our NMDS.
 
 Here we are assigning a distance matrix to "dist" using Bray-Curtis index (remember how that index was suitable for species abundance data).
 
@@ -104,27 +104,31 @@ dist <- vegdist(itex.nmds,  method = "bray")
 
 Notice -- if you get an error saying "Error in vegdist: (itex.nmds, method = "bray") : could not find function "vegdist" -- you need to load the vegan package !!
 
-Here is a way to estimate how many dimensions we need for our analysis
+Here is a way to estimate how many dimensions we need for our analysis.
 
-Functions are used in R to perform a certain tasks. First you define the function (in our case NMDS.scree) and then later on you can call that function to perform a task
+Functions are used in R to perform a task you would otherwise have to repeat several times by copy pasting your code and changing it slightly. Or to perform a specific task that does not have a pre-build function in R base or in any package.
+
+First you define the function (in our case NMDS.scree) and then later on you can call that function to perform your task.
 
 ```{r}
-NMDS.scree <- function(x) { # where x is the name of the data frame variable
-  plot(rep(1, 5), replicate(5, metaMDS(x, autotransform = F, k = 1)$stress), 
+NMDS.scree <- function(x) { # where x is expected to be the data frame or matrix used as input
+  plot(rep(1, 5), 
+       replicate(5, metaMDS(x, autotransform = F, k = 1)$stress), 
        xlim = c(1, 5),
        ylim = c(0, 0.30), 
        xlab = "# of Dimensions",
        ylab = "Stress", 
        main = "NMDS stress plot")
   for (i in 1:10) {
-    points(rep(i + 1,5),replicate(5, metaMDS(x, autotransform = F, k = i + 1)$stress))
+    points(rep(i + 1, 5), 
+           replicate(5, metaMDS(x, autotransform = F, k = i + 1)$stress))
   }
 }
 ```
 
 Here we are calling our function to perform a NMDS for 1-5 dimensions and then plotting the nr. of dimensions vs the stress.
 
-We perform this to evaluate the optimal number of dimensions we will use in our analysis. Remember that we want our analysis to have as low stress as possible but also if we can get away with low number of dimentions that is good. So we will choose the number of dimention depedning on the difference in stress level between dimentions.
+We perform this to evaluate the optimal number of dimensions we will use in our analysis. Remember that we want our analysis to have as low stress as possible but also if we can get away with low number of dimensions that is good. So we will choose the number of dimensions depending on the difference in stress level between dimensions.
 
 ```{r, eval=FALSE}
 NMDS.scree(dist)
@@ -167,7 +171,7 @@ From the summary of the ordination you can see that the stress is pretty good - 
 Now we can plot our ordination
 
 ```{r, eval = FALSE, message = FALSE}
-plot(NMDS1,)
+plot(NMDS1)
 ```
 
 ```{r, echo=FALSE, out.width="80%"}
@@ -179,7 +183,8 @@ This function only presents the plots in our analysis (so each row in our datase
 So essentially we are performing a new ordination analysis and instead of using vegsdist we define the distance within the ordination.
 
 ```{r, eval = FALSE, message = FALSE}
-NMDS2 <- metaMDS(itex.nmds, k = 2, trymax = 100, trace = F, autotransform = FALSE, 
+NMDS2 <- metaMDS(itex.nmds, k = 2, trymax = 100, trace = F, 
+                 autotransform = FALSE, 
                  distance = "bray")
 plot(NMDS2)
 plot(NMDS2, display = "sites", type = "n")
@@ -247,7 +252,7 @@ Remember to check out the Coding Club's INTRODUCTION TO ORDINATION, find it here
 
 Don't hesitate to contact us if you are having problems with running the script.
 
-[katrin.bjornsdottir\@bioenv.gu.se](mailto:katrin.bjornsdottir@bioenv.gu.se){.email}
+[blandine.lyonnard\@bioenv.gu.se](mailto:katrin.bjornsdottir@bioenv.gu.se){.email}
 
 [camila.pacheco.riano\@bioenv.gu.se](mailto:camila.pacheco.riano@bioenv.gu.se){.email}
 
